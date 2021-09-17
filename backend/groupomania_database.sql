@@ -28,8 +28,12 @@ CREATE TABLE `Comments` (
   `user_id` smallint unsigned NOT NULL,
   `comment_date` datetime NOT NULL,
   `comment_content` text NOT NULL,
-  PRIMARY KEY (`comment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+  PRIMARY KEY (`comment_id`),
+  KEY `fk_user_id2` (`user_id`),
+  KEY `fk_post_id` (`post_id`),
+  CONSTRAINT `fk_post_id` FOREIGN KEY (`post_id`) REFERENCES `Posts` (`post_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user_id2` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,8 +58,10 @@ CREATE TABLE `Posts` (
   `post_date` datetime NOT NULL,
   `post_content` text NOT NULL,
   `image_url` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+  PRIMARY KEY (`post_id`),
+  KEY `fk_user_id` (`user_id`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `Users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,7 +90,7 @@ CREATE TABLE `Users` (
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,4 +111,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-09-16 15:00:13
+-- Dump completed on 2021-09-17 10:21:12

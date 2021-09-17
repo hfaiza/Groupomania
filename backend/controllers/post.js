@@ -37,7 +37,7 @@ const createPost = async (req, res) => {
 // Obtention de toutes les publications
 const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.findAll();
+    const posts = await Post.findAll({ order: [["post_date", "DESC"]] });
     res.status(200).json(posts);
   } catch (error) {
     res.status(404).json({ error: error });
