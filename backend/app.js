@@ -4,6 +4,7 @@ const path = require("path");
 require("dotenv").config();
 
 // Importation des fichiers nécessaires
+const sequelize = require("./database");
 const authRoutes = require("./routes/auth");
 const postRoutes = require("./routes/post");
 const commentRoutes = require("./routes/comment");
@@ -14,6 +15,17 @@ const ORIGIN = process.env.ALLOW_ORIGIN;
 
 // Création de l'application
 const app = express();
+
+// Teste la connexion à MySQL
+const mysqlConnect = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connexion à MySQL réussie !");
+  } catch (error) {
+    console.error("Connexion à MySQL échouée !", error);
+  }
+};
+mysqlConnect();
 
 // Ajout des headers nécessaires
 app.use((req, res, next) => {

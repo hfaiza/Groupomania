@@ -1,18 +1,12 @@
-// Importation de JSON Web Token
-const jwt = require("jsonwebtoken");
-
 // Importation du fichier nécessaire
 const Comment = require("../models/comment");
 
 // Commenter une publication
 const commentPost = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-    const decodedToken = jwt.verify(token, "SECRET_TOKEN");
-    const userId = decodedToken.userId;
     const comment = await Comment.build({
       post_id: req.body.postId,
-      user_id: userId,
+      user_id: req.user,
       comment_date: Date.now(),
       comment_content: req.body.commentContent,
     });

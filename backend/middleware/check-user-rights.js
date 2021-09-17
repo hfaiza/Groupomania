@@ -1,17 +1,11 @@
-// Importation de JSON Web Token
-const jwt = require("jsonwebtoken");
-
 // Vérifie l'id de l'user souhaitant supprimer une publication ou un commentaire
-
 const deletePostOrComment = async (req, res, next, model, id) => {
   try {
     const Model = require(`../models/${model}`);
     const object = await Model.findOne({ where: { [id]: req.params.id } });
     const objectCreator = object.user_id;
 
-    const token = req.headers.authorization?.split(" ")[1];
-    const decodedToken = jwt.verify(token, "SECRET_TOKEN");
-    const objectEditor = decodedToken.userId;
+    const objectEditor = req.user;
 
     const User = require("../models/user");
     const user = await User.findOne({ where: { user_id: objectEditor } });

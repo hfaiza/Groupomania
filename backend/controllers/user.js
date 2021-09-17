@@ -45,12 +45,14 @@ const modifyProfile = async (req, res) => {
     if (!req.file) {
       image = user.user_picture;
     } else {
-      const filename = user.user_picture.split("/images/")[1];
-      fs.unlink(`images/${filename}`, (error) => {
-        if (error) {
-          return res.status(400).json({ error });
-        }
-      });
+      if (user.user_picture != `${req.protocol}://${req.get("host")}/images/default.jpg`) {
+        const filename = user.user_picture.split("/images/")[1];
+        fs.unlink(`images/${filename}`, (error) => {
+          if (error) {
+            return res.status(400).json({ error });
+          }
+        });
+      }
       image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
     }
 

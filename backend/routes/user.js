@@ -4,7 +4,7 @@ const express = require("express");
 // Importation des fichiers nécessaires
 const userController = require("../controllers/user");
 const auth = require("../middleware/auth");
-const multer = require("../middleware/pp-multer-config");
+const multer = require("../middleware/multer-config");
 const checkId = require("../middleware/check-user-id");
 const validity = require("../middleware/check-user-data");
 

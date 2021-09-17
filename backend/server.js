@@ -4,14 +4,17 @@ const http = require("http");
 // Importation de l'application
 const app = require("./app");
 
+// Accès aux variables d'environnement
+const APP_PORT = process.env.APP_PORT;
+
 // Pour que l'application tourne sur le port spécifié
-app.set("port", 3000);
+app.set("port", APP_PORT);
 
 // Création du serveur
 const server = http.createServer(app);
 
 // Pour que le serveur écoute le port spécifié
-server.listen(3000);
+server.listen(APP_PORT);
 
 // Si le rejet d'une promesse n'est pas géré
 process.on("unhandledRejection", (reason, promise) => {

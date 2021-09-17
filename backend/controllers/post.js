@@ -1,5 +1,4 @@
-// Importation des modules nécessaires
-const jwt = require("jsonwebtoken");
+// Importation de File System
 const fs = require("fs");
 
 // Importation des fichiers nécessaires
@@ -16,12 +15,8 @@ const createPost = async (req, res) => {
       image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
     }
 
-    const token = req.headers.authorization?.split(" ")[1];
-    const decodedToken = jwt.verify(token, "SECRET_TOKEN");
-    const userId = decodedToken.userId;
-
     const post = await Post.build({
-      user_id: userId,
+      user_id: req.user,
       post_date: Date.now(),
       post_content: req.body.postContent,
       image_url: image,

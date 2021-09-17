@@ -4,7 +4,7 @@ const rateLimit = require("express-rate-limit");
 
 // Importation des fichiers nécessaires
 const authController = require("../controllers/auth");
-const multer = require("../middleware/pp-multer-config");
+const multer = require("../middleware/multer-config");
 const validity = require("../middleware/check-user-data");
 
 // Pour limiter le nombre de requêtes lors de la connexion
