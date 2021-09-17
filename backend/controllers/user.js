@@ -31,7 +31,7 @@ const getUserPosts = async (req, res) => {
   try {
     const posts = await Post.findAll({ where: { user_id: req.params.id } });
     res.status(200).json(posts);
-  } catch {
+  } catch (error) {
     res.status(404).json({ error: error });
   }
 };
@@ -67,7 +67,7 @@ const modifyProfile = async (req, res) => {
     user.user_picture = image;
     await user.save();
     res.status(200).json({ message: "Profil mis à jour !" });
-  } catch {
+  } catch (error) {
     res.status(500).json({ error: error });
   }
 };
@@ -87,7 +87,7 @@ const deleteAccount = async (req, res) => {
     await user.destroy();
     res.status(200).json({ message: "Compte supprimé !" });
   } catch (error) {
-    res.status(500).json({ error });
+    res.status(500).json({ error: error });
   }
 };
 

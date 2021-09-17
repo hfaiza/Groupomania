@@ -79,7 +79,7 @@ const checkUpdatedUser = (req, res, next) => {
       next();
     }
   } catch (error) {
-    res.status(500).json({ error: "Requête invalide." });
+    return res.status(500).json({ error: "Requête invalide." });
   }
 };
 

@@ -28,7 +28,7 @@ const deletePostOrComment = async (req, res, next, model, id) => {
 
 const deleteContent = async (req, res, next) => {
   try {
-    if (req.baseUrl == `/api/post`) {
+    if (req.baseUrl == `/api/posts`) {
       deletePostOrComment(req, res, next, "Post", "post_id");
     } else if (req.baseUrl == `/api/comments`) {
       deletePostOrComment(req, res, next, "Comment", "comment_id");

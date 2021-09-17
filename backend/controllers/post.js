@@ -30,7 +30,7 @@ const createPost = async (req, res) => {
     await post.save();
     res.status(201).json({ message: "Publication enregistrée !" });
   } catch (error) {
-    res.status(500).json({ error });
+    res.status(500).json({ error: error });
   }
 };
 
@@ -49,7 +49,7 @@ const getPostComments = async (req, res) => {
   try {
     const comments = await Comment.findAll({ where: { post_id: req.params.id } });
     res.status(200).json(comments);
-  } catch {
+  } catch (error) {
     res.status(404).json({ error: error });
   }
 };
@@ -69,7 +69,7 @@ const deletePost = async (req, res) => {
     await post.destroy();
     return res.status(200).json({ message: "Publication supprimée !" });
   } catch (error) {
-    res.status(500).json({ error });
+    res.status(500).json({ error: error });
   }
 };
 
