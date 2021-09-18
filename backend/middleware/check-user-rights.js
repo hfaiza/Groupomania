@@ -2,15 +2,15 @@
 const deletePostOrComment = async (req, res, next, model, id) => {
   try {
     const Model = require(`../models/${model}`);
-    const object = await Model.findOne({ where: { [id]: req.params.id } });
-    const objectCreator = object.user_id;
+    const content = await Model.findOne({ where: { [id]: req.params.id } });
+    const contentCreator = content.user_id;
 
-    const objectEditor = req.user;
+    const contentEditor = req.user;
 
     const User = require("../models/user");
-    const user = await User.findOne({ where: { user_id: objectEditor } });
+    const editor = await User.findOne({ where: { user_id: objectEditor } });
 
-    if (objectEditor == objectCreator || user.admin == 1) {
+    if (contentEditor == contentCreator || editor.admin == 1) {
       next();
     } else {
       res.status(403).json({ error: "Vous ne pouvez pas supprimer cette publication ou ce commentaire." });
@@ -20,7 +20,7 @@ const deletePostOrComment = async (req, res, next, model, id) => {
   }
 };
 
-const deleteContent = async (req, res, next) => {
+const checkUserRights = async (req, res, next) => {
   try {
     if (req.baseUrl == `/api/posts`) {
       deletePostOrComment(req, res, next, "Post", "post_id");
@@ -33,4 +33,4 @@ const deleteContent = async (req, res, next) => {
 };
 
 // Exportation du middleware
-exports.deleteContent = deleteContent;
+exports.checkUserRights = checkUserRights;

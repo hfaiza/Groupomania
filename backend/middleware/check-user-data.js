@@ -10,48 +10,46 @@ const deleteImage = (req) => {
   }
 };
 
-// Vérifie la validité du prénom et du nom
-const checkNames = (req, res) => {
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const regex = /^[a-zA-ZÀ-ÖØ-öø-ÿ]{2,80}$/;
-  if (regex.test(firstName) == false || regex.test(lastName) == false) {
+// Pour tester les données de la requête
+const regexTest = (req, regex, data) => {
+  if (regex.test(data) == false) {
     deleteImage(req);
     return false;
   }
-  return true;
+};
+
+// Vérifie la validité du prénom et du nom
+const checkNames = (req) => {
+  const regex = /^[a-zA-ZÀ-ÖØ-öø-ÿ]{2,80}$/;
+  if ((regexTest(req, regex, req.body.firstName) || regexTest(req, regex, req.body.lastName)) == false) {
+    return false;
+  }
 };
 
 // Vérifie la validité de l'e-mail
-const checkEmail = (req, res) => {
-  const email = req.body.email;
+const checkEmail = (req) => {
   const regex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@groupomania.com$/;
-  if (regex.test(email) == false) {
-    deleteImage(req);
+  if (regexTest(req, regex, req.body.email) == false) {
     return false;
   }
-  return true;
 };
 
 // Vérifie la validité du mot de passe
-const checkPassword = (req, res) => {
-  const password = req.body.password;
+const checkPassword = (req) => {
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/;
-  if (regex.test(password) == false) {
-    deleteImage(req);
+  if (regexTest(req, regex, req.body.password) == false) {
     return false;
   }
-  return true;
 };
 
 // Exécute les fonctions de vérification lors de la création d'un compte
 const checkNewUser = (req, res, next) => {
   try {
-    if (checkNames(req, res) == false) {
+    if (checkNames(req) == false) {
       return res.status(400).json({ error: "Prénom et/ou nom invalide(s)." });
-    } else if (checkEmail(req, res) == false) {
+    } else if (checkEmail(req) == false) {
       return res.status(400).json({ error: "E-mail invalide (le nom de domaine est groupomania.com)." });
-    } else if (checkPassword(req, res) == false) {
+    } else if (checkPassword(req) == false) {
       return res.status(400).json({
         error:
           "Mot de passe invalide. Il doit contenir une majuscule, une minuscule, un chiffre, un caractère spécial, et entre 8 et 64 caractères.",
@@ -67,9 +65,9 @@ const checkNewUser = (req, res, next) => {
 // Exécute les fonctions de vérification lors de la modification d'un profil
 const checkUpdatedUser = (req, res, next) => {
   try {
-    if (checkNames(req, res) == false) {
+    if (checkNames(req) == false) {
       return res.status(400).json({ error: "Prénom et/ou nom invalide(s)." });
-    } else if (req.body.password !== undefined && checkPassword(req, res) == false) {
+    } else if (req.body.password !== undefined && checkPassword(req) == false) {
       return res.status(400).json({
         error:
           "Mot de passe invalide. Il doit contenir une majuscule, une minuscule, un chiffre, un caractère spécial, et entre 8 et 64 caractères.",

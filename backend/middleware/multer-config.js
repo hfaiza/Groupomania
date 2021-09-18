@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
     ) {
       callback(null, "images");
     } else {
-      callback(new Error("Requête invalide ! !"));
+      callback(new Error("Requête invalide !"));
     }
   },
   filename: (req, file, callback) => {
