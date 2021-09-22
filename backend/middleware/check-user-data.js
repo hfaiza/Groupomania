@@ -67,7 +67,7 @@ const checkUpdatedUser = (req, res, next) => {
   try {
     if (checkNames(req) == false) {
       return res.status(400).json({ error: "Prénom et/ou nom invalide(s)." });
-    } else if (req.body.password !== undefined && checkPassword(req) == false) {
+    } else if (req.body.password !== "0" && checkPassword(req) == false) {
       return res.status(400).json({
         error:
           "Mot de passe invalide. Il doit contenir une majuscule, une minuscule, un chiffre, un caractère spécial, et entre 8 et 64 caractères.",

@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
       callback(null, "images");
     } else if (
       (file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" || file.mimetype == "image/png") &&
-      (req.baseUrl == `/api/signup` || req.baseUrl == `/api/users`)
+      (req.baseUrl == `/api/auth` || req.baseUrl == `/api/users`)
     ) {
       callback(null, "images");
     } else {

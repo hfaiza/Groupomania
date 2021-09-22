@@ -23,7 +23,9 @@ const signup = async (req, res) => {
       user_picture: image,
     });
     await user.save();
-    res.status(201).json({ message: "Utilisateur créé !" });
+    const newUser = await User.findOne({ where: { email: user.email } });
+    const token = jwt.sign({ userId: newUser.user_id }, "SECRET_TOKEN", { expiresIn: "24h" });
+    res.status(201).json({ userId: newUser.user_id, token: token });
   } catch (error) {
     res.status(500).json({ error });
   }

@@ -29,7 +29,7 @@ const getOneUser = async (req, res) => {
 // Obtention de toutes les publications d'un utilisateur
 const getUserPosts = async (req, res) => {
   try {
-    const posts = await Post.findAll({ where: { user_id: req.params.id } });
+    const posts = await Post.findAll({ where: { user_id: req.params.id }, order: [["post_date", "DESC"]] });
     res.status(200).json(posts);
   } catch (error) {
     res.status(404).json({ error: error });
@@ -57,7 +57,7 @@ const modifyProfile = async (req, res) => {
     }
 
     let hashedPassword;
-    if (req.body.password == undefined) {
+    if (req.body.password == "0") {
       hashedPassword = user.password;
     } else {
       hashedPassword = await bcrypt.hash(req.body.password, 10);
