@@ -27,11 +27,6 @@ const routes = [
     component: () => import("@/views/WritePost.vue"),
   },
   {
-    path: "/profile",
-    name: "Profile",
-    component: () => import("@/views/Profile.vue"),
-  },
-  {
     path: "/updateprofile",
     name: "UpdateProfile",
     component: () => import("@/views/UpdateProfile.vue"),

@@ -4,9 +4,13 @@
     <div id="user-card">
       <h1>{{ userData.first_name }} {{ userData.last_name }}</h1>
       <p id="email">{{ userData.email }}</p>
-        <router-link style="text-decoration: none;" :to="{ name: 'UserPosts', params: { id: userData.user_id  }}">
-          <p id="user-posts">Voir les publications de {{ userData.first_name }}</p>
-        </router-link>
+      <router-link style="text-decoration: none;" :to="{ name: 'UserPosts', params: { id: userData.user_id  }}">
+        <p id="user-posts">Voir ses publications</p>
+      </router-link>
+    </div>
+    <div v-if="ownProfile" id="modify-profile">
+      <a @click="modifyProfile" id="modify-account">Modifier mon compte</a>
+      <a @click="deleteProfile" id="delete-account">Supprimer mon compte</a>
     </div>
   </section>
 </template>
@@ -22,11 +26,17 @@ export default ({
  created() {
     this.getUserData();
   },
+  computed: {
+    ownProfile: function () {
+      if (localStorage.getItem("userId") == this.$route.params.id) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
   methods: {
      getUserData: async function () {
-     if (localStorage.getItem("userId") == this.$route.params.id) {
-         this.$router.push('/profile')
-     } else {
        try {
         const id = this.$route.params.id; 
         const token = localStorage.getItem("token");  
@@ -38,7 +48,6 @@ export default ({
         console.log(error);
       }
      }     
-    }
   }
 }); 
 </script>
@@ -107,6 +116,49 @@ h1 {
   
   &:hover {
     background-color: #edd6d3;
+  }
+}
+
+#modify-profile {
+  width: 36.6rem;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+
+  #modify-account::after {
+    background-color: #091F43;
+  }
+  
+  #delete-account {
+    color: #FD2D01;
+
+    &::after {
+      background-color: #FD2D01;
+    }
+  }
+
+  a {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      transform: scaleX(0);
+      height: 0.2rem;
+      bottom: -0.5rem;
+      left: 0;
+      transform-origin: bottom right;
+      transition: transform 0.25s ease-out;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
   }
 }
 </style>

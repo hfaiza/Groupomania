@@ -8,7 +8,7 @@
           <router-link to="/posts" v-if="loggedIn">Accueil</router-link>
           <router-link to="/writepost" v-if="loggedIn">Publier</router-link>
           <router-link to="/users" v-if="loggedIn">Membres</router-link>
-          <router-link to="/profile" v-if="loggedIn">Mon profil</router-link>
+          <router-link :to="{ name: 'UserProfile', params: { id: userId }}" v-if="loggedIn">Mon profil</router-link>
           <a id="logout" @click="logout" v-if="loggedIn">Déconnexion</a>
        </nav>
      </header>
@@ -19,7 +19,9 @@
 export default ({
   name: 'Header',
     data() {
-    return {}
+    return {
+      userId: localStorage.getItem("userId"),
+    }
   },
   computed: {
     loggedIn: function () {
