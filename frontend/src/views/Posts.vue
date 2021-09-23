@@ -4,7 +4,7 @@
     <div v-if="posts.length > 0">
       <h1>Publications</h1>
       <ul v-for="post of posts" :key="post.id">
-        <li>
+        <li id="post">
           <p id="user-data">
             <img :src="post.User.user_picture" :alt="`Photo de profil de ` + post.User.first_name + ` ` + post.User.last_name + `.`" />
             <router-link style="text-decoration: none; color: inherit;" :to="{ name: 'UserProfile', params: { id: post.User.user_id  }}">
@@ -18,6 +18,20 @@
             <img v-if="post.image_url !== null" :src="post.image_url" /> 
           </p>
         </li>
+        <div v-if="post.Comments.length > 0">
+          <ul v-for="comment of post.Comments" :key="comment.id">
+            <li id="comment">
+              <router-link style="text-decoration: none; color: inherit;" :to="{ name: 'UserProfile', params: { id: comment.user_id  }}">
+                <span id="name">{{ comment.User.first_name }} {{ comment.User.last_name }}</span> • <span id="date">{{ formatDate(comment.comment_date) }}</span>
+              </router-link><br />
+              {{ comment.comment_content }}
+            </li>
+          </ul>
+        </div> 
+        <div id="writeComment">
+          <p>Laisser un commentaire</p>
+          <textarea placeholder="Saisir un commentaire"></textarea>
+        </div>
       </ul>
     </div>
   </section>
@@ -35,7 +49,7 @@ export default ({
   },
   created() {
     this.getPosts();
-  }, 
+  },
   methods: {
     getPosts: async function () {
       try {
@@ -67,15 +81,34 @@ ul {
   list-style-type: none;
   padding-left: 0;
 
-  li {
+  #post {
     text-align: left;
     color: #000;
     background-color: #ebe8e8;
     border: solid 0.001rem #e6e3e3;
     border-radius: 1rem;
     box-shadow: 0 0 0.3rem #d3d3d3;
-    margin: 2rem 3rem;
+    margin: 3rem 3rem 0.5rem 3rem;
     padding: 1rem 2rem;
+  }
+
+  #name {
+    color: #091F43;
+    font-weight: bold;
+  }
+
+  #comment {
+    text-align: left;
+    background-color: #cecccc;
+    border: solid 0.001rem #e6e3e3;
+    border-radius: 1rem;
+    box-shadow: 0 0 0.3rem #d3d3d3;
+    margin: 0.5rem 3rem 0 8rem;
+    padding: 1rem;
+
+    #date {
+      color: #091F43;
+    }
   }
 }
 
@@ -134,5 +167,32 @@ ul {
   box-shadow: 0 0 0.3rem #d3d3d3;
   margin: 5rem 3rem;
   padding: 2rem; 
+}
+
+#writeComment {
+  margin: 1rem 3rem 0 8rem;
+
+  p {
+    text-align: left;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1rem;
+    padding-left: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+
+  textarea {
+    border: solid 0.001rem #e6e3e3;
+    border-radius: 1rem;
+    box-shadow: 0 0 0.3rem #d3d3d3;
+    padding: 1rem;
+    height: 2rem;
+    width: calc(100% - 2rem);
+    resize: none;
+    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale; 
+}
 }
 </style>
