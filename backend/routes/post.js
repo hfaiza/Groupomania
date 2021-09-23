@@ -14,7 +14,6 @@ const router = express.Router();
 // Création des routes
 router.post("/", auth, multer, validity.checkContent, postController.createPost);
 router.get("/", auth, postController.getAllPosts);
-router.get("/:id/comments", auth, postController.getPostComments);
 router.delete("/:id", auth, userId.checkUserRights, postController.deletePost);
 
 // Exportation du routeur

@@ -8,7 +8,9 @@ const Comment = require("../models/comment");
 
 // Associations
 Post.belongsTo(User, { foreignKey: "user_id" });
+Post.hasMany(Comment, { foreignKey: "post_id" });
 Comment.belongsTo(User, { foreignKey: "user_id" });
+Comment.belongsTo(Post, { foreignKey: "post_id" });
 
 // Ajout d'une publication
 const createPost = async (req, res) => {
@@ -38,29 +40,24 @@ const createPost = async (req, res) => {
 const getAllPosts = async (req, res) => {
   try {
     const posts = await Post.findAll({
-      include: {
-        model: User,
-        required: true,
-      },
+      include: [
+        {
+          model: User,
+          attributes: ["user_id", "first_name", "last_name", "user_picture"],
+          required: true,
+        },
+        {
+          model: Comment,
+          include: {
+            model: User,
+            attributes: ["user_id", "first_name", "last_name", "user_picture"],
+            required: true,
+          },
+        },
+      ],
       order: [["post_date", "DESC"]],
     });
     res.status(200).json(posts);
-  } catch (error) {
-    res.status(404).json({ error: error });
-  }
-};
-
-// Obtention de tous les commentaires d'une publication
-const getPostComments = async (req, res) => {
-  try {
-    const comments = await Comment.findAll({
-      where: { post_id: req.params.id },
-      include: {
-        model: User,
-        required: true,
-      },
-    });
-    res.status(200).json(comments);
   } catch (error) {
     res.status(404).json({ error: error });
   }
@@ -88,5 +85,4 @@ const deletePost = async (req, res) => {
 // Exportation des middlewares
 exports.createPost = createPost;
 exports.getAllPosts = getAllPosts;
-exports.getPostComments = getPostComments;
 exports.deletePost = deletePost;

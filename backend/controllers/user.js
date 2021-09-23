@@ -9,7 +9,7 @@ const Post = require("../models/post");
 // Obtention de tous les utilisateurs
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({ attributes: ["user_id", "first_name", "last_name", "user_picture"] });
     res.status(200).json(users);
   } catch (error) {
     res.status(404).json({ error: error });
@@ -19,7 +19,10 @@ const getAllUsers = async (req, res) => {
 // Obtention d'un utilisateur
 const getOneUser = async (req, res) => {
   try {
-    const user = await User.findOne({ where: { user_id: req.params.id } });
+    const user = await User.findOne({
+      where: { user_id: req.params.id },
+      attributes: ["user_id", "first_name", "last_name", "email", "user_picture"],
+    });
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ error: error });
