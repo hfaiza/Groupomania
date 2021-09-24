@@ -5,7 +5,7 @@ const express = require("express");
 const userController = require("../controllers/user");
 const auth = require("../middleware/auth");
 const multer = require("../middleware/multer-config");
-const checkUserId = require("../middleware/check-user-id");
+const userId = require("../middleware/check-user-rights");
 const validity = require("../middleware/check-user-data");
 
 // Création du routeur
@@ -15,8 +15,8 @@ const router = express.Router();
 router.get("/", auth, userController.getAllUsers);
 router.get("/:id", auth, userController.getOneUser);
 router.get("/:id/posts", auth, userController.getUserPosts);
-router.put("/:id", auth, checkUserId, multer, validity.checkUpdatedUser, userController.modifyProfile);
-router.delete("/:id", auth, checkUserId, userController.deleteAccount);
+router.put("/:id", auth, userId.checkUserRights, multer, validity.checkUpdatedUser, userController.modifyProfile);
+router.delete("/:id", auth, userId.checkUserRights, userController.deleteAccount);
 
 // Exportation du routeur
 module.exports = router;

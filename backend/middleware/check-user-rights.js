@@ -1,5 +1,5 @@
 // Vérifie l'id de l'user souhaitant supprimer une publication ou un commentaire
-const deletePostOrComment = async (req, res, next, model, id) => {
+const deleteOrUpdateData = async (req, res, next, model, id) => {
   try {
     const Model = require(`../models/${model}`);
     const content = await Model.findOne({ where: { [id]: req.params.id } });
@@ -8,12 +8,15 @@ const deletePostOrComment = async (req, res, next, model, id) => {
     const contentEditor = req.user;
 
     const User = require("../models/user");
-    const editor = await User.findOne({ where: { user_id: objectEditor } });
+    const editor = await User.findOne({ where: { user_id: contentEditor } });
 
-    if (contentEditor == contentCreator || editor.admin == 1) {
+    if (
+      (req.baseUrl == `/api/users` && contentEditor == contentCreator) ||
+      (req.baseUrl !== `/api/users` && (contentEditor == contentCreator || editor.admin == 1))
+    ) {
       next();
     } else {
-      res.status(403).json({ error: "Vous ne pouvez pas supprimer cette publication ou ce commentaire." });
+      res.status(403).json({ error: "Vous n'avez pas les droits requis pour effectuer cette action." });
     }
   } catch (error) {
     res.status(500).json({ error: error });
@@ -22,10 +25,12 @@ const deletePostOrComment = async (req, res, next, model, id) => {
 
 const checkUserRights = async (req, res, next) => {
   try {
-    if (req.baseUrl == `/api/posts`) {
-      deletePostOrComment(req, res, next, "Post", "post_id");
+    if (req.baseUrl == `/api/users`) {
+      deleteOrUpdateData(req, res, next, "User", "user_id");
+    } else if (req.baseUrl == `/api/posts`) {
+      deleteOrUpdateData(req, res, next, "Post", "post_id");
     } else if (req.baseUrl == `/api/comments`) {
-      deletePostOrComment(req, res, next, "Comment", "comment_id");
+      deleteOrUpdateData(req, res, next, "Comment", "comment_id");
     }
   } catch (error) {
     res.status(500).json({ error: error });
