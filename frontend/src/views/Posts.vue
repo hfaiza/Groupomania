@@ -4,14 +4,14 @@
     <div v-if="posts.length > 0">
       <h1>Publications</h1>
       <ul v-for="post of posts" :key="post.id">
-        <li id="post" :data-post-id="post.post_id">
+        <li id="post">
           <p id="user-data">
             <img :src="post.User.user_picture" :alt="`Photo de profil de ` + post.User.first_name + ` ` + post.User.last_name + `.`" />
             <router-link style="text-decoration: none; color: inherit;" :to="{ name: 'UserProfile', params: { id: post.User.user_id  }}">
               {{ post.User.first_name }} {{ post.User.last_name }} •
             </router-link>
             <span id="date">{{ formatDate(post.post_date) }}</span>
-            <a id="delete-post" @click="deletePost">Supprimer</a>
+            <a id="delete-post" @click="deletePost(post.post_id)">Supprimer</a>
           </p>
           <p id="text">
             {{ post.post_content }}
@@ -20,13 +20,13 @@
         </li>
         <div v-if="post.Comments.length > 0">
           <ul v-for="comment of post.Comments" :key="comment.id">
-            <li id="comment" :data-comment-id="comment.comment_id">
+            <li id="comment">
               <div id="comment-header">
                 <router-link id="name" style="text-decoration: none; color: inherit;" :to="{ name: 'UserProfile', params: { id: comment.user_id  }}">
                   {{ comment.User.first_name }} {{ comment.User.last_name }} 
                 </router-link>
                 • <span id="date">{{ formatDate(comment.comment_date) }}</span>
-                <a id="delete-comment" @click="deleteComment">Supprimer</a>          
+                <a id="delete-comment" @click="deleteComment(comment.comment_id)">Supprimer</a>          
               </div>
                 {{ comment.comment_content }}
             </li>
@@ -34,7 +34,7 @@
         </div> 
         <div id="writeComment">
           <p>Laisser un commentaire</p>
-          <input placeholder="Saisir un commentaire..." id="commentContent" v-on:keyup.enter="sendComment" />
+          <input v-model="comment" placeholder="Saisir un commentaire..." id="commentContent" v-on:keyup.enter="sendComment(post.post_id)" />
         </div>
       </ul>
     </div>
@@ -49,6 +49,7 @@ export default ({
   data() {
     return {
       posts: [],
+      comment: "",
     }
   },
   created() {
@@ -66,17 +67,15 @@ export default ({
         console.log(error);
       }     
     },
-    formatDate: function (value) {
-      if (value) {
+    formatDate: function (date) {
+      if (date) {
       moment.locale('fr');
-      return moment(value).fromNow();
+      return moment(date).fromNow();
       }
     },
-    sendComment: async function () {
+    sendComment: async function (postId) {
      try {
      const token = localStorage.getItem("token");  
-     const post = document.querySelector("#post");
-     const postId = post.dataset.postId;
      await fetch("http://localhost:3000/api/comments",
           {
             method: "POST",
@@ -86,34 +85,34 @@ export default ({
               commentContent: document.getElementById("commentContent").value
             })
           });
+     this.getPosts();
+     this.comment = "";
      } catch (error) {
         console.log(error);
      }     
     },
-    deletePost: async function () {
+    deletePost: async function (postId) {
      try {
      const token = localStorage.getItem("token");  
-     const post = document.querySelector("#post");
-     const postId = post.dataset.postId;
      await fetch(`http://localhost:3000/api/posts/${postId}`,
           {
             method: "DELETE",
             headers: { Authorization: "Bearer " + token },
           });
+     this.getPosts();    
      } catch (error) {
         console.log(error);
      }  
     },
-    deleteComment: async function () {
+    deleteComment: async function (commentId) {
      try {
      const token = localStorage.getItem("token");  
-     const post = document.querySelector("#comment");
-     const commentId = post.dataset.commentId;
      await fetch(`http://localhost:3000/api/comments/${commentId}`,
           {
             method: "DELETE",
             headers: { Authorization: "Bearer " + token },
           });
+     this.getPosts();  
      } catch (error) {
         console.log(error);
      }  
