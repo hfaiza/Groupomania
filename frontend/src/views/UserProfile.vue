@@ -10,7 +10,7 @@
     </div>
     <div v-if="ownProfile" id="modify-profile">
       <a @click="modifyProfile" id="modify-account">Modifier mon compte</a>
-      <a @click="deleteProfile" id="delete-account">Supprimer mon compte</a>
+      <a @click="deleteAccount" id="delete-account">Supprimer mon compte</a>
     </div>
   </section>
 </template>
@@ -44,10 +44,27 @@ export default ({
         { headers: { Authorization: "Bearer " + token } });
         const userData = await getData.json();
         this.userData = userData;
+        } catch (error) {
+          console.log(error);
+        }
+     },
+     modifyProfile: function () {
+       this.$router.push('/updateprofile');
+     },
+     deleteAccount: async function () {
+       try {
+        const id = this.$route.params.id; 
+        const token = localStorage.getItem("token");  
+        await fetch(`http://localhost:3000/api/users/${id}`,
+          {
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token },
+          });
+        this.$router.push('/login');
        } catch (error) {
         console.log(error);
-      }
-     }     
+       }
+     }    
   }
 }); 
 </script>
