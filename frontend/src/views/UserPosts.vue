@@ -1,18 +1,23 @@
 <template>
   <section>
-    <div id="no-posts" v-if="userPosts.length == 0">{{ userData.first_name }} {{ userData.last_name }} n'a pas encore publié de message.</div>
+    <div id="no-posts" v-if="userPosts.length == 0">
+      {{ userData.first_name }} {{ userData.last_name }} n'a pas encore publié de message.
+    </div>
     <div v-if="userPosts.length > 0">
       <h1>Publications de {{ userData.first_name }} {{ userData.last_name }}</h1>
       <ul v-for="post of userPosts" :key="post.id">
         <li>
           <p id="user-data">
-            <img :src="userData.user_picture" :alt="`Photo de profil de ` + userData.first_name + ` ` + userData.last_name + `.`" />
+            <img
+              :src="userData.user_picture"
+              :alt="`Photo de profil de ` + userData.first_name + ` ` + userData.last_name + `.`"
+            />
             {{ userData.first_name }} {{ userData.last_name }} •
             <span id="date">{{ formatDate(post.post_date) }}</span>
           </p>
           <p id="text">
             {{ post.post_content }}
-            <img v-if="post.image_url !== null" :src="post.image_url" /> 
+            <img v-if="post.image_url !== null" :src="post.image_url" />
           </p>
         </li>
       </ul>
@@ -38,7 +43,7 @@ export default ({
   methods: {
    getUserData: async function () {
      try {
-      const token = localStorage.getItem("token");  
+      const token = localStorage.getItem("token");
       const id = this.$route.params.id;
       const getData = await fetch(`http://localhost:3000/api/users/${id}`,
       { headers: { Authorization: "Bearer " + token } });
@@ -46,19 +51,19 @@ export default ({
       this.userData = userData;
      } catch (error) {
        console.log(error);
-     }     
+     }
    },
    getUserPosts: async function () {
      try {
      const token = localStorage.getItem("token");
-     const id = this.$route.params.id; 
+     const id = this.$route.params.id;
      const getUserPosts = await fetch(`http://localhost:3000/api/users/${id}/posts`,
         { headers: { Authorization: "Bearer " + token } });
      const userPosts = await getUserPosts.json();
      this.userPosts = userPosts;
      } catch (error) {
         console.log(error);
-     }     
+     }
     },
     formatDate: function (value) {
       if (value) {
@@ -67,7 +72,7 @@ export default ({
       }
     }
   }
-}); 
+});
 </script>
 
 <style scoped lang="scss">
@@ -93,14 +98,14 @@ ul {
 
 #text {
   position: relative;
-  
+
   &::before {
     content: "";
     position: absolute;
     top: -1rem;
     width: 100%;
     height: 0.1rem;
-    background-color: #FD2D01; 
+    background-color: #fd2d01;
   }
 
   img {
@@ -110,11 +115,11 @@ ul {
 }
 
 #user-data {
-  color: #091F43;
+  color: #091f43;
   font-weight: bold;
   padding-bottom: 1rem;
   display: flex;
-  
+
   img {
     border-radius: 50%;
     height: 1.5rem;
@@ -138,6 +143,6 @@ ul {
   border-radius: 1rem;
   box-shadow: 0 0 0.3rem #d3d3d3;
   margin: 5rem 3rem;
-  padding: 2rem; 
+  padding: 2rem;
 }
 </style>

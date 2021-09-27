@@ -3,9 +3,13 @@
     <h1>Membres</h1>
     <ul v-for="user of users" :key="user.id">
       <li>
-        <router-link style="text-decoration: none;" :to="{ name: 'UserProfile', params: { id: user.user_id  }}">
+        <router-link style="text-decoration: none;" :to="{ name: 'UserProfile', params: { id: user.user_id } }">
           <span>
-            <img id="profile-pic" :src="user.user_picture" :alt="`Photo de profil de ` + user.first_name + ` ` + user.last_name + `.`" />
+            <img
+              id="profile-pic"
+              :src="user.user_picture"
+              :alt="`Photo de profil de ` + user.first_name + ` ` + user.last_name + `.`"
+            />
             <p>{{ user.first_name }} {{ user.last_name }}</p>
             <img id="logo" :src="require(`@/assets/pale-logo.png`)" alt="Logo de Groupomania." />
           </span>
@@ -29,17 +33,17 @@ export default ({
   methods: {
     getUsers: async function() {
      try {
-     const token = localStorage.getItem("token");  
+     const token = localStorage.getItem("token");
      const getData = await fetch(`http://localhost:3000/api/users`,
         { headers: { Authorization: "Bearer " + token } });
      const users = await getData.json();
      this.users = users;
       } catch (error) {
         console.log(error);
-      }     
+      }
     }
   }
-}); 
+});
 </script>
 
 <style scoped lang="scss">
@@ -57,13 +61,13 @@ p {
 }
 
 ul {
-   list-style-type: none;
-   padding-left: 0;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 span {
   text-decoration: none;
-  color: #091F43;
+  color: #091f43;
   display: flex;
   align-items: center;
   height: 6rem;
@@ -73,12 +77,13 @@ span {
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    color: #FD2D01;
+    color: #fd2d01;
     transform: scale(1.02);
   }
 }
 
-span > p, span > img {
+span > p,
+span > img {
   top: 5rem;
 }
 
@@ -87,14 +92,14 @@ span > p, span > img {
   height: 4rem;
   width: 4rem;
   object-fit: cover;
-  border: solid 0.2rem #091F43;
+  border: solid 0.2rem #091f43;
   margin: 0 3rem;
 }
 
 #logo {
   height: 4rem;
   text-align: right;
-  margin-left: auto; 
+  margin-left: auto;
   margin-right: 3rem;
 }
 </style>

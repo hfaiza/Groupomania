@@ -25,7 +25,7 @@ const signup = async (req, res) => {
     await user.save();
     const newUser = await User.findOne({ where: { email: user.email } });
     const token = jwt.sign({ userId: newUser.user_id }, "SECRET_TOKEN", { expiresIn: "24h" });
-    res.status(201).json({ userId: newUser.user_id, token: token });
+    res.status(201).json({ userId: newUser.user_id, token: token, admin: newUser.admin });
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -43,7 +43,7 @@ const login = async (req, res) => {
       return res.status(401).json({ error: "Utilisateur non trouvé ou mot de passe incorrect !" });
     }
     const token = jwt.sign({ userId: user.user_id }, "SECRET_TOKEN", { expiresIn: "24h" });
-    res.status(200).json({ userId: user.user_id, token: token });
+    res.status(200).json({ userId: user.user_id, token: token, admin: user.admin });
   } catch (error) {
     res.status(500).json({ error });
   }

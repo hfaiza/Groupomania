@@ -1,18 +1,18 @@
 <template>
-    <div id="header-background">
-      <header>
-        <img :src="require(`@/assets/groupomania-icon.png`)" alt="Groupomania" />
-        <nav>
-          <router-link to="/" v-if="!loggedIn">Inscription</router-link>
-          <router-link to="/login" v-if="!loggedIn">Connexion</router-link>
-          <router-link to="/posts" v-if="loggedIn">Accueil</router-link>
-          <router-link to="/writepost" v-if="loggedIn">Publier</router-link>
-          <router-link to="/users" v-if="loggedIn">Membres</router-link>
-          <router-link :to="{ name: 'UserProfile', params: { id: userId }}" v-if="loggedIn">Mon profil</router-link>
-          <a id="logout" @click="logout" v-if="loggedIn">Déconnexion</a>
-       </nav>
-     </header>
-    </div>
+  <div id="header-background">
+    <header>
+      <img :src="require(`@/assets/groupomania-icon.png`)" alt="Groupomania" />
+      <nav>
+        <router-link to="/" v-if="!loggedIn">Inscription</router-link>
+        <router-link to="/login" v-if="!loggedIn">Connexion</router-link>
+        <router-link to="/posts" v-if="loggedIn">Accueil</router-link>
+        <router-link to="/writepost" v-if="loggedIn">Publier</router-link>
+        <router-link to="/users" v-if="loggedIn">Membres</router-link>
+        <router-link :to="{ name: 'UserProfile', params: { id: userId } }" v-if="loggedIn">Mon profil</router-link>
+        <a id="logout" @click="logout" v-if="loggedIn">Déconnexion</a>
+      </nav>
+    </header>
+  </div>
 </template>
 
 <script lang="js">
@@ -38,12 +38,12 @@ export default ({
       this.$router.push('/login');
     },
   }
-}); 
+});
 </script>
 
 <style scoped lang="scss">
 #header-background {
-  background-color: #091F43;
+  background-color: #091f43;
 }
 
 header {
@@ -63,8 +63,8 @@ nav {
 a {
   text-decoration: none;
   font-weight: bold;
-  color: #FFF;
-  display: table-cell; 
+  color: #fff;
+  display: table-cell;
   vertical-align: middle;
   position: relative;
 
@@ -79,7 +79,7 @@ a {
   bottom: -0.2rem;
   width: 100%;
   height: 0.2rem;
-  background-color: #FD2D01;
+  background-color: #fd2d01;
 }
 
 img {

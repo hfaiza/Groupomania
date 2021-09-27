@@ -5,7 +5,9 @@
       <h2>Publier un message</h2>
       <textarea id="postContent"></textarea>
       <form>
-        <button onclick="document.getElementById('upload-image').click()" type="button">Ajouter un gif (optionnel)</button>
+        <button @click="uploadFile" type="button">
+          Ajouter un gif (optionnel)
+        </button>
         <input id="upload-image" name="upload-image" type="file" accept="image/gif" />
       </form>
     </div>
@@ -17,9 +19,12 @@
 export default ({
   name: 'WritePost',
   methods: {
+    uploadFile: function () {
+      document.getElementById("upload-image").click()
+    },
     sendPost: async function () {
      try {
-     const token = localStorage.getItem("token");  
+     const token = localStorage.getItem("token");
      const formData = new FormData();
      const file = document.querySelector('input[type="file"]');
      formData.append("image", file.files[0]);
@@ -34,10 +39,10 @@ export default ({
       this.$router.push('/posts')
       } catch (error) {
         console.log(error);
-      }     
+      }
     }
   }
-}); 
+});
 </script>
 
 <style scoped lang="scss">
@@ -64,35 +69,36 @@ div {
 
 textarea {
   background-color: #ebe8e8;
-  width: 98%;
-  border: solid 0.1rem #091F43;
+  padding: 1rem;
+  width: calc(100% - 2.2rem);
+  border: solid 0.1rem #091f43;
   height: 10rem;
   resize: none;
   font-size: 1rem;
-  font-family: 'DM Sans', sans-serif;
-  -webkit-font-smoothing: antialiased; 
-  -moz-osx-font-smoothing: grayscale; 
+  font-family: "DM Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 form button {
   text-transform: uppercase;
   font-weight: bold;
-  color: #FFF;
-  background-color: #091F43;
+  color: #fff;
+  background-color: #091f43;
   border: none;
   border-radius: 3rem;
   width: 100%;
   height: 2.7rem;
   font-size: 1rem;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; 
+  -moz-osx-font-smoothing: grayscale;
   display: block;
   margin: 1rem auto;
   cursor: pointer;
 }
 
-input[type=file] {
+input[type="file"] {
   display: none;
 }
 
@@ -101,15 +107,15 @@ input[type=file] {
   padding: 0rem 2.5rem;
   text-transform: uppercase;
   font-weight: bold;
-  color: #FFF;
-  background-color: #FD2D01;
+  color: #fff;
+  background-color: #fd2d01;
   cursor: pointer;
   border: none;
   margin: 1rem 0 3rem 0;
   height: 2.7rem;
   font-size: 1.5rem;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; 
+  -moz-osx-font-smoothing: grayscale;
 }
 </style>

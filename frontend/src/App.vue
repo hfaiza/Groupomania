@@ -1,16 +1,16 @@
 <template>
   <Header />
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
-import Header from '@/components/Header.vue' 
+import Header from "@/components/Header.vue";
 
 export default {
   components: {
-    Header
-  }
-}
+    Header,
+  },
+};
 </script>
 
 <style lang="scss">
@@ -19,10 +19,10 @@ body {
 }
 
 #app {
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; 
-  color: #091F43;
+  -moz-osx-font-smoothing: grayscale;
+  color: #091f43;
   text-align: center;
 }
 

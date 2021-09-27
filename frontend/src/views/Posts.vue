@@ -6,8 +6,14 @@
       <ul v-for="post of posts" :key="post.id">
         <li id="post">
           <p id="user-data">
-            <img :src="post.User.user_picture" :alt="`Photo de profil de ` + post.User.first_name + ` ` + post.User.last_name + `.`" />
-            <router-link style="text-decoration: none; color: inherit;" :to="{ name: 'UserProfile', params: { id: post.User.user_id  }}">
+            <img
+              :src="post.User.user_picture"
+              :alt="`Photo de profil de ` + post.User.first_name + ` ` + post.User.last_name + `.`"
+            />
+            <router-link
+              style="text-decoration: none; color: inherit;"
+              :to="{ name: 'UserProfile', params: { id: post.User.user_id } }"
+            >
               {{ post.User.first_name }} {{ post.User.last_name }} •
             </router-link>
             <span id="date">{{ formatDate(post.post_date) }}</span>
@@ -15,26 +21,35 @@
           </p>
           <p id="text">
             {{ post.post_content }}
-            <img v-if="post.image_url !== null" :src="post.image_url" /> 
+            <img v-if="post.image_url !== null" :src="post.image_url" />
           </p>
         </li>
         <div v-if="post.Comments.length > 0">
           <ul v-for="comment of post.Comments" :key="comment.id">
             <li id="comment">
               <div id="comment-header">
-                <router-link id="name" style="text-decoration: none; color: inherit;" :to="{ name: 'UserProfile', params: { id: comment.user_id  }}">
-                  {{ comment.User.first_name }} {{ comment.User.last_name }} 
+                <router-link
+                  id="name"
+                  style="text-decoration: none; color: #091f43;"
+                  :to="{ name: 'UserProfile', params: { id: comment.user_id } }"
+                >
+                  {{ comment.User.first_name }} {{ comment.User.last_name }}
                 </router-link>
                 • <span id="date">{{ formatDate(comment.comment_date) }}</span>
-                <a id="delete-comment" @click="deleteComment(comment.comment_id)">Supprimer</a>          
+                <a id="delete-comment" @click="deleteComment(comment.comment_id)"><i class="fas fa-times"></i></a>
               </div>
-                {{ comment.comment_content }}
+              {{ comment.comment_content }}
             </li>
           </ul>
-        </div> 
+        </div>
         <div id="writeComment">
           <p>Laisser un commentaire</p>
-          <input v-model="comment" placeholder="Saisir un commentaire..." id="commentContent" v-on:keyup.enter="sendComment(post.post_id)" />
+          <input
+            v-model="comment"
+            placeholder="Saisir un commentaire..."
+            id="commentContent"
+            v-on:keyup.enter="sendComment(post.post_id)"
+          />
         </div>
       </ul>
     </div>
@@ -58,14 +73,14 @@ export default ({
   methods: {
     getPosts: async function () {
       try {
-        const token = localStorage.getItem("token");  
+        const token = localStorage.getItem("token");
         const getPostData = await fetch(`http://localhost:3000/api/posts`,
         { headers: { Authorization: "Bearer " + token } });
         const posts = await getPostData.json();
         this.posts = posts;
       } catch (error) {
         console.log(error);
-      }     
+      }
     },
     formatDate: function (date) {
       if (date) {
@@ -75,7 +90,7 @@ export default ({
     },
     sendComment: async function (postId) {
      try {
-     const token = localStorage.getItem("token");  
+     const token = localStorage.getItem("token");
      await fetch("http://localhost:3000/api/comments",
           {
             method: "POST",
@@ -89,36 +104,36 @@ export default ({
      this.comment = "";
      } catch (error) {
         console.log(error);
-     }     
+     }
     },
     deletePost: async function (postId) {
      try {
-     const token = localStorage.getItem("token");  
+     const token = localStorage.getItem("token");
      await fetch(`http://localhost:3000/api/posts/${postId}`,
           {
             method: "DELETE",
             headers: { Authorization: "Bearer " + token },
           });
-     this.getPosts();    
+     this.getPosts();
      } catch (error) {
         console.log(error);
-     }  
+     }
     },
     deleteComment: async function (commentId) {
-     try {
-     const token = localStorage.getItem("token");  
-     await fetch(`http://localhost:3000/api/comments/${commentId}`,
-          {
-            method: "DELETE",
-            headers: { Authorization: "Bearer " + token },
-          });
-     this.getPosts();  
-     } catch (error) {
+      try {
+      const token = localStorage.getItem("token");
+      await fetch(`http://localhost:3000/api/comments/${commentId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: "Bearer " + token },
+        });
+      this.getPosts();
+      } catch (error) {
         console.log(error);
-     }  
-    } 
+      }
+    }
   }
-}); 
+});
 </script>
 
 <style scoped lang="scss">
@@ -142,19 +157,18 @@ ul {
   }
 
   #name {
-    color: #091F43;
     font-weight: bold;
     margin-right: 0.3rem;
   }
 
   #comment {
     text-align: left;
-    background-color: #cecccc;
+    background-color: #dfdddd;
     border: solid 0.001rem #e6e3e3;
     border-radius: 1rem;
     box-shadow: 0 0 0.3rem #d3d3d3;
     margin: 0.5rem 3rem 0 8rem;
-    padding: 1rem 2rem;
+    padding: 1rem;
 
     #comment-header {
       display: flex;
@@ -166,21 +180,21 @@ ul {
     }
 
     #date {
-      color: #091F43;
+      color: #091f43;
     }
   }
 }
 
 #text {
   position: relative;
-  
+
   &::before {
     content: "";
     position: absolute;
     top: -1rem;
     width: 100%;
     height: 0.1rem;
-    background-color: #FD2D01; 
+    background-color: #fd2d01;
   }
 
   img {
@@ -190,11 +204,11 @@ ul {
 }
 
 #user-data {
-  color: #091F43;
+  color: #091f43;
   font-weight: bold;
   padding-bottom: 1rem;
   display: flex;
-  
+
   img {
     border-radius: 50%;
     height: 1.5rem;
@@ -213,7 +227,7 @@ ul {
 
 #delete-post {
   font-weight: 100;
-  color: #FD2D01;
+  color: #fd2d01;
   text-align: right;
   margin-left: auto;
   cursor: pointer;
@@ -228,11 +242,7 @@ ul {
   text-align: right;
   margin-left: auto;
   cursor: pointer;
-  color: #091F43;
-
-  &:hover {
-    font-weight: bold;
-  }
+  color: #686766;
 }
 
 #no-posts {
@@ -242,7 +252,7 @@ ul {
   border-radius: 1rem;
   box-shadow: 0 0 0.3rem #d3d3d3;
   margin: 5rem 3rem;
-  padding: 2rem; 
+  padding: 2rem;
 }
 
 #writeComment {
@@ -266,9 +276,9 @@ ul {
     width: calc(100% - 2rem);
     resize: none;
     font-size: 1rem;
-    font-family: 'DM Sans', sans-serif;
-    -webkit-font-smoothing: antialiased; 
-    -moz-osx-font-smoothing: grayscale; 
-}
+    font-family: "DM Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 </style>
