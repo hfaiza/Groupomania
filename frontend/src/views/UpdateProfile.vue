@@ -14,11 +14,11 @@ export default {
   name: 'UpdateProfile',
   components: {
     Form,
-    Button,
+    Button
   },
   data() {
     return {
-      userData: {},
+      userData: {}
     }
   },
   created() {
@@ -29,8 +29,9 @@ export default {
       try {
         const id = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
-        const getData = await fetch(`http://localhost:3000/api/users/${id}`,
-        { headers: { Authorization: "Bearer " + token } });
+        const getData = await fetch(`http://localhost:3000/api/users/${id}`, {
+          headers: { Authorization: "Bearer " + token }
+        });
         const userData = await getData.json();
         this.userData = userData;
         this.$refs.form.lastName = this.userData.last_name;
@@ -72,11 +73,11 @@ export default {
         await fetch(`http://localhost:3000/api/users/${id}`, {
           method: "PUT",
           headers: { Authorization: "Bearer " + token },
-          body: formData,
+          body: formData
         });
         this.$router.push({ name: 'UserProfile', params: { id: id } })
       } catch (error) {
-         console.log(error);
+        console.log(error);
       }
     }
   }

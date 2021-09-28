@@ -15,7 +15,7 @@ export default ({
   name: 'Signup',
   components: {
     Form,
-    Button,
+    Button
   },
   methods: {
     checkUserInput: function () {
@@ -39,17 +39,16 @@ export default ({
       try {
         const formData = new FormData();
         if (this.$refs.form.picture.files !== undefined) {
-           formData.append("image", this.$refs.form.picture.files[0]);
+          formData.append("image", this.$refs.form.picture.files[0]);
         }
         formData.append("lastName", this.$refs.form.lastName);
         formData.append("firstName", this.$refs.form.firstName);
         formData.append("email", this.$refs.form.email);
         formData.append("password", this.$refs.form.password);
-        const data = await fetch("http://localhost:3000/api/auth/signup",
-          {
-            method: "POST",
-            body: formData,
-          });
+        const data = await fetch("http://localhost:3000/api/auth/signup", {
+          method: "POST",
+          body: formData
+        });
         const userData = await data.json()
         localStorage.setItem("userId", userData.userId);
         localStorage.setItem("token", userData.token);

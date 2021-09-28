@@ -15,19 +15,18 @@ export default ({
   name: 'Login',
   components: {
     Form,
-    Button,
+    Button
   },
   methods: {
     sendForm: async function () {
       try {
-        const data = await fetch("http://localhost:3000/api/auth/login",
-        {
+        const data = await fetch("http://localhost:3000/api/auth/login", {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
             email: this.$refs.form.email,
             password: this.$refs.form.password
-        })
+          })
         });
         if (data.status == 401) {
           alert("Aucun compte n'est associé à cette adresse e-mail ou le mot de passe est incorrect.");

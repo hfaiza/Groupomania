@@ -24,7 +24,7 @@ export default ({
   name: 'Users',
   data() {
     return {
-      users: '',
+      users: ""
     }
   },
   created() {
@@ -32,12 +32,13 @@ export default ({
   },
   methods: {
     getUsers: async function() {
-     try {
-     const token = localStorage.getItem("token");
-     const getData = await fetch(`http://localhost:3000/api/users`,
-        { headers: { Authorization: "Bearer " + token } });
-     const users = await getData.json();
-     this.users = users;
+      try {
+        const token = localStorage.getItem("token");
+        const getData = await fetch(`http://localhost:3000/api/users`, {
+          headers: { Authorization: "Bearer " + token }
+        });
+        const users = await getData.json();
+        this.users = users;
       } catch (error) {
         console.log(error);
       }

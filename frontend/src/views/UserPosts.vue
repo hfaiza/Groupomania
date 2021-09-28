@@ -33,7 +33,7 @@ export default ({
   data() {
     return {
       userData: {},
-      userPosts: [],
+      userPosts: []
     }
   },
   created() {
@@ -43,32 +43,34 @@ export default ({
   methods: {
    getUserData: async function () {
      try {
-      const token = localStorage.getItem("token");
-      const id = this.$route.params.id;
-      const getData = await fetch(`http://localhost:3000/api/users/${id}`,
-      { headers: { Authorization: "Bearer " + token } });
-      const userData = await getData.json();
-      this.userData = userData;
+       const token = localStorage.getItem("token");
+       const id = this.$route.params.id;
+       const getData = await fetch(`http://localhost:3000/api/users/${id}`, {
+         headers: { Authorization: "Bearer " + token }
+       });
+       const userData = await getData.json();
+       this.userData = userData;
      } catch (error) {
        console.log(error);
      }
    },
    getUserPosts: async function () {
      try {
-     const token = localStorage.getItem("token");
-     const id = this.$route.params.id;
-     const getUserPosts = await fetch(`http://localhost:3000/api/users/${id}/posts`,
-        { headers: { Authorization: "Bearer " + token } });
-     const userPosts = await getUserPosts.json();
-     this.userPosts = userPosts;
+       const token = localStorage.getItem("token");
+       const id = this.$route.params.id;
+       const getUserPosts = await fetch(`http://localhost:3000/api/users/${id}/posts`, {
+         headers: { Authorization: "Bearer " + token }
+       });
+       const userPosts = await getUserPosts.json();
+       this.userPosts = userPosts;
      } catch (error) {
-        console.log(error);
+       console.log(error);
      }
     },
     formatDate: function (date) {
       if (date) {
-      moment.locale('fr');
-      return moment(date).fromNow();
+        moment.locale('fr');
+        return moment(date).fromNow();
       }
     }
   }

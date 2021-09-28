@@ -17,7 +17,7 @@ import Button from "@/components/Button.vue";
 export default ({
   name: 'WritePost',
   components: {
-    Button,
+    Button
   },
   methods: {
     uploadFile: function () {
@@ -32,19 +32,18 @@ export default ({
       }
     },
     sendPost: async function () {
-     try {
-     const token = localStorage.getItem("token");
-     const formData = new FormData();
-     const file = document.querySelector('input[type="file"]');
-     formData.append("image", file.files[0]);
-     formData.append("postContent", this.postContent);
-     await fetch("http://localhost:3000/api/posts",
-          {
-            method: "POST",
-            headers: { Authorization: "Bearer " + token },
-            body: formData,
-          });
-      this.$router.push('/posts')
+      try {
+        const token = localStorage.getItem("token");
+        const formData = new FormData();
+        const file = document.querySelector('input[type="file"]');
+        formData.append("image", file.files[0]);
+        formData.append("postContent", this.postContent);
+        await fetch("http://localhost:3000/api/posts", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token },
+          body: formData,
+        });
+        this.$router.push('/posts')
       } catch (error) {
         console.log(error);
       }

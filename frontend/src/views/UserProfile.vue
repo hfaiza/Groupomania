@@ -23,10 +23,10 @@ export default ({
   name: 'UserProfile',
   data() {
     return {
-    userData: {},
+      userData: {}
     }
   },
- created() {
+  created() {
     this.getUserData();
   },
   computed: {
@@ -39,37 +39,38 @@ export default ({
     }
   },
   methods: {
-     getUserData: async function () {
-       try {
+    getUserData: async function () {
+      try {
         const id = this.$route.params.id;
         const token = localStorage.getItem("token");
-        const getData = await fetch(`http://localhost:3000/api/users/${id}`,
-        { headers: { Authorization: "Bearer " + token } });
+        const getData = await fetch(`http://localhost:3000/api/users/${id}`, {
+          headers: { Authorization: "Bearer " + token }
+        });
         const userData = await getData.json();
         this.userData = userData;
-        } catch (error) {
-          console.log(error);
-        }
-     },
-     modifyProfile: function () {
-       this.$router.push('/updateprofile');
-     },
-     deleteAccount: async function () {
-       if (confirm("Voulez-vous supprimer votre compte ? Toutes vos publications et tous vos commentaires seront supprimés. Cette action est irréversible.")) {
-         try {
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    modifyProfile: function () {
+      this.$router.push('/updateprofile');
+    },
+    deleteAccount: async function () {
+      if (confirm("Voulez-vous supprimer votre compte ? Toutes vos publications et tous vos commentaires seront supprimés. Cette action est irréversible.")) {
+        try {
           const id = this.$route.params.id;
           const token = localStorage.getItem("token");
           await fetch(`http://localhost:3000/api/users/${id}`, {
             method: "DELETE",
-            headers: { Authorization: "Bearer " + token },
+            headers: { Authorization: "Bearer " + token }
           });
           localStorage.clear();
           this.$router.push('/login');
-         } catch (error) {
-           console.log(error);
-         }
-       }
-     }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
   }
 });
 </script>

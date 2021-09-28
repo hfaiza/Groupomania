@@ -64,7 +64,7 @@ export default ({
   data() {
     return {
       posts: [],
-      comment: "",
+      comment: ""
     }
   },
   created() {
@@ -74,8 +74,9 @@ export default ({
     getPosts: async function () {
       try {
         const token = localStorage.getItem("token");
-        const getPostData = await fetch(`http://localhost:3000/api/posts`,
-        { headers: { Authorization: "Bearer " + token } });
+        const getPostData = await fetch(`http://localhost:3000/api/posts`, {
+          headers: { Authorization: "Bearer " + token }
+        });
         const posts = await getPostData.json();
         this.posts = posts;
       } catch (error) {
@@ -84,56 +85,56 @@ export default ({
     },
     formatDate: function (date) {
       if (date) {
-      moment.locale('fr');
-      return moment(date).fromNow();
+        moment.locale('fr');
+        return moment(date).fromNow();
       }
     },
     sendComment: async function (postId) {
-     try {
-     const token = localStorage.getItem("token");
-     await fetch("http://localhost:3000/api/comments",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
-            body: JSON.stringify({
-              postId: postId,
-              commentContent: this.comment
-            })
-          });
-     this.getPosts();
-     this.comment = "";
-     } catch (error) {
-        console.log(error);
-     }
-    },
-    deletePost: async function (postId) {
-     if (confirm("Voulez-vous supprimer cette publication ?")) {
-       try {
-       const token = localStorage.getItem("token");
-       await fetch(`http://localhost:3000/api/posts/${postId}`,
-          {
-            method: "DELETE",
-            headers: { Authorization: "Bearer " + token },
-          });
-       this.getPosts();
-       } catch (error) {
-        console.log(error);
-       }
-     }
-    },
-    deleteComment: async function (commentId) {
-      if (confirm("Voulez-vous supprimer ce commentaire ?")) {
-              try {
-      const token = localStorage.getItem("token");
-      await fetch(`http://localhost:3000/api/comments/${commentId}`,
-        {
-          method: "DELETE",
-          headers: { Authorization: "Bearer " + token },
+      try {
+        const token = localStorage.getItem("token");
+        await fetch("http://localhost:3000/api/comments", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token
+          },
+          body: JSON.stringify({
+            postId: postId,
+            commentContent: this.comment
+          })
         });
-      this.getPosts();
+        this.getPosts();
+        this.comment = "";
       } catch (error) {
         console.log(error);
       }
+    },
+    deletePost: async function (postId) {
+      if (confirm("Voulez-vous supprimer cette publication ?")) {
+        try {
+          const token = localStorage.getItem("token");
+          await fetch(`http://localhost:3000/api/posts/${postId}`, {
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token }
+          });
+          this.getPosts();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    deleteComment: async function (commentId) {
+      if (confirm("Voulez-vous supprimer ce commentaire ?")) {
+        try {
+          const token = localStorage.getItem("token");
+          await fetch(`http://localhost:3000/api/comments/${commentId}`, {
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token }
+          });
+          this.getPosts();
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   }

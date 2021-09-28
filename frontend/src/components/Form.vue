@@ -49,9 +49,9 @@ export default ({
   },
   methods: {
     uploadFile: function () {
-        document.getElementById("picture").click()
+      document.getElementById("picture").click()
     }
-   }
+  }
 });
 </script>
 
