@@ -12,7 +12,7 @@ const deleteImage = (req) => {
 
 // Vérifie la validité de la publication ou du commentaire
 const checkPostOrComment = (req, res, next, data) => {
-  const regex = /^[a-z0-9A-ZÀ-ÖØ-öø-ÿ,' !.-:]{20,1000}$/;
+  const regex = /^[a-z0-9A-ZÀ-ÖØ-öø-ÿ,' !.-:;\n]{20,1000}$/;
   if (regex.test(data) == false && req.body.postContent) {
     deleteImage(req);
     res.status(400).json({ error: "Les données de la publication sont invalides." });

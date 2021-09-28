@@ -65,10 +65,10 @@ export default ({
         console.log(error);
      }
     },
-    formatDate: function (value) {
-      if (value) {
+    formatDate: function (date) {
+      if (date) {
       moment.locale('fr');
-      return moment(value).fromNow();
+      return moment(date).fromNow();
       }
     }
   }

@@ -67,6 +67,7 @@ a {
   display: table-cell;
   vertical-align: middle;
   position: relative;
+  cursor: pointer;
 
   &:hover {
     color: #bed5fa;
@@ -84,9 +85,5 @@ a {
 
 img {
   height: 2rem;
-}
-
-#logout {
-  cursor: pointer;
 }
 </style>

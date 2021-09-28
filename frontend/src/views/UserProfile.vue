@@ -55,17 +55,19 @@ export default ({
        this.$router.push('/updateprofile');
      },
      deleteAccount: async function () {
-       try {
-        const id = this.$route.params.id;
-        const token = localStorage.getItem("token");
-        await fetch(`http://localhost:3000/api/users/${id}`,
-          {
+       if (confirm("Voulez-vous supprimer votre compte ? Toutes vos publications et tous vos commentaires seront supprimés. Cette action est irréversible.")) {
+         try {
+          const id = this.$route.params.id;
+          const token = localStorage.getItem("token");
+          await fetch(`http://localhost:3000/api/users/${id}`, {
             method: "DELETE",
             headers: { Authorization: "Bearer " + token },
           });
-        this.$router.push('/login');
-       } catch (error) {
-        console.log(error);
+          localStorage.clear();
+          this.$router.push('/login');
+         } catch (error) {
+           console.log(error);
+         }
        }
      }
   }

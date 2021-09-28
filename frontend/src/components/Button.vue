@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <button id="send-form">{{ text }}</button>
+  <div id="form-button">
+    <button>{{ text }}</button>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ div {
   padding: 0 6rem;
 }
 
-#send-form {
+button {
   text-transform: uppercase;
   font-weight: bold;
   border-radius: 3rem;
@@ -28,9 +28,6 @@ div {
   height: 2.7rem;
   font-size: 1.2rem;
   cursor: pointer;
-  font-family: "DM Sans", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   transition: all 0.2s ease-in-out;
 
   &:hover {

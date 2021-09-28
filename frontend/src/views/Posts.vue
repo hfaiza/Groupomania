@@ -97,7 +97,7 @@ export default ({
             headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
             body: JSON.stringify({
               postId: postId,
-              commentContent: document.getElementById("commentContent").value
+              commentContent: this.comment
             })
           });
      this.getPosts();
@@ -107,20 +107,23 @@ export default ({
      }
     },
     deletePost: async function (postId) {
-     try {
-     const token = localStorage.getItem("token");
-     await fetch(`http://localhost:3000/api/posts/${postId}`,
+     if (confirm("Voulez-vous supprimer cette publication ?")) {
+       try {
+       const token = localStorage.getItem("token");
+       await fetch(`http://localhost:3000/api/posts/${postId}`,
           {
             method: "DELETE",
             headers: { Authorization: "Bearer " + token },
           });
-     this.getPosts();
-     } catch (error) {
+       this.getPosts();
+       } catch (error) {
         console.log(error);
+       }
      }
     },
     deleteComment: async function (commentId) {
-      try {
+      if (confirm("Voulez-vous supprimer ce commentaire ?")) {
+              try {
       const token = localStorage.getItem("token");
       await fetch(`http://localhost:3000/api/comments/${commentId}`,
         {
@@ -130,6 +133,7 @@ export default ({
       this.getPosts();
       } catch (error) {
         console.log(error);
+      }
       }
     }
   }
@@ -276,9 +280,6 @@ ul {
     width: calc(100% - 2rem);
     resize: none;
     font-size: 1rem;
-    font-family: "DM Sans", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 }
 </style>

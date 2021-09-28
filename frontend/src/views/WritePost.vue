@@ -3,24 +3,33 @@
     <h1>Publier</h1>
     <div>
       <h2>Publier un message</h2>
-      <textarea id="postContent"></textarea>
-      <form>
-        <button @click="uploadFile" type="button">
-          Ajouter un gif (optionnel)
-        </button>
-        <input id="upload-image" name="upload-image" type="file" accept="image/gif" />
-      </form>
+      <textarea v-model="postContent" id="postContent"></textarea>
+      <button @click="uploadFile" type="button">Ajouter un gif (optionnel)</button>
+      <input id="picture" name="picture" type="file" accept="image/gif" />
     </div>
-    <input id="send-post" @click="sendPost" type="button" value="Envoyer" />
+    <Button @click="checkUserInput" text="Envoyer" />
   </section>
 </template>
 
 <script lang="js">
+import Button from "@/components/Button.vue";
+
 export default ({
   name: 'WritePost',
+  components: {
+    Button,
+  },
   methods: {
     uploadFile: function () {
-      document.getElementById("upload-image").click()
+      document.getElementById("picture").click()
+    },
+    checkUserInput: function () {
+      const regex = /^[a-z0-9A-ZÀ-ÖØ-öø-ÿ,' !.-:;\n]{20,1000}$/;
+      if (regex.test(this.postContent) == false) {
+        alert("Votre publication doit contenir entre 20 et 1000 caractères. Certains symboles ne sont pas acceptés.");
+      } else {
+        this.sendPost();
+      }
     },
     sendPost: async function () {
      try {
@@ -28,8 +37,7 @@ export default ({
      const formData = new FormData();
      const file = document.querySelector('input[type="file"]');
      formData.append("image", file.files[0]);
-     const postContent = document.getElementById("postContent").value;
-     formData.append("postContent", postContent);
+     formData.append("postContent", this.postContent);
      await fetch("http://localhost:3000/api/posts",
           {
             method: "POST",
@@ -58,7 +66,7 @@ h2 {
   padding-left: 0.3rem;
 }
 
-div {
+div:not(#form-button) {
   background-color: #ebe8e8;
   border: solid 0.001rem #e6e3e3;
   border-radius: 1rem;
@@ -75,12 +83,9 @@ textarea {
   height: 10rem;
   resize: none;
   font-size: 1rem;
-  font-family: "DM Sans", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-form button {
+button {
   text-transform: uppercase;
   font-weight: bold;
   color: #fff;
@@ -90,32 +95,23 @@ form button {
   width: 100%;
   height: 2.7rem;
   font-size: 1rem;
-  font-family: "DM Sans", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   display: block;
   margin: 1rem auto;
   cursor: pointer;
+  box-shadow: 0 0 0.3rem #091f43;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 0.6rem #091f43;
+  }
 }
 
 input[type="file"] {
   display: none;
 }
 
-#send-post {
-  border-radius: 3rem;
-  padding: 0rem 2.5rem;
-  text-transform: uppercase;
-  font-weight: bold;
-  color: #fff;
-  background-color: #fd2d01;
-  cursor: pointer;
-  border: none;
-  margin: 1rem 0 3rem 0;
-  height: 2.7rem;
-  font-size: 1.5rem;
-  font-family: "DM Sans", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+#form-button {
+  margin-top: -1rem;
+  padding: 0 40%;
 }
 </style>

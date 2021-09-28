@@ -77,9 +77,6 @@ form {
     height: 2rem;
     margin-bottom: 1rem;
     font-size: 1rem;
-    font-family: "DM Sans", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     padding-left: 1rem;
   }
 }
@@ -99,13 +96,11 @@ form {
     font-weight: bold;
     text-transform: uppercase;
     font-size: 1rem;
-    font-family: "DM Sans", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    box-shadow: 0 0 0.5rem #adabab;
     transition: all 0.2s ease-in-out;
 
     &:hover {
-      transform: scale(1.02);
+      box-shadow: 0 0 1rem #adabab;
     }
   }
 }
