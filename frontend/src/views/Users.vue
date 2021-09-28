@@ -31,7 +31,7 @@ export default ({
     this.getUsers();
   },
   methods: {
-    getUsers: async function() {
+    async getUsers() {
       try {
         const token = localStorage.getItem("token");
         const getData = await fetch(`http://localhost:3000/api/users`, {

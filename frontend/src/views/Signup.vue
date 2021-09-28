@@ -18,7 +18,7 @@ export default ({
     Button
   },
   methods: {
-    checkUserInput: function () {
+    checkUserInput() {
       const namesRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿ]{2,80}$/;
       const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@groupomania.com$/;
       const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/;
@@ -35,12 +35,10 @@ export default ({
         this.sendForm();
       }
     },
-    sendForm: async function () {
+    async sendForm() {
       try {
         const formData = new FormData();
-        if (this.$refs.form.picture.files !== undefined) {
-          formData.append("image", this.$refs.form.picture.files[0]);
-        }
+        formData.append("image", this.$refs.form.file);
         formData.append("lastName", this.$refs.form.lastName);
         formData.append("firstName", this.$refs.form.firstName);
         formData.append("email", this.$refs.form.email);
@@ -52,7 +50,9 @@ export default ({
         const userData = await data.json()
         localStorage.setItem("userId", userData.userId);
         localStorage.setItem("token", userData.token);
-        localStorage.setItem("admin", userData.admin);
+        if (userData.admin === true) {
+          localStorage.setItem("admin", userData.admin);
+        }
         this.$router.push('/posts')
       } catch (error) {
         console.log(error);

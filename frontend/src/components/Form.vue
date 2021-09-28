@@ -2,24 +2,30 @@
   <form>
     <div v-if="signup || updateProfile">
       <label for="lastName">Nom :</label>
-      <input v-model="lastName" id="lastName" name="lastName" placeholder="Grose" type="text" required />
+      <input v-model="lastName" id="lastName" placeholder="Grose" type="text" required />
     </div>
     <div v-if="signup || updateProfile">
       <label for="firstName">Prénom :</label>
-      <input v-model="firstName" id="firstName" name="firstName" placeholder="Hannah" type="text" required />
+      <input v-model="firstName" id="firstName" placeholder="Hannah" type="text" required />
     </div>
     <div v-if="signup || login">
       <label for="email">Adresse e-mail :</label>
-      <input v-model="email" id="email" name="email" placeholder="hannah.grose@groupomania.com" type="email" required />
+      <input v-model="email" id="email" placeholder="hannah.grose@groupomania.com" type="email" required />
     </div>
     <div v-if="signup || login || updateProfile">
       <label for="password">Mot de passe :</label>
-      <input v-model="password" id="password" name="password" placeholder="••••••••" type="password" required />
+      <input v-model="password" id="password" placeholder="••••••••" type="password" required />
     </div>
     <div id="icon" v-if="signup || updateProfile">
       <label for="picture">Photo de profil :</label>
       <button @click="uploadFile" type="button">Charger une image</button>
-      <input id="picture" name="picture" type="file" accept="image/jpg, image/jpeg, image/png" />
+      <input
+        ref="file"
+        v-on:change="handleFileUpload()"
+        id="picture"
+        type="file"
+        accept="image/jpg, image/jpeg, image/png"
+      />
     </div>
   </form>
 </template>
@@ -33,23 +39,26 @@ export default ({
           firstName: "",
           email: "",
           password: "",
-          picture: "",
+          file: "",
       }
   },
   computed: {
-  signup: function () {
-    return this.$route.name === "Signup"
-  },
-  login: function () {
-    return this.$route.name === "Login"
-  },
-  updateProfile: function () {
-    return this.$route.name === "UpdateProfile"
-  }
+    signup() {
+      return this.$route.name === "Signup"
+    },
+    login() {
+      return this.$route.name === "Login"
+    },
+    updateProfile() {
+      return this.$route.name === "UpdateProfile"
+    }
   },
   methods: {
-    uploadFile: function () {
+    uploadFile() {
       document.getElementById("picture").click()
+    },
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
     }
   }
 });

@@ -5,7 +5,7 @@
       <h2>Publier un message</h2>
       <textarea v-model="postContent" id="postContent"></textarea>
       <button @click="uploadFile" type="button">Ajouter un gif (optionnel)</button>
-      <input id="picture" name="picture" type="file" accept="image/gif" />
+      <input ref="file" v-on:change="handleFileUpload()" id="picture" type="file" accept="image/gif" />
     </div>
     <Button @click="checkUserInput" text="Envoyer" />
   </section>
@@ -19,11 +19,19 @@ export default ({
   components: {
     Button
   },
+  data() {
+    return {
+      file: ""
+    }
+  },
   methods: {
-    uploadFile: function () {
+    uploadFile() {
       document.getElementById("picture").click()
     },
-    checkUserInput: function () {
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
+    },
+    checkUserInput() {
       const regex = /^[a-z0-9A-ZÀ-ÖØ-öø-ÿ,' !.-:;\n]{20,1000}$/;
       if (regex.test(this.postContent) == false) {
         alert("Votre publication doit contenir entre 20 et 1000 caractères. Certains symboles ne sont pas acceptés.");
@@ -31,12 +39,11 @@ export default ({
         this.sendPost();
       }
     },
-    sendPost: async function () {
+    async sendPost() {
       try {
         const token = localStorage.getItem("token");
         const formData = new FormData();
-        const file = document.querySelector('input[type="file"]');
-        formData.append("image", file.files[0]);
+        formData.append("image", this.file);
         formData.append("postContent", this.postContent);
         await fetch("http://localhost:3000/api/posts", {
           method: "POST",

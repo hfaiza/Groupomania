@@ -18,7 +18,7 @@ export default ({
     Button
   },
   methods: {
-    sendForm: async function () {
+    async sendForm() {
       try {
         const data = await fetch("http://localhost:3000/api/auth/login", {
           method: "POST",
@@ -34,7 +34,9 @@ export default ({
           const userData = await data.json()
           localStorage.setItem("userId", userData.userId);
           localStorage.setItem("token", userData.token);
-          localStorage.setItem("admin", userData.admin);
+          if (userData.admin === true) {
+            localStorage.setItem("admin", userData.admin);
+          }
           this.$router.push('/posts')
         }
       } catch (error) {

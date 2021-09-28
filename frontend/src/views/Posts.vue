@@ -17,7 +17,7 @@
               {{ post.User.first_name }} {{ post.User.last_name }} •
             </router-link>
             <span id="date">{{ formatDate(post.post_date) }}</span>
-            <a id="delete-post" @click="deletePost(post.post_id)">Supprimer</a>
+            <a v-if="canDelete(post.User.user_id)" id="delete-post" @click="deletePost(post.post_id)">Supprimer</a>
           </p>
           <p id="text">
             {{ post.post_content }}
@@ -36,7 +36,13 @@
                   {{ comment.User.first_name }} {{ comment.User.last_name }}
                 </router-link>
                 • <span id="date">{{ formatDate(comment.comment_date) }}</span>
-                <a id="delete-comment" @click="deleteComment(comment.comment_id)"><i class="fas fa-times"></i></a>
+                <a
+                  v-if="canDelete(comment.User.user_id)"
+                  id="delete-comment"
+                  @click="deleteComment(comment.comment_id)"
+                >
+                  <i class="fas fa-times"></i>
+                </a>
               </div>
               {{ comment.comment_content }}
             </li>
@@ -48,7 +54,7 @@
             v-model="comment"
             placeholder="Saisir un commentaire..."
             id="commentContent"
-            v-on:keyup.enter="sendComment(post.post_id)"
+            v-on:keyup.enter="checkUserInput(post.post_id)"
           />
         </div>
       </ul>
@@ -71,7 +77,7 @@ export default ({
     this.getPosts();
   },
   methods: {
-    getPosts: async function () {
+    async getPosts() {
       try {
         const token = localStorage.getItem("token");
         const getPostData = await fetch(`http://localhost:3000/api/posts`, {
@@ -83,13 +89,28 @@ export default ({
         console.log(error);
       }
     },
-    formatDate: function (date) {
+    formatDate(date) {
       if (date) {
         moment.locale('fr');
         return moment(date).fromNow();
       }
     },
-    sendComment: async function (postId) {
+    canDelete(userId) {
+      if ((localStorage.getItem("userId") == userId) || (localStorage.getItem("admin"))) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    checkUserInput(postId) {
+      const regex = /^[a-z0-9A-ZÀ-ÖØ-öø-ÿ,' !.-:;\n]{20,1000}$/;
+      if (regex.test(this.comment) == false) {
+        alert("Votre commentaire doit contenir entre 20 et 1000 caractères. Certains symboles ne sont pas acceptés.");
+      } else {
+        this.sendComment(postId);
+      }
+    },
+    async sendComment(postId) {
       try {
         const token = localStorage.getItem("token");
         await fetch("http://localhost:3000/api/comments", {
@@ -109,7 +130,7 @@ export default ({
         console.log(error);
       }
     },
-    deletePost: async function (postId) {
+    async deletePost(postId) {
       if (confirm("Voulez-vous supprimer cette publication ?")) {
         try {
           const token = localStorage.getItem("token");
@@ -123,7 +144,7 @@ export default ({
         }
       }
     },
-    deleteComment: async function (commentId) {
+    async deleteComment(commentId) {
       if (confirm("Voulez-vous supprimer ce commentaire ?")) {
         try {
           const token = localStorage.getItem("token");

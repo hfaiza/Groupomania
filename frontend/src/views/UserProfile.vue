@@ -30,7 +30,7 @@ export default ({
     this.getUserData();
   },
   computed: {
-    ownProfile: function () {
+    ownProfile() {
       if (localStorage.getItem("userId") == this.$route.params.id) {
         return true;
       } else {
@@ -39,7 +39,7 @@ export default ({
     }
   },
   methods: {
-    getUserData: async function () {
+    async getUserData() {
       try {
         const id = this.$route.params.id;
         const token = localStorage.getItem("token");
@@ -52,10 +52,10 @@ export default ({
         console.log(error);
       }
     },
-    modifyProfile: function () {
+    modifyProfile() {
       this.$router.push('/updateprofile');
     },
-    deleteAccount: async function () {
+    async deleteAccount() {
       if (confirm("Voulez-vous supprimer votre compte ? Toutes vos publications et tous vos commentaires seront supprimés. Cette action est irréversible.")) {
         try {
           const id = this.$route.params.id;

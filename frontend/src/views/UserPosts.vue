@@ -41,7 +41,7 @@ export default ({
     this.getUserPosts();
   },
   methods: {
-   getUserData: async function () {
+   async getUserData() {
      try {
        const token = localStorage.getItem("token");
        const id = this.$route.params.id;
@@ -54,7 +54,7 @@ export default ({
        console.log(error);
      }
    },
-   getUserPosts: async function () {
+   async getUserPosts() {
      try {
        const token = localStorage.getItem("token");
        const id = this.$route.params.id;
@@ -67,7 +67,7 @@ export default ({
        console.log(error);
      }
     },
-    formatDate: function (date) {
+    formatDate(date) {
       if (date) {
         moment.locale('fr');
         return moment(date).fromNow();

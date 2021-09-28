@@ -25,7 +25,7 @@ export default {
     this.getUserData();
   },
   methods: {
-    getUserData: async function () {
+    async getUserData() {
       try {
         const id = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
@@ -40,7 +40,7 @@ export default {
         console.log(error);
       }
     },
-    checkUserInput: function () {
+    checkUserInput() {
       const password = this.$refs.form.password;
       const namesRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿ]{2,80}$/;
       const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/;
@@ -55,7 +55,7 @@ export default {
         this.sendForm();
       }
     },
-    sendForm: async function () {
+    async sendForm() {
       try {
         const id = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
@@ -64,9 +64,7 @@ export default {
           userPassword = "0";
         }
         const formData = new FormData();
-        if (this.$refs.form.picture.files !== undefined) {
-          formData.append("image", this.$refs.form.picture.files[0]);
-        }
+        formData.append("image", this.$refs.form.file);
         formData.append("password", userPassword);
         formData.append("lastName", this.$refs.form.lastName);
         formData.append("firstName", this.$refs.form.firstName);

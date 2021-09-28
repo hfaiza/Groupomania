@@ -24,7 +24,7 @@ export default ({
     }
   },
   computed: {
-    loggedIn: function () {
+    loggedIn() {
       if (localStorage.getItem("token")) {
         return true;
       } else {
@@ -33,7 +33,7 @@ export default ({
     }
   },
   methods: {
-    logout: function () {
+    logout() {
       localStorage.clear();
       this.$router.push('/login');
     }
