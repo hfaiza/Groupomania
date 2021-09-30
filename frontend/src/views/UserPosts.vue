@@ -10,7 +10,7 @@
           <p id="user-data">
             <img
               :src="userData.user_picture"
-              :alt="`Photo de profil de ` + userData.first_name + ` ` + userData.last_name + `.`"
+              :alt="`Photo de profil de ${userData.first_name} ${userData.last_name}.`"
             />
             {{ userData.first_name }} {{ userData.last_name }} •
             <span id="date">{{ formatDate(post.post_date) }}</span>
@@ -46,12 +46,12 @@ export default ({
        const token = localStorage.getItem("token");
        const id = this.$route.params.id;
        const getData = await fetch(`http://localhost:3000/api/users/${id}`, {
-         headers: { Authorization: "Bearer " + token }
+         headers: { Authorization: `Bearer ${token}` }
        });
        const userData = await getData.json();
        this.userData = userData;
      } catch (error) {
-       console.log(error);
+       alert(error);
      }
    },
    async getUserPosts() {
@@ -59,12 +59,12 @@ export default ({
        const token = localStorage.getItem("token");
        const id = this.$route.params.id;
        const getUserPosts = await fetch(`http://localhost:3000/api/users/${id}/posts`, {
-         headers: { Authorization: "Bearer " + token }
+         headers: { Authorization: `Bearer ${token}` }
        });
        const userPosts = await getUserPosts.json();
        this.userPosts = userPosts;
      } catch (error) {
-       console.log(error);
+       alert(error);
      }
     },
     formatDate(date) {

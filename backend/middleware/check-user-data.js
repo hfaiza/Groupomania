@@ -46,13 +46,13 @@ const checkPassword = (req) => {
 const checkNewUser = (req, res, next) => {
   try {
     if (checkNames(req) == false) {
-      return res.status(400).json({ error: "Prénom et/ou nom invalide(s)." });
+      return res.status(400).json({ error: "Merci de renseigner un nom et prénom valides." });
     } else if (checkEmail(req) == false) {
-      return res.status(400).json({ error: "E-mail invalide (le nom de domaine est groupomania.com)." });
+      return res.status(400).json({ error: "Merci de renseigner votre e-mail professionnel (@groupomania.com)." });
     } else if (checkPassword(req) == false) {
       return res.status(400).json({
         error:
-          "Mot de passe invalide. Il doit contenir une majuscule, une minuscule, un chiffre, un caractère spécial, et entre 8 et 64 caractères.",
+          "Merci de renseigner un mot de passe entre 8 et 64 caractères, contenant au moins une majuscule, une minuscule, un chiffre et un caractère spécial.",
       });
     } else {
       next();
@@ -66,11 +66,11 @@ const checkNewUser = (req, res, next) => {
 const checkUpdatedUser = (req, res, next) => {
   try {
     if (checkNames(req) == false) {
-      return res.status(400).json({ error: "Prénom et/ou nom invalide(s)." });
+      return res.status(400).json({ error: "Merci de renseigner un nom et prénom valides." });
     } else if (req.body.password !== "0" && checkPassword(req) == false) {
       return res.status(400).json({
         error:
-          "Mot de passe invalide. Il doit contenir une majuscule, une minuscule, un chiffre, un caractère spécial, et entre 8 et 64 caractères.",
+          "Merci de renseigner un mot de passe entre 8 et 64 caractères, contenant au moins une majuscule, une minuscule, un chiffre et un caractère spécial.",
       });
     } else {
       next();

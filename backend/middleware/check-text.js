@@ -13,11 +13,15 @@ const deleteImage = (req) => {
 // Vérifie la validité de la publication ou du commentaire
 const checkPostOrComment = (req, res, next, data) => {
   const regex = /^[a-z0-9A-ZÀ-ÖØ-öø-ÿ,' !.-:;\n]{20,1000}$/;
-  if (regex.test(data) == false && req.body.postContent) {
+  if (req.body.postContent && (data.length == 0 || regex.test(data) == false)) {
     deleteImage(req);
-    res.status(400).json({ error: "Les données de la publication sont invalides." });
-  } else if (regex.test(data) == false) {
-    res.status(400).json({ error: "Les données du commentaire sont invalides." });
+    res.status(400).json({
+      error: "Votre publication doit contenir entre 20 et 1000 caractères. Certains symboles ne sont pas acceptés.",
+    });
+  } else if (data.length == 0 || regex.test(data) == false) {
+    res.status(400).json({
+      error: "Votre commentaire doit contenir entre 20 et 1000 caractères. Certains symboles ne sont pas acceptés.",
+    });
   } else {
     next();
   }
@@ -26,10 +30,10 @@ const checkPostOrComment = (req, res, next, data) => {
 const checkContent = async (req, res, next) => {
   try {
     if (req.body.commentContent) {
-      const data = req.body.commentContent;
+      const data = req.body.commentContent.trim();
       checkPostOrComment(req, res, next, data);
     } else if (req.body.postContent) {
-      const data = req.body.postContent;
+      const data = req.body.postContent.trim();
       checkPostOrComment(req, res, next, data);
     }
   } catch (error) {

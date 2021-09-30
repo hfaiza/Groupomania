@@ -6,8 +6,9 @@
       <textarea v-model="postContent" id="postContent"></textarea>
       <button @click="uploadFile" type="button">Ajouter un gif (optionnel)</button>
       <input ref="file" v-on:change="handleFileUpload()" id="picture" type="file" accept="image/gif" />
+      <p v-if="invalidInput">{{ invalidInput }}</p>
     </div>
-    <Button @click="checkUserInput" text="Envoyer" />
+    <Button @click="sendPost" text="Envoyer" />
   </section>
 </template>
 
@@ -21,7 +22,9 @@ export default ({
   },
   data() {
     return {
-      file: ""
+      file: "",
+      postContent: "",
+      invalidInput: ""
     }
   },
   methods: {
@@ -31,28 +34,25 @@ export default ({
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
     },
-    checkUserInput() {
-      const regex = /^[a-z0-9A-ZÀ-ÖØ-öø-ÿ,' !.-:;\n]{20,1000}$/;
-      if (regex.test(this.postContent) == false) {
-        alert("Votre publication doit contenir entre 20 et 1000 caractères. Certains symboles ne sont pas acceptés.");
-      } else {
-        this.sendPost();
-      }
-    },
     async sendPost() {
       try {
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("image", this.file);
         formData.append("postContent", this.postContent);
-        await fetch("http://localhost:3000/api/posts", {
+        const data = await fetch("http://localhost:3000/api/posts", {
           method: "POST",
-          headers: { Authorization: "Bearer " + token },
-          body: formData,
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData
         });
-        this.$router.push('/posts')
+        if (data.status == (400 || 500)) {
+          const response = await data.json();
+          this.invalidInput = `${response.error}`;
+        } else {
+          this.$router.push('/posts');
+        }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     }
   }
@@ -119,5 +119,13 @@ input[type="file"] {
 #form-button {
   margin-top: -1rem;
   padding: 0 40%;
+}
+
+p {
+  color: #f00;
+  border: solid 0.1rem #f00;
+  background-color: #fae8e8;
+  margin: 2rem auto 1rem auto;
+  padding: 1rem;
 }
 </style>

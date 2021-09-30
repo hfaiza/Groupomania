@@ -8,7 +8,7 @@
           <p id="user-data">
             <img
               :src="post.User.user_picture"
-              :alt="`Photo de profil de ` + post.User.first_name + ` ` + post.User.last_name + `.`"
+              :alt="`Photo de profil de ${post.User.first_name} ${post.User.last_name}.`"
             />
             <router-link
               style="text-decoration: none; color: inherit;"
@@ -54,8 +54,9 @@
             v-model="comment"
             placeholder="Saisir un commentaire..."
             id="commentContent"
-            v-on:keyup.enter="checkUserInput(post.post_id)"
+            v-on:keyup.enter="sendComment(post.post_id)"
           />
+          <p id="invalid-input" v-if="invalidInput">{{ invalidInput }}</p>
         </div>
       </ul>
     </div>
@@ -70,7 +71,8 @@ export default ({
   data() {
     return {
       posts: [],
-      comment: ""
+      comment: "",
+      invalidInput: ""
     }
   },
   created() {
@@ -81,12 +83,12 @@ export default ({
       try {
         const token = localStorage.getItem("token");
         const getPostData = await fetch(`http://localhost:3000/api/posts`, {
-          headers: { Authorization: "Bearer " + token }
+          headers: { Authorization: `Bearer ${token}` }
         });
         const posts = await getPostData.json();
         this.posts = posts;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     formatDate(date) {
@@ -102,32 +104,30 @@ export default ({
         return false;
       }
     },
-    checkUserInput(postId) {
-      const regex = /^[a-z0-9A-ZÀ-ÖØ-öø-ÿ,' !.-:;\n]{20,1000}$/;
-      if (regex.test(this.comment) == false) {
-        alert("Votre commentaire doit contenir entre 20 et 1000 caractères. Certains symboles ne sont pas acceptés.");
-      } else {
-        this.sendComment(postId);
-      }
-    },
     async sendComment(postId) {
       try {
         const token = localStorage.getItem("token");
-        await fetch("http://localhost:3000/api/comments", {
+        const data = await fetch("http://localhost:3000/api/comments", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + token
+            Authorization: `Bearer ${token}`
           },
           body: JSON.stringify({
             postId: postId,
             commentContent: this.comment
           })
         });
-        this.getPosts();
-        this.comment = "";
+        if (data.status == (400 || 500)) {
+          const response = await data.json();
+          this.invalidInput = `${response.error}`;
+        } else {
+          this.getPosts();
+          this.comment = "";
+          this.invalidInput = "";
+        }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async deletePost(postId) {
@@ -136,11 +136,11 @@ export default ({
           const token = localStorage.getItem("token");
           await fetch(`http://localhost:3000/api/posts/${postId}`, {
             method: "DELETE",
-            headers: { Authorization: "Bearer " + token }
+            headers: { Authorization: `Bearer ${token}` }
           });
           this.getPosts();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
       }
     },
@@ -150,11 +150,11 @@ export default ({
           const token = localStorage.getItem("token");
           await fetch(`http://localhost:3000/api/comments/${commentId}`, {
             method: "DELETE",
-            headers: { Authorization: "Bearer " + token }
+            headers: { Authorization: `Bearer ${token}` }
           });
           this.getPosts();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
       }
     }
@@ -284,7 +284,7 @@ ul {
 #writeComment {
   margin: 1rem 3rem 0 8rem;
 
-  p {
+  p:not(#invalid-input) {
     text-align: left;
     text-transform: uppercase;
     font-weight: bold;
@@ -303,5 +303,13 @@ ul {
     resize: none;
     font-size: 1rem;
   }
+}
+
+#invalid-input {
+  color: #f00;
+  border: solid 0.1rem #f00;
+  background-color: #fae8e8;
+  margin: 2rem auto 1rem auto;
+  padding: 1rem;
 }
 </style>

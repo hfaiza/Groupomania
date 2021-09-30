@@ -3,12 +3,13 @@
     <h1>Connexion</h1>
     <h2>Bienvenue sur le réseau social interne de Groupomania.</h2>
     <Form ref="form" />
+    <p v-if="invalidInput">{{ invalidInput }}</p>
     <Button @click="sendForm" text="Se connecter" />
   </section>
 </template>
 
 <script lang="js">
-import Form from "@/components/Form.vue";
+import Form from "@/components/LoginForm.vue";
 import Button from "@/components/Button.vue";
 
 export default ({
@@ -16,6 +17,11 @@ export default ({
   components: {
     Form,
     Button
+  },
+  data() {
+    return {
+      invalidInput: ""
+    }
   },
   methods: {
     async sendForm() {
@@ -28,8 +34,11 @@ export default ({
             password: this.$refs.form.password
           })
         });
-        if (data.status == 401) {
-          alert("Aucun compte n'est associé à cette adresse e-mail ou le mot de passe est incorrect.");
+        if (data.status == (401 || 500)) {
+          const response = await data.json();
+          this.invalidInput = `${response.error}`;
+        } else if (data.status == 429) {
+          this.invalidInput = "Vous avez atteint la limite de tentatives de connexion. Veuillez réessayer dans quelques minutes.";
         } else {
           const userData = await data.json()
           localStorage.setItem("userId", userData.userId);
@@ -40,9 +49,19 @@ export default ({
           this.$router.push('/posts')
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     }
   }
 });
 </script>
+
+<style scoped lang="scss">
+p {
+  color: #f00;
+  border: solid 0.1rem #f00;
+  background-color: #fae8e8;
+  margin: 1rem 6rem 0rem 6rem;
+  padding: 1rem 0;
+}
+</style>

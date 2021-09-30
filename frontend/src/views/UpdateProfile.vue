@@ -2,12 +2,13 @@
   <section id="update-section">
     <h1>Mon profil</h1>
     <Form ref="form" />
-    <Button @click="checkUserInput" text="Mettre à jour" />
+    <p v-if="invalidInput">{{ invalidInput }}</p>
+    <Button @click="sendForm" text="Mettre à jour" />
   </section>
 </template>
 
 <script lang="js">
-import Form from "@/components/Form.vue";
+import Form from "@/components/SignupForm.vue";
 import Button from "@/components/Button.vue";
 
 export default {
@@ -18,7 +19,8 @@ export default {
   },
   data() {
     return {
-      userData: {}
+      userData: {},
+      invalidInput: ""
     }
   },
   created() {
@@ -30,29 +32,14 @@ export default {
         const id = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
         const getData = await fetch(`http://localhost:3000/api/users/${id}`, {
-          headers: { Authorization: "Bearer " + token }
+          headers: { Authorization: `Bearer ${token}` }
         });
         const userData = await getData.json();
         this.userData = userData;
         this.$refs.form.lastName = this.userData.last_name;
         this.$refs.form.firstName = this.userData.first_name;
       } catch (error) {
-        console.log(error);
-      }
-    },
-    checkUserInput() {
-      const password = this.$refs.form.password;
-      const namesRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿ]{2,80}$/;
-      const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/;
-
-      if (namesRegex.test(this.$refs.form.lastName) == false) {
-        alert("Merci de renseigner un nom valide.");
-      } else if (namesRegex.test(this.$refs.form.firstName) == false) {
-        alert("Merci de renseigner un prénom valide.");
-      } else if (password.length !== 0 && pwRegex.test(password) == false) {
-        alert("Merci de renseigner un mot de passe entre 8 et 64 caractères, contenant au moins une majuscule, une minuscule, un chiffre et un caractère spécial.");
-      } else {
-        this.sendForm();
+        alert(error);
       }
     },
     async sendForm() {
@@ -68,14 +55,19 @@ export default {
         formData.append("password", userPassword);
         formData.append("lastName", this.$refs.form.lastName);
         formData.append("firstName", this.$refs.form.firstName);
-        await fetch(`http://localhost:3000/api/users/${id}`, {
+        const data = await fetch(`http://localhost:3000/api/users/${id}`, {
           method: "PUT",
-          headers: { Authorization: "Bearer " + token },
+          headers: { Authorization: `Bearer ${token}` },
           body: formData
         });
-        this.$router.push({ name: 'UserProfile', params: { id: id } })
+        if (data.status == (400 || 500)) {
+          const response = await data.json();
+          this.invalidInput = `${response.error}`;
+        } else {
+          this.$router.push({ name: 'UserProfile', params: { id: id } });
+        }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     }
   }
@@ -95,5 +87,13 @@ export default {
 h1 {
   font-size: 3rem;
   margin: 0.5rem 0;
+}
+
+p {
+  color: #f00;
+  border: solid 0.1rem #f00;
+  background-color: #fae8e8;
+  margin: 2rem 6rem 0rem 6rem;
+  padding: 1rem 1rem;
 }
 </style>

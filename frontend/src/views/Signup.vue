@@ -3,12 +3,13 @@
     <h1>Inscription</h1>
     <h2>Rejoignez vos collègues.</h2>
     <Form ref="form" />
-    <Button @click="checkUserInput" text="S'inscrire" />
+    <p v-if="invalidInput">{{ invalidInput }}</p>
+    <Button @click="sendForm" text="S'inscrire" />
   </section>
 </template>
 
 <script lang="js">
-import Form from "@/components/Form.vue";
+import Form from "@/components/SignupForm.vue";
 import Button from "@/components/Button.vue";
 
 export default ({
@@ -17,24 +18,12 @@ export default ({
     Form,
     Button
   },
+  data() {
+    return {
+      invalidInput: ""
+    }
+  },
   methods: {
-    checkUserInput() {
-      const namesRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿ]{2,80}$/;
-      const emailRegex = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@groupomania.com$/;
-      const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/;
-
-      if (namesRegex.test(this.$refs.form.lastName) == false) {
-        alert("Merci de renseigner un nom valide.");
-      } else if (namesRegex.test(this.$refs.form.firstName) == false) {
-        alert("Merci de renseigner un prénom valide.");
-      } else if (emailRegex.test(this.$refs.form.email) == false) {
-        alert("Merci de renseigner votre e-mail professionnel (@groupomania.com).");
-      } else if (pwRegex.test(this.$refs.form.password) == false) {
-        alert("Merci de renseigner un mot de passe entre 8 et 64 caractères, contenant au moins une majuscule, une minuscule, un chiffre et un caractère spécial.");
-      } else {
-        this.sendForm();
-      }
-    },
     async sendForm() {
       try {
         const formData = new FormData();
@@ -48,16 +37,31 @@ export default ({
           body: formData
         });
         const userData = await data.json()
-        localStorage.setItem("userId", userData.userId);
-        localStorage.setItem("token", userData.token);
-        if (userData.admin === true) {
-          localStorage.setItem("admin", userData.admin);
+
+        if (data.status == (400 || 500)) {
+          this.invalidInput = `${userData.error}`;
+        } else {
+          localStorage.setItem("userId", userData.userId);
+          localStorage.setItem("token", userData.token);
+          if (userData.admin === true) {
+            localStorage.setItem("admin", userData.admin);
+          }
+          this.$router.push('/posts')
         }
-        this.$router.push('/posts')
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     }
   }
 });
 </script>
+
+<style scoped lang="scss">
+p {
+  color: #f00;
+  border: solid 0.1rem #f00;
+  background-color: #fae8e8;
+  margin: 2rem 6rem 0rem 6rem;
+  padding: 1rem;
+}
+</style>

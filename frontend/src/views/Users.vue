@@ -8,7 +8,7 @@
             <img
               id="profile-pic"
               :src="user.user_picture"
-              :alt="`Photo de profil de ` + user.first_name + ` ` + user.last_name + `.`"
+              :alt="`Photo de profil de ${user.first_name} ${user.last_name}.`"
             />
             <p>{{ user.first_name }} {{ user.last_name }}</p>
             <img id="logo" :src="require(`@/assets/pale-logo.png`)" alt="Logo de Groupomania." />
@@ -35,12 +35,12 @@ export default ({
       try {
         const token = localStorage.getItem("token");
         const getData = await fetch(`http://localhost:3000/api/users`, {
-          headers: { Authorization: "Bearer " + token }
+          headers: { Authorization: `Bearer ${token}` }
         });
         const users = await getData.json();
         this.users = users;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     }
   }

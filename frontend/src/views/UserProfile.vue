@@ -1,13 +1,10 @@
 <template>
   <section>
-    <img
-      :src="userData.user_picture"
-      :alt="`Photo de profil de ` + userData.first_name + ` ` + userData.last_name + `.`"
-    />
+    <img :src="userData.user_picture" :alt="`Photo de profil de ${userData.first_name} ${userData.last_name}.`" />
     <div id="user-card">
       <h1>{{ userData.first_name }} {{ userData.last_name }}</h1>
       <p id="email">{{ userData.email }}</p>
-      <router-link style="text-decoration: none;" :to="{ name: 'UserPosts', params: { id: userData.user_id } }">
+      <router-link :to="{ name: 'UserPosts', params: { id: this.$route.params.id } }">
         <p id="user-posts">Voir ses publications</p>
       </router-link>
     </div>
@@ -44,12 +41,12 @@ export default ({
         const id = this.$route.params.id;
         const token = localStorage.getItem("token");
         const getData = await fetch(`http://localhost:3000/api/users/${id}`, {
-          headers: { Authorization: "Bearer " + token }
+          headers: { Authorization: `Bearer ${token}` }
         });
         const userData = await getData.json();
         this.userData = userData;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     modifyProfile() {
@@ -62,12 +59,12 @@ export default ({
           const token = localStorage.getItem("token");
           await fetch(`http://localhost:3000/api/users/${id}`, {
             method: "DELETE",
-            headers: { Authorization: "Bearer " + token }
+            headers: { Authorization: `Bearer ${token}` }
           });
           localStorage.clear();
           this.$router.push('/login');
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
       }
     }

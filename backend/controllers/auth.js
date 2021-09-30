@@ -36,11 +36,15 @@ const login = async (req, res) => {
   try {
     const user = await User.findOne({ where: { email: req.body.email } });
     if (!user) {
-      return res.status(401).json({ error: "Utilisateur non trouvé ou mot de passe incorrect !" });
+      return res
+        .status(401)
+        .json({ error: "Aucun compte n'est associé à cette adresse e-mail ou le mot de passe est incorrect." });
     }
     const valid = await bcrypt.compare(req.body.password, user.password);
     if (!valid) {
-      return res.status(401).json({ error: "Utilisateur non trouvé ou mot de passe incorrect !" });
+      return res
+        .status(401)
+        .json({ error: "Aucun compte n'est associé à cette adresse e-mail ou le mot de passe est incorrect." });
     }
     const token = jwt.sign({ userId: user.user_id }, "SECRET_TOKEN", { expiresIn: "24h" });
     res.status(200).json({ userId: user.user_id, token: token, admin: user.admin });

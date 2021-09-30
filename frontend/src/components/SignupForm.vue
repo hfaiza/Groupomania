@@ -1,24 +1,32 @@
 <template>
   <form>
-    <div v-if="signup || updateProfile">
+    <div>
       <label for="lastName">Nom :</label>
-      <input v-model="lastName" id="lastName" placeholder="Grose" type="text" required />
+      <input v-model="lastName" id="lastName" placeholder="Grose" type="text" autocomplete="on" required />
     </div>
-    <div v-if="signup || updateProfile">
+    <div>
       <label for="firstName">Prénom :</label>
-      <input v-model="firstName" id="firstName" placeholder="Hannah" type="text" required />
+      <input v-model="firstName" id="firstName" placeholder="Hannah" type="text" autocomplete="on" required />
     </div>
-    <div v-if="signup || login">
+    <div>
       <label for="email">Adresse e-mail :</label>
-      <input v-model="email" id="email" placeholder="hannah.grose@groupomania.com" type="email" required />
+      <input
+        v-model="email"
+        id="email"
+        placeholder="hannah.grose@groupomania.com"
+        type="email"
+        autocomplete="on"
+        :required="signup"
+        :disabled="updateProfile"
+      />
     </div>
-    <div v-if="signup || login || updateProfile">
+    <div>
       <label for="password">Mot de passe :</label>
-      <input v-model="password" id="password" placeholder="••••••••" type="password" required />
+      <input v-model="password" id="password" placeholder="••••••••" type="password" autocomplete="on" required />
     </div>
-    <div id="icon" v-if="signup || updateProfile">
+    <div id="icon">
       <label for="picture">Photo de profil :</label>
-      <button @click="uploadFile" type="button">Charger une image</button>
+      <button @click="uploadFile" type="button">Charger une image (optionnel)</button>
       <input
         ref="file"
         v-on:change="handleFileUpload()"
@@ -32,7 +40,7 @@
 
 <script lang="js">
 export default ({
-  name: 'Signup',
+  name: 'SignupForm',
   data() {
       return {
           lastName: "",
@@ -45,9 +53,6 @@ export default ({
   computed: {
     signup() {
       return this.$route.name === "Signup"
-    },
-    login() {
-      return this.$route.name === "Login"
     },
     updateProfile() {
       return this.$route.name === "UpdateProfile"
@@ -116,5 +121,10 @@ form {
 
 input[type="file"] {
   display: none;
+}
+
+:disabled {
+  color: rgb(73, 73, 73);
+  background-color: #dddbdb;
 }
 </style>
