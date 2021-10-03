@@ -1,15 +1,19 @@
 <template>
   <div id="header-background">
     <header>
-      <img :src="require(`@/assets/groupomania-icon.png`)" alt="Groupomania" />
+      <img class="big-logo" :src="require(`@/assets/groupomania-icon.png`)" alt="Groupomania" />
+      <img class="small-logo" :src="require(`@/assets/groupomania-icon-mobile.png`)" alt="Groupomania" />
       <nav>
         <router-link to="/" v-if="!loggedIn">Inscription</router-link>
         <router-link to="/login" v-if="!loggedIn">Connexion</router-link>
-        <router-link to="/posts" v-if="loggedIn">Accueil</router-link>
-        <router-link to="/writepost" v-if="loggedIn">Publier</router-link>
-        <router-link to="/users" v-if="loggedIn">Membres</router-link>
-        <router-link :to="{ name: 'UserProfile', params: { id: userId } }" v-if="loggedIn">Mon profil</router-link>
-        <a id="logout" @click="logout" v-if="loggedIn">Déconnexion</a>
+        <router-link to="/posts" v-if="loggedIn"><i class="fas fa-home"></i> <span>Accueil</span></router-link>
+        <router-link to="/writepost" v-if="loggedIn"><i class="fas fa-pen"></i> <span>Publier</span></router-link>
+        <router-link to="/users" v-if="loggedIn"><i class="fas fa-user-friends"></i> <span>Membres</span></router-link>
+        <router-link :to="{ name: 'UserProfile', params: { id: userId } }" v-if="loggedIn">
+          <i class="fas fa-user"></i>
+          <span>Mon profil</span>
+        </router-link>
+        <a @click="logout" v-if="loggedIn"><i class="fas fa-power-off"></i> <span>Déconnexion</span></a>
       </nav>
     </header>
   </div>
@@ -18,7 +22,7 @@
 <script lang="js">
 export default ({
   name: 'Header',
-    data() {
+  data() {
     return {
       userId: localStorage.getItem("userId"),
     }
@@ -53,11 +57,19 @@ header {
   padding: 0.8rem 0.8rem 0.8rem 1.5rem;
   margin: auto;
   position: relative;
+
+  @media (max-width: 900px) {
+    padding: 0.8rem 0 0.8rem 0.8rem;
+  }
 }
 
 nav {
   display: table;
   border-spacing: 1.5rem 0;
+
+  @media (max-width: 769px) {
+    border-spacing: 1.5rem 0;
+  }
 }
 
 a {
@@ -72,6 +84,20 @@ a {
   &:hover {
     color: #bed5fa;
   }
+
+  i {
+    margin-right: 0.2rem;
+
+    @media (min-width: 769px) {
+      display: none;
+    }
+  }
+
+  span {
+    @media (max-width: 769px) {
+      display: none;
+    }
+  }
 }
 
 .router-link-active::before {
@@ -81,9 +107,26 @@ a {
   width: 100%;
   height: 0.2rem;
   background-color: #fd2d01;
+
+  @media (max-width: 769px) {
+    content: none;
+    color: #bed5fa;
+  }
 }
 
 img {
   height: 2rem;
+}
+
+.big-logo {
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.small-logo {
+  @media (min-width: 900px) {
+    display: none;
+  }
 }
 </style>

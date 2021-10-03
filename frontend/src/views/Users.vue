@@ -40,7 +40,7 @@ export default ({
         const users = await getData.json();
         this.users = users;
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     }
   }
@@ -59,6 +59,11 @@ h1 {
 p {
   font-size: 1.5rem;
   font-weight: bold;
+
+  @media (max-width: 769px) {
+    font-size: 1.3rem;
+    padding-left: 1rem;
+  }
 }
 
 ul {
@@ -67,6 +72,7 @@ ul {
 }
 
 span {
+  background-color: #fff;
   text-decoration: none;
   color: #091f43;
   display: flex;
@@ -80,6 +86,15 @@ span {
   &:hover {
     color: #fd2d01;
     transform: scale(1.02);
+  }
+
+  @media (max-width: 1050px) {
+    margin: 1rem;
+  }
+
+  @media (max-width: 769px) {
+    border-radius: 0;
+    box-shadow: 0 0 0.2rem #d3d3d3;
   }
 }
 
@@ -95,6 +110,10 @@ span > img {
   object-fit: cover;
   border: solid 0.2rem #091f43;
   margin: 0 3rem;
+
+  @media (max-width: 769px) {
+    margin: 1.5rem;
+  }
 }
 
 #logo {
@@ -102,5 +121,9 @@ span > img {
   text-align: right;
   margin-left: auto;
   margin-right: 3rem;
+
+  @media (max-width: 769px) {
+    display: none;
+  }
 }
 </style>

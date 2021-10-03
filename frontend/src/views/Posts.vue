@@ -17,7 +17,9 @@
               {{ post.User.first_name }} {{ post.User.last_name }} •
             </router-link>
             <span id="date">{{ formatDate(post.post_date) }}</span>
-            <a v-if="canDelete(post.User.user_id)" id="delete-post" @click="deletePost(post.post_id)">Supprimer</a>
+            <a v-if="canDelete(post.User.user_id)" id="delete-post" @click="deletePost(post.post_id)">
+              <i class="fas fa-times"></i>
+            </a>
           </p>
           <p id="text">
             {{ post.post_content }}
@@ -88,7 +90,7 @@ export default ({
         const posts = await getPostData.json();
         this.posts = posts;
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     },
     formatDate(date) {
@@ -127,7 +129,7 @@ export default ({
           this.invalidInput = "";
         }
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     },
     async deletePost(postId) {
@@ -140,7 +142,7 @@ export default ({
           });
           this.getPosts();
         } catch (error) {
-          alert(error);
+          console.log(error);
         }
       }
     },
@@ -154,7 +156,7 @@ export default ({
           });
           this.getPosts();
         } catch (error) {
-          alert(error);
+          console.log(error);
         }
       }
     }
@@ -180,6 +182,15 @@ ul {
     box-shadow: 0 0 0.3rem #d3d3d3;
     margin: 3rem 3rem 0.5rem 3rem;
     padding: 1rem 2rem;
+
+    @media (max-width: 1050px) {
+      margin: 0.5rem;
+    }
+
+    @media (max-width: 769px) {
+      margin-top: 3rem;
+      padding: 1rem;
+    }
   }
 
   #name {
@@ -195,6 +206,14 @@ ul {
     box-shadow: 0 0 0.3rem #d3d3d3;
     margin: 0.5rem 3rem 0 8rem;
     padding: 1rem;
+
+    @media (max-width: 1050px) {
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 769px) {
+      margin-left: 0.5rem;
+    }
 
     #comment-header {
       display: flex;
@@ -226,6 +245,9 @@ ul {
   img {
     display: block;
     margin: 1.5rem auto 0 auto;
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
   }
 }
 
@@ -257,10 +279,6 @@ ul {
   text-align: right;
   margin-left: auto;
   cursor: pointer;
-
-  &:hover {
-    font-weight: bold;
-  }
 }
 
 #delete-comment {
@@ -279,10 +297,22 @@ ul {
   box-shadow: 0 0 0.3rem #d3d3d3;
   margin: 5rem 3rem;
   padding: 2rem;
+
+  @media (max-width: 1050px) {
+    margin: 5rem 0.5rem;
+  }
 }
 
 #writeComment {
   margin: 1rem 3rem 0 8rem;
+
+  @media (max-width: 1050px) {
+    margin-right: 0.5rem;
+  }
+
+  @media (max-width: 769px) {
+    margin-left: 0.5rem;
+  }
 
   p:not(#invalid-input) {
     text-align: left;

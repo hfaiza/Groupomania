@@ -52,7 +52,7 @@ export default ({
           this.$router.push('/posts');
         }
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     }
   }
@@ -60,8 +60,19 @@ export default ({
 </script>
 
 <style scoped lang="scss">
+section {
+  @media (max-width: 1050px) {
+    background-color: #f2f2f2;
+  }
+}
+
 h1 {
   font-size: 2.5rem;
+
+  @media (max-width: 1050px) {
+    padding-top: 2rem;
+    margin-top: 0;
+  }
 }
 
 h2 {
@@ -73,22 +84,32 @@ h2 {
 }
 
 div:not(#form-button) {
-  background-color: #ebe8e8;
+  background-color: #f2f2f2;
   border: solid 0.001rem #e6e3e3;
   border-radius: 1rem;
   box-shadow: 0 0 0.3rem #d3d3d3;
   margin: 2rem 0;
   padding: 1rem 2rem;
+
+  @media (max-width: 1050px) {
+    box-shadow: none;
+    border: none;
+    padding: 0.5rem;
+  }
 }
 
 textarea {
-  background-color: #ebe8e8;
+  background-color: #f2f2f2;
   padding: 1rem;
   width: calc(100% - 2.2rem);
   border: solid 0.1rem #091f43;
   height: 10rem;
   resize: none;
   font-size: 1rem;
+
+  @media (max-width: 1050px) {
+    background-color: #fff;
+  }
 }
 
 button {
@@ -117,8 +138,8 @@ input[type="file"] {
 }
 
 #form-button {
-  margin-top: -1rem;
-  padding: 0 40%;
+  margin: -3rem auto 0 auto;
+  width: 10rem;
 }
 
 p {

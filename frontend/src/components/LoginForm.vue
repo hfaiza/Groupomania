@@ -36,6 +36,10 @@ form {
     display: flex;
     flex-direction: column;
     padding: 0 6rem;
+
+    @media (max-width: 895px) {
+      padding: 0 0.5rem;
+    }
   }
 
   label {
@@ -53,6 +57,10 @@ form {
     margin-bottom: 1rem;
     font-size: 1rem;
     padding-left: 1rem;
+
+    @media (max-width: 1050px) {
+      background-color: #fff;
+    }
   }
 }
 

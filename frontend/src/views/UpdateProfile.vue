@@ -38,8 +38,9 @@ export default {
         this.userData = userData;
         this.$refs.form.lastName = this.userData.last_name;
         this.$refs.form.firstName = this.userData.first_name;
+        this.$refs.form.email = this.userData.email;
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     },
     async sendForm() {
@@ -67,7 +68,7 @@ export default {
           this.$router.push({ name: 'UserProfile', params: { id: id } });
         }
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     }
   }
@@ -77,16 +78,26 @@ export default {
 <style scoped lang="scss">
 #update-section {
   margin: 3rem auto;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1.5rem;
   border: solid 0.001rem #f9f7f7;
   background-color: #f2f2f2;
   border-radius: 1rem;
   box-shadow: 0 0 0.3rem #d3d3d3;
+
+  @media (max-width: 1050px) {
+    border: none;
+    box-shadow: none;
+    padding: 0.5rem;
+  }
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin: 0.5rem 0;
+
+  @media (max-width: 1050px) {
+    margin: -1rem auto 2rem auto;
+  }
 }
 
 p {
@@ -95,5 +106,9 @@ p {
   background-color: #fae8e8;
   margin: 2rem 6rem 0rem 6rem;
   padding: 1rem 1rem;
+
+  @media (max-width: 895px) {
+    margin: 2rem 0.5rem 0 0.5rem;
+  }
 }
 </style>

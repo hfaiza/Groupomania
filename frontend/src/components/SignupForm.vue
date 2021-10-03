@@ -75,6 +75,10 @@ form {
     display: flex;
     flex-direction: column;
     padding: 0 6rem;
+
+    @media (max-width: 895px) {
+      padding: 0 0.5rem;
+    }
   }
 
   label {
@@ -92,6 +96,10 @@ form {
     margin-bottom: 1rem;
     font-size: 1rem;
     padding-left: 1rem;
+
+    @media (max-width: 1050px) {
+      background-color: #fff;
+    }
   }
 }
 
@@ -100,11 +108,15 @@ form {
   flex-direction: row;
   margin: 0.5rem 0;
 
+  @media (max-width: 1050px) {
+    flex-direction: column;
+  }
+
   button {
     border: none;
     border-radius: 3rem;
     background-color: #7c7c7c;
-    width: 75%;
+    width: 77%;
     cursor: pointer;
     color: white;
     font-weight: bold;
@@ -115,6 +127,12 @@ form {
 
     &:hover {
       box-shadow: 0 0 1rem #adabab;
+    }
+
+    @media (max-width: 1050px) {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
     }
   }
 }

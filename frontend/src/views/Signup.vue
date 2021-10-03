@@ -49,7 +49,7 @@ export default ({
           this.$router.push('/posts')
         }
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     }
   }

@@ -46,7 +46,7 @@ export default ({
         const userData = await getData.json();
         this.userData = userData;
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     },
     modifyProfile() {
@@ -64,7 +64,7 @@ export default ({
           localStorage.clear();
           this.$router.push('/login');
         } catch (error) {
-          alert(error);
+          console.log(error);
         }
       }
     }
@@ -76,6 +76,12 @@ export default ({
 section {
   margin: 10rem auto;
   position: relative;
+
+  @media (max-width: 769px) {
+    margin: 0;
+    padding: 2rem 0.5rem;
+    background-color: #f2f2f2;
+  }
 }
 
 #user-card {
@@ -86,6 +92,16 @@ section {
   background-color: #f2f2f2;
   border-radius: 1rem;
   box-shadow: 0 0 0.3rem #d3d3d3;
+
+  @media (max-width: 1050px) {
+    background-color: #fff;
+  }
+
+  @media (max-width: 769px) {
+    margin-top: 5rem;
+    padding-top: 5rem;
+    width: auto;
+  }
 }
 
 img {
@@ -98,12 +114,23 @@ img {
   top: -7rem;
   left: 50%;
   transform: translate(-50%);
+
+  @media (max-width: 769px) {
+    border: solid 0.3rem #091f43;
+    height: 10rem;
+    width: 10rem;
+    top: 2rem;
+  }
 }
 
 h1 {
   padding-top: 1rem;
   font-size: 3rem;
   position: relative;
+
+  @media (max-width: 769px) {
+    font-size: 2rem;
+  }
 
   &::before {
     content: "";
@@ -114,12 +141,21 @@ h1 {
     left: 3rem;
     text-align: center;
     background-color: #fd2d01;
+
+    @media (max-width: 769px) {
+      content: none;
+    }
   }
 }
 
 #email {
   color: #000;
   font-size: 1.3rem;
+
+  @media (max-width: 769px) {
+    margin-top: -1rem;
+    font-size: 1rem;
+  }
 }
 
 #user-posts {
@@ -136,6 +172,10 @@ h1 {
 
   &:hover {
     background-color: #edd6d3;
+  }
+
+  @media (max-width: 769px) {
+    font-size: 1rem;
   }
 }
 
@@ -158,6 +198,14 @@ h1 {
     }
   }
 
+  @media (max-width: 769px) {
+    width: auto;
+  }
+
+  @media (max-width: 430px) {
+    flex-direction: column;
+  }
+
   a {
     display: inline-block;
     position: relative;
@@ -173,11 +221,26 @@ h1 {
       left: 0;
       transform-origin: bottom right;
       transition: transform 0.25s ease-out;
+
+      @media (max-width: 1050px) {
+        content: none;
+      }
     }
 
     &:hover::after {
       transform: scaleX(1);
       transform-origin: bottom left;
+    }
+
+    @media (max-width: 1050px) {
+      background-color: #fff;
+      box-shadow: 0 0 0.3rem #d3d3d3;
+      border-radius: 1rem;
+      padding: 1rem;
+    }
+
+    @media (max-width: 430px) {
+      margin-bottom: 1rem;
     }
   }
 }

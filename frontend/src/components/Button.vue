@@ -14,6 +14,10 @@ export default ({
 <style scoped lang="scss">
 div {
   padding: 0 6rem;
+
+  @media (max-width: 895px) {
+    padding: 0 0.5rem;
+  }
 }
 
 button {
