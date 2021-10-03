@@ -11,6 +11,7 @@
 <script lang="js">
 import Form from "@/components/SignupForm.vue";
 import Button from "@/components/Button.vue";
+import VueJwtDecode from "vue-jwt-decode";
 
 export default ({
   name: 'Signup',
@@ -41,10 +42,11 @@ export default ({
         if (data.status == (400 || 500)) {
           this.invalidInput = `${userData.error}`;
         } else {
-          localStorage.setItem("userId", userData.userId);
           localStorage.setItem("token", userData.token);
-          if (userData.admin === true) {
-            localStorage.setItem("admin", userData.admin);
+          const decodedToken = VueJwtDecode.decode(userData.token);
+          localStorage.setItem("userId", decodedToken.userId);
+          if (decodedToken.admin === true) {
+            localStorage.setItem("admin", decodedToken.admin);
           }
           this.$router.push('/posts')
         }

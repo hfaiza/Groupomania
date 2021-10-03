@@ -24,8 +24,8 @@ const signup = async (req, res) => {
     });
     await user.save();
     const newUser = await User.findOne({ where: { email: user.email } });
-    const token = jwt.sign({ userId: newUser.user_id }, "SECRET_TOKEN", { expiresIn: "24h" });
-    res.status(201).json({ userId: newUser.user_id, token: token, admin: newUser.admin });
+    const token = jwt.sign({ userId: newUser.user_id, admin: newUser.admin }, "SECRET_TOKEN", { expiresIn: "24h" });
+    res.status(201).json({ token: token });
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -46,8 +46,8 @@ const login = async (req, res) => {
         .status(401)
         .json({ error: "Aucun compte n'est associé à cette adresse e-mail ou le mot de passe est incorrect." });
     }
-    const token = jwt.sign({ userId: user.user_id }, "SECRET_TOKEN", { expiresIn: "24h" });
-    res.status(200).json({ userId: user.user_id, token: token, admin: user.admin });
+    const token = jwt.sign({ userId: user.user_id, admin: user.admin }, "SECRET_TOKEN", { expiresIn: "24h" });
+    res.status(200).json({ token: token });
   } catch (error) {
     res.status(500).json({ error });
   }
