@@ -22,10 +22,10 @@
 export default ({
   name: 'LoginForm',
   data() {
-      return {
-          email: "",
-          password: ""
-      }
+    return {
+      email: "",
+      password: ""
+    }
   }
 });
 </script>

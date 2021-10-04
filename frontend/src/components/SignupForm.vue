@@ -42,13 +42,13 @@
 export default ({
   name: 'SignupForm',
   data() {
-      return {
-          lastName: "",
-          firstName: "",
-          email: "",
-          password: "",
-          file: "",
-      }
+    return {
+      lastName: "",
+      firstName: "",
+      email: "",
+      password: "",
+      file: "",
+    }
   },
   computed: {
     signup() {
