@@ -58,6 +58,7 @@
 
 <script lang="js">
 import moment from 'moment';
+import store from "../store";
 
 export default ({
   name: 'UserPosts',
@@ -66,7 +67,11 @@ export default ({
       userData: {},
       userPosts: [],
       comment: [],
-      invalidInput: []
+      invalidInput: [],
+      token: store.state.token,
+      id: this.$route.params.id,
+      userId: store.state.userId,
+      admin: store.state.admin
     }
   },
   created() {
@@ -76,10 +81,8 @@ export default ({
   methods: {
    async getUserData() {
      try {
-       const token = localStorage.getItem("token");
-       const id = this.$route.params.id;
-       const getData = await fetch(`http://localhost:3000/api/users/${id}`, {
-         headers: { Authorization: `Bearer ${token}` }
+       const getData = await fetch(`http://localhost:3000/api/users/${this.id}`, {
+         headers: { Authorization: `Bearer ${this.token}` }
        });
        const userData = await getData.json();
        this.userData = userData;
@@ -89,10 +92,8 @@ export default ({
    },
    async getUserPosts() {
      try {
-       const token = localStorage.getItem("token");
-       const id = this.$route.params.id;
-       const getUserPosts = await fetch(`http://localhost:3000/api/users/${id}/posts`, {
-         headers: { Authorization: `Bearer ${token}` }
+       const getUserPosts = await fetch(`http://localhost:3000/api/users/${this.id}/posts`, {
+         headers: { Authorization: `Bearer ${this.token}` }
        });
        const userPosts = await getUserPosts.json();
        this.userPosts = userPosts;
@@ -107,7 +108,7 @@ export default ({
       }
     },
     canDelete(userId) {
-      if ((localStorage.getItem("userId") == userId) || (localStorage.getItem("admin"))) {
+      if ((this.userId == userId) || (this.admin == true)) {
         return true;
       } else {
         return false;
@@ -115,12 +116,11 @@ export default ({
     },
     async sendComment(postId) {
       try {
-        const token = localStorage.getItem("token");
         const data = await fetch("http://localhost:3000/api/comments", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${this.token}`
           },
           body: JSON.stringify({
             postId: postId,
@@ -142,10 +142,9 @@ export default ({
     async deletePost(postId) {
       if (confirm("Voulez-vous supprimer cette publication ?")) {
         try {
-          const token = localStorage.getItem("token");
           await fetch(`http://localhost:3000/api/posts/${postId}`, {
             method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${this.token}` }
           });
           this.getPosts();
         } catch (error) {
@@ -156,10 +155,9 @@ export default ({
     async deleteComment(commentId) {
       if (confirm("Voulez-vous supprimer ce commentaire ?")) {
         try {
-          const token = localStorage.getItem("token");
           await fetch(`http://localhost:3000/api/comments/${commentId}`, {
             method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${this.token}` }
           });
           this.getPosts();
         } catch (error) {

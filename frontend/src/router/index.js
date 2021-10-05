@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "../store";
 
 const routes = [
   {
@@ -6,7 +7,7 @@ const routes = [
     name: "Signup",
     component: () => import("@/views/Signup.vue"),
     beforeEnter: (to, from, next) => {
-      if (localStorage.getItem("token")) {
+      if (store.state.loggedIn) {
         next({ name: "Posts" });
       } else {
         next();
@@ -18,7 +19,7 @@ const routes = [
     name: "Login",
     component: () => import("@/views/Login.vue"),
     beforeEnter: (to, from, next) => {
-      if (localStorage.getItem("token")) {
+      if (store.state.loggedIn) {
         next({ name: "Posts" });
       } else {
         next();
@@ -30,7 +31,7 @@ const routes = [
     name: "Posts",
     component: () => import("@/views/Posts.vue"),
     beforeEnter: (to, from, next) => {
-      if (!localStorage.getItem("token")) {
+      if (!store.state.loggedIn) {
         next({ name: "Signup" });
       } else {
         next();
@@ -42,7 +43,7 @@ const routes = [
     name: "Users",
     component: () => import("@/views/Users.vue"),
     beforeEnter: (to, from, next) => {
-      if (!localStorage.getItem("token")) {
+      if (!store.state.loggedIn) {
         next({ name: "Signup" });
       } else {
         next();
@@ -54,7 +55,7 @@ const routes = [
     name: "WritePost",
     component: () => import("@/views/WritePost.vue"),
     beforeEnter: (to, from, next) => {
-      if (!localStorage.getItem("token")) {
+      if (!store.state.loggedIn) {
         next({ name: "Signup" });
       } else {
         next();
@@ -66,7 +67,7 @@ const routes = [
     name: "UpdateProfile",
     component: () => import("@/views/UpdateProfile.vue"),
     beforeEnter: (to, from, next) => {
-      if (!localStorage.getItem("token")) {
+      if (!store.state.loggedIn) {
         next({ name: "Signup" });
       } else {
         next();
@@ -78,7 +79,7 @@ const routes = [
     name: "UserPosts",
     component: () => import("@/views/UserPosts.vue"),
     beforeEnter: (to, from, next) => {
-      if (!localStorage.getItem("token")) {
+      if (!store.state.loggedIn) {
         next({ name: "Signup" });
       } else {
         next();
@@ -90,7 +91,7 @@ const routes = [
     name: "UserProfile",
     component: () => import("@/views/UserProfile.vue"),
     beforeEnter: (to, from, next) => {
-      if (!localStorage.getItem("token")) {
+      if (!store.state.loggedIn) {
         next({ name: "Signup" });
       } else {
         next();

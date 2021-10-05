@@ -10,6 +10,7 @@
 <script lang="js">
 import Form from "@/components/SignupForm.vue";
 import Button from "@/components/Button.vue";
+import store from "../store";
 
 export default {
   name: 'UpdateProfile',
@@ -20,7 +21,9 @@ export default {
   data() {
     return {
       userData: {},
-      invalidInput: ""
+      invalidInput: "",
+      token: store.state.token,
+      userId: store.state.userId
     }
   },
   created() {
@@ -29,10 +32,8 @@ export default {
   methods: {
     async getUserData() {
       try {
-        const id = localStorage.getItem("userId");
-        const token = localStorage.getItem("token");
-        const getData = await fetch(`http://localhost:3000/api/users/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
+        const getData = await fetch(`http://localhost:3000/api/users/${this.userId}`, {
+          headers: { Authorization: `Bearer ${this.token}` }
         });
         const userData = await getData.json();
         this.userData = userData;
@@ -45,8 +46,6 @@ export default {
     },
     async sendForm() {
       try {
-        const id = localStorage.getItem("userId");
-        const token = localStorage.getItem("token");
         let userPassword = this.$refs.form.password;
         if (userPassword.length == 0) {
           userPassword = "0";
@@ -56,16 +55,16 @@ export default {
         formData.append("password", userPassword);
         formData.append("lastName", this.$refs.form.lastName);
         formData.append("firstName", this.$refs.form.firstName);
-        const data = await fetch(`http://localhost:3000/api/users/${id}`, {
+        const data = await fetch(`http://localhost:3000/api/users/${this.userId}`, {
           method: "PUT",
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${this.token}` },
           body: formData
         });
         if (data.status == (400 || 500)) {
           const response = await data.json();
           this.invalidInput = `${response.error}`;
         } else {
-          this.$router.push({ name: 'UserProfile', params: { id: id } });
+          this.$router.push({ name: 'UserProfile', params: { id: this.userId } });
         }
       } catch (error) {
         console.log(error);

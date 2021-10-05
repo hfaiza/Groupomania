@@ -20,26 +20,22 @@
 </template>
 
 <script lang="js">
+import store from "../store";
+
 export default ({
   name: 'Header',
-  data() {
-    return {
-      userId: localStorage.getItem("userId"),
-    }
-  },
   computed: {
     loggedIn() {
-      if (localStorage.getItem("token")) {
-        return true;
-      } else {
-        return false;
-      }
+      return store.state.loggedIn;
+    },
+    userId() {
+      return store.state.userId;
     }
   },
   methods: {
     logout() {
-      localStorage.clear();
-      this.$router.push('/login');
+      store.commit("RESET_STATE");
+      this.$router.push("/login");
     }
   }
 });

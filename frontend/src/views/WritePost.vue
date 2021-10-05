@@ -14,6 +14,7 @@
 
 <script lang="js">
 import Button from "@/components/Button.vue";
+import store from "../store";
 
 export default ({
   name: 'WritePost',
@@ -24,7 +25,8 @@ export default ({
     return {
       file: "",
       postContent: "",
-      invalidInput: ""
+      invalidInput: "",
+      token: store.state.token
     }
   },
   methods: {
@@ -36,13 +38,12 @@ export default ({
     },
     async sendPost() {
       try {
-        const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("image", this.file);
         formData.append("postContent", this.postContent);
         const data = await fetch("http://localhost:3000/api/posts", {
           method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${this.token}` },
           body: formData
         });
         if (data.status == (400 || 500)) {

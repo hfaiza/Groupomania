@@ -12,6 +12,7 @@
 import Form from "@/components/LoginForm.vue";
 import Button from "@/components/Button.vue";
 import VueJwtDecode from "vue-jwt-decode";
+import store from "../store";
 
 export default ({
   name: 'Login',
@@ -42,13 +43,12 @@ export default ({
           this.invalidInput = "Vous avez atteint la limite de tentatives de connexion. Veuillez réessayer dans quelques minutes.";
         } else {
           const userData = await data.json()
-          localStorage.setItem("token", userData.token);
           const decodedToken = VueJwtDecode.decode(userData.token);
-          localStorage.setItem("userId", decodedToken.userId);
-          if (decodedToken.admin === true) {
-            localStorage.setItem("admin", decodedToken.admin);
-          }
-          this.$router.push('/posts')
+          store.commit("ADD_TOKEN", userData.token);
+          store.commit("ADD_USER_ID", decodedToken.userId);
+          store.commit("ADD_ADMIN", decodedToken.admin);
+          store.commit("CHECK_USER_STATUS");
+          this.$router.push('/posts');
         }
       } catch (error) {
         console.log(error);

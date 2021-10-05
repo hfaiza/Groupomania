@@ -67,6 +67,7 @@
 
 <script lang="js">
 import moment from 'moment';
+import store from "../store";
 
 export default ({
   name: 'Posts',
@@ -74,7 +75,10 @@ export default ({
     return {
       posts: [],
       comment: [],
-      invalidInput: []
+      invalidInput: [],
+      token: store.state.token,
+      userId: store.state.userId,
+      admin: store.state.admin
     }
   },
   created() {
@@ -83,9 +87,8 @@ export default ({
   methods: {
     async getPosts() {
       try {
-        const token = localStorage.getItem("token");
         const getPostData = await fetch(`http://localhost:3000/api/posts`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${this.token}` }
         });
         const posts = await getPostData.json();
         this.posts = posts;
@@ -100,7 +103,7 @@ export default ({
       }
     },
     canDelete(userId) {
-      if ((localStorage.getItem("userId") == userId) || (localStorage.getItem("admin"))) {
+      if ((this.userId == userId) || (this.admin == true)) {
         return true;
       } else {
         return false;
@@ -108,12 +111,11 @@ export default ({
     },
     async sendComment(postId) {
       try {
-        const token = localStorage.getItem("token");
         const data = await fetch("http://localhost:3000/api/comments", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${this.token}`
           },
           body: JSON.stringify({
             postId: postId,
@@ -135,10 +137,9 @@ export default ({
     async deletePost(postId) {
       if (confirm("Voulez-vous supprimer cette publication ?")) {
         try {
-          const token = localStorage.getItem("token");
           await fetch(`http://localhost:3000/api/posts/${postId}`, {
             method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${this.token}` }
           });
           this.getPosts();
         } catch (error) {
@@ -149,10 +150,9 @@ export default ({
     async deleteComment(commentId) {
       if (confirm("Voulez-vous supprimer ce commentaire ?")) {
         try {
-          const token = localStorage.getItem("token");
           await fetch(`http://localhost:3000/api/comments/${commentId}`, {
             method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${this.token}` }
           });
           this.getPosts();
         } catch (error) {

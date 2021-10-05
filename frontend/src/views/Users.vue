@@ -20,11 +20,14 @@
 </template>
 
 <script lang="js">
+import store from "../store";
+
 export default ({
   name: 'Users',
   data() {
     return {
-      users: ""
+      users: [],
+      token: store.state.token
     }
   },
   created() {
@@ -33,9 +36,8 @@ export default ({
   methods: {
     async getUsers() {
       try {
-        const token = localStorage.getItem("token");
         const getData = await fetch(`http://localhost:3000/api/users`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${this.token}` }
         });
         const users = await getData.json();
         this.users = users;

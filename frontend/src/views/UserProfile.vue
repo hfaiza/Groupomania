@@ -16,11 +16,15 @@
 </template>
 
 <script lang="js">
+import store from "../store";
+
 export default ({
   name: 'UserProfile',
   data() {
     return {
-      userData: {}
+      userData: {},
+      token: store.state.token,
+      userId: store.state.userId
     }
   },
   created() {
@@ -33,7 +37,7 @@ export default ({
   },
   computed: {
     ownProfile() {
-      if (localStorage.getItem("userId") == this.$route.params.id) {
+      if (this.userId == this.$route.params.id) {
         return true;
       } else {
         return false;
@@ -44,9 +48,8 @@ export default ({
     async getUserData() {
       try {
         const id = this.$route.params.id;
-        const token = localStorage.getItem("token");
         const getData = await fetch(`http://localhost:3000/api/users/${id}`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${this.token}` }
         });
         const userData = await getData.json();
         this.userData = userData;
@@ -61,12 +64,11 @@ export default ({
       if (confirm("Voulez-vous supprimer votre compte ? Toutes vos publications et tous vos commentaires seront supprimés. Cette action est irréversible.")) {
         try {
           const id = this.$route.params.id;
-          const token = localStorage.getItem("token");
           await fetch(`http://localhost:3000/api/users/${id}`, {
             method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${this.token}` }
           });
-          localStorage.clear();
+          store.commit("RESET_STATE");
           this.$router.push('/login');
         } catch (error) {
           console.log(error);
