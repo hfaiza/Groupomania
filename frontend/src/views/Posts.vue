@@ -53,12 +53,12 @@
         <div id="writeComment">
           <p>Laisser un commentaire</p>
           <input
-            v-model="comment"
+            v-model="comment[post.post_id]"
             placeholder="Saisir un commentaire..."
             id="commentContent"
             v-on:keyup.enter="sendComment(post.post_id)"
           />
-          <p id="invalid-input" v-if="invalidInput">{{ invalidInput }}</p>
+          <p id="invalid-input" v-if="invalidInput[post.post_id]">{{ invalidInput[post.post_id] }}</p>
         </div>
       </ul>
     </div>
@@ -73,8 +73,8 @@ export default ({
   data() {
     return {
       posts: [],
-      comment: "",
-      invalidInput: ""
+      comment: [],
+      invalidInput: []
     }
   },
   created() {
@@ -117,16 +117,16 @@ export default ({
           },
           body: JSON.stringify({
             postId: postId,
-            commentContent: this.comment
+            commentContent: this.comment[postId]
           })
         });
         if (data.status == (400 || 500)) {
           const response = await data.json();
-          this.invalidInput = `${response.error}`;
+          this.invalidInput[postId] = `${response.error}`;
         } else {
           this.getPosts();
-          this.comment = "";
-          this.invalidInput = "";
+          this.comment = [];
+          this.invalidInput = [];
         }
       } catch (error) {
         console.log(error);

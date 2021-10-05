@@ -26,6 +26,11 @@ export default ({
   created() {
     this.getUserData();
   },
+  watch: {
+    $route() {
+      this.getUserData();
+    }
+  },
   computed: {
     ownProfile() {
       if (localStorage.getItem("userId") == this.$route.params.id) {
