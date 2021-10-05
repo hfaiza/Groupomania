@@ -5,7 +5,7 @@
       <h1>{{ userData.first_name }} {{ userData.last_name }}</h1>
       <p id="email">{{ userData.email }}</p>
       <router-link :to="{ name: 'UserPosts', params: { id: this.$route.params.id } }">
-        <p id="user-posts">Voir ses publications</p>
+        <h2 id="user-posts">Voir ses publications</h2>
       </router-link>
     </div>
     <div v-if="ownProfile" id="modify-profile">
@@ -182,7 +182,7 @@ h1 {
   }
 
   @media (max-width: 769px) {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -198,7 +198,7 @@ h1 {
   }
 
   #delete-account {
-    color: #fd2d01;
+    color: #e22803;
 
     &::after {
       background-color: #fd2d01;

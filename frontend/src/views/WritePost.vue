@@ -2,10 +2,17 @@
   <section>
     <h1>Publier</h1>
     <div>
-      <h2>Publier un message</h2>
+      <label for="postContent">Publier un message</label>
       <textarea v-model="postContent" id="postContent"></textarea>
-      <button @click="uploadFile" type="button">Ajouter un gif (optionnel)</button>
-      <input ref="file" v-on:change="handleFileUpload()" id="picture" type="file" accept="image/gif" />
+      <input type="button" @click="uploadFile" value="Ajouter un gif (optionnel)" />
+      <input
+        ref="file"
+        v-on:change="handleFileUpload()"
+        id="picture"
+        type="file"
+        accept="image/gif"
+        aria-label="Ajouter un gif (optionnel)"
+      />
       <p v-if="invalidInput">{{ invalidInput }}</p>
     </div>
     <Button @click="sendPost" text="Envoyer" />
@@ -76,15 +83,17 @@ h1 {
   }
 }
 
-h2 {
+label {
   text-align: left;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 1rem;
-  padding-left: 0.3rem;
+  padding: 0.7rem 0;
 }
 
 div:not(#form-button) {
+  display: flex;
+  flex-direction: column;
   background-color: #f2f2f2;
   border: solid 0.001rem #e6e3e3;
   border-radius: 1rem;
@@ -113,7 +122,7 @@ textarea {
   }
 }
 
-button {
+input[type="button"] {
   text-transform: uppercase;
   font-weight: bold;
   color: #fff;

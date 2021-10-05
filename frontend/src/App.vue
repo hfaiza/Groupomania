@@ -74,7 +74,7 @@ textarea {
   }
 
   h2 {
-    color: #7c7c7c;
+    color: #535353;
     font-weight: 100;
     font-size: 1.2rem;
     margin-top: 0;

@@ -1,9 +1,11 @@
 <template>
   <section>
-    <div id="no-posts" v-if="posts.length == 0">Aucune publication.</div>
+    <div id="no-posts" v-if="posts.length == 0">
+      <h1>Aucune publication.</h1>
+    </div>
     <div v-if="posts.length > 0">
       <h1>Publications</h1>
-      <ul v-for="post of posts" :key="post.id">
+      <ul v-for="(post, i) of posts" :key="post.id">
         <li id="post">
           <p id="user-data">
             <img
@@ -17,7 +19,12 @@
               {{ post.User.first_name }} {{ post.User.last_name }} •
             </router-link>
             <span id="date">{{ formatDate(post.post_date) }}</span>
-            <a v-if="canDelete(post.User.user_id)" id="delete-post" @click="deletePost(post.post_id)">
+            <a
+              v-if="canDelete(post.User.user_id)"
+              id="delete-post"
+              @click="deletePost(post.post_id)"
+              aria-label="Supprimer la publication"
+            >
               <i class="fas fa-times"></i>
             </a>
           </p>
@@ -42,6 +49,7 @@
                   v-if="canDelete(comment.User.user_id)"
                   id="delete-comment"
                   @click="deleteComment(comment.comment_id)"
+                  aria-label="Supprimer le commentaire"
                 >
                   <i class="fas fa-times"></i>
                 </a>
@@ -51,11 +59,11 @@
           </ul>
         </div>
         <div id="writeComment">
-          <p>Laisser un commentaire</p>
+          <label :for="`commentContent` + i">Laisser un commentaire</label>
           <input
             v-model="comment[post.post_id]"
             placeholder="Saisir un commentaire..."
-            id="commentContent"
+            :id="`commentContent` + i"
             v-on:keyup.enter="sendComment(post.post_id)"
           />
           <p id="invalid-input" v-if="invalidInput[post.post_id]">{{ invalidInput[post.post_id] }}</p>
@@ -290,13 +298,16 @@ ul {
 }
 
 #no-posts {
-  font-size: 1.3rem;
+  h1 {
+    font-size: 1.3rem;
+    font-weight: 100;
+  }
   background-color: #ebe8e8;
   border: solid 0.001rem #e6e3e3;
   border-radius: 1rem;
   box-shadow: 0 0 0.3rem #d3d3d3;
   margin: 5rem 3rem;
-  padding: 2rem;
+  padding: 1rem;
 
   @media (max-width: 1050px) {
     margin: 5rem 0.5rem;
@@ -304,6 +315,8 @@ ul {
 }
 
 #writeComment {
+  display: flex;
+  flex-direction: column;
   margin: 1rem 3rem 0 8rem;
 
   @media (max-width: 1050px) {
@@ -314,7 +327,7 @@ ul {
     margin-left: 0.5rem;
   }
 
-  p:not(#invalid-input) {
+  label {
     text-align: left;
     text-transform: uppercase;
     font-weight: bold;

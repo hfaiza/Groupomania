@@ -10,7 +10,7 @@
               :src="user.user_picture"
               :alt="`Photo de profil de ${user.first_name} ${user.last_name}.`"
             />
-            <p>{{ user.first_name }} {{ user.last_name }}</p>
+            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
             <img id="logo" :src="require(`@/assets/pale-logo.png`)" alt="Logo de Groupomania." />
           </span>
         </router-link>
@@ -58,7 +58,7 @@ h1 {
   font-size: 2.5rem;
 }
 
-p {
+h2 {
   font-size: 1.5rem;
   font-weight: bold;
 

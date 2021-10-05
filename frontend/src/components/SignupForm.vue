@@ -115,7 +115,7 @@ form {
   button {
     border: none;
     border-radius: 3rem;
-    background-color: #7c7c7c;
+    background-color: #585757;
     width: 77%;
     cursor: pointer;
     color: white;
