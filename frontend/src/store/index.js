@@ -26,7 +26,7 @@ export default createStore({
       }
     },
     RESET_STATE(state) {
-      (state.loggedIn = false), (state.token = ""), (state.userId = "");
+      (state.loggedIn = false), (state.token = ""), (state.userId = ""), (state.admin = false);
     },
   },
   plugins: [createPersistedState()],

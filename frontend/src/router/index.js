@@ -1,17 +1,21 @@
 import { createRouter, createWebHistory } from "vue-router";
 import store from "../store";
 
+const redirect = (to, from, next, routeName, boolean) => {
+  if (store.state.loggedIn == boolean) {
+    next({ name: routeName });
+  } else {
+    next();
+  }
+};
+
 const routes = [
   {
     path: "/",
     name: "Signup",
     component: () => import("@/views/Signup.vue"),
     beforeEnter: (to, from, next) => {
-      if (store.state.loggedIn) {
-        next({ name: "Posts" });
-      } else {
-        next();
-      }
+      redirect(to, from, next, "Posts", true);
     },
   },
   {
@@ -19,11 +23,7 @@ const routes = [
     name: "Login",
     component: () => import("@/views/Login.vue"),
     beforeEnter: (to, from, next) => {
-      if (store.state.loggedIn) {
-        next({ name: "Posts" });
-      } else {
-        next();
-      }
+      redirect(to, from, next, "Posts", true);
     },
   },
   {
@@ -31,11 +31,7 @@ const routes = [
     name: "Posts",
     component: () => import("@/views/Posts.vue"),
     beforeEnter: (to, from, next) => {
-      if (!store.state.loggedIn) {
-        next({ name: "Signup" });
-      } else {
-        next();
-      }
+      redirect(to, from, next, "Signup", false);
     },
   },
   {
@@ -43,11 +39,7 @@ const routes = [
     name: "Users",
     component: () => import("@/views/Users.vue"),
     beforeEnter: (to, from, next) => {
-      if (!store.state.loggedIn) {
-        next({ name: "Signup" });
-      } else {
-        next();
-      }
+      redirect(to, from, next, "Signup", false);
     },
   },
   {
@@ -55,11 +47,7 @@ const routes = [
     name: "WritePost",
     component: () => import("@/views/WritePost.vue"),
     beforeEnter: (to, from, next) => {
-      if (!store.state.loggedIn) {
-        next({ name: "Signup" });
-      } else {
-        next();
-      }
+      redirect(to, from, next, "Signup", false);
     },
   },
   {
@@ -67,11 +55,7 @@ const routes = [
     name: "UpdateProfile",
     component: () => import("@/views/UpdateProfile.vue"),
     beforeEnter: (to, from, next) => {
-      if (!store.state.loggedIn) {
-        next({ name: "Signup" });
-      } else {
-        next();
-      }
+      redirect(to, from, next, "Signup", false);
     },
   },
   {
@@ -79,11 +63,7 @@ const routes = [
     name: "UserPosts",
     component: () => import("@/views/UserPosts.vue"),
     beforeEnter: (to, from, next) => {
-      if (!store.state.loggedIn) {
-        next({ name: "Signup" });
-      } else {
-        next();
-      }
+      redirect(to, from, next, "Signup", false);
     },
   },
   {
@@ -91,11 +71,7 @@ const routes = [
     name: "UserProfile",
     component: () => import("@/views/UserProfile.vue"),
     beforeEnter: (to, from, next) => {
-      if (!store.state.loggedIn) {
-        next({ name: "Signup" });
-      } else {
-        next();
-      }
+      redirect(to, from, next, "Signup", false);
     },
   },
 ];
