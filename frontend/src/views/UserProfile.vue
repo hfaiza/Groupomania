@@ -16,67 +16,67 @@
 </template>
 
 <script lang="js">
-import store from "../store";
+import store from '../store'
 
 export default ({
   name: 'UserProfile',
-  data() {
+  data () {
     return {
       userData: {},
       token: store.state.token,
       userId: store.state.userId
     }
   },
-  created() {
-    this.getUserData();
+  created () {
+    this.getUserData()
   },
   watch: {
-    $route() {
-      this.getUserData();
+    $route () {
+      this.getUserData()
     }
   },
   computed: {
-    ownProfile() {
-      if (this.userId == this.$route.params.id) {
-        return true;
+    ownProfile () {
+      if (this.userId === this.$route.params.id) {
+        return true
       } else {
-        return false;
+        return false
       }
     }
   },
   methods: {
-    async getUserData() {
+    async getUserData () {
       try {
-        const id = this.$route.params.id;
+        const id = this.$route.params.id
         const getData = await fetch(`http://localhost:3000/api/users/${id}`, {
           headers: { Authorization: `Bearer ${this.token}` }
-        });
-        const userData = await getData.json();
-        this.userData = userData;
+        })
+        const userData = await getData.json()
+        this.userData = userData
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
-    modifyProfile() {
-      this.$router.push('/updateprofile');
+    modifyProfile () {
+      this.$router.push('/updateprofile')
     },
-    async deleteAccount() {
-      if (confirm("Voulez-vous supprimer votre compte ? Toutes vos publications et tous vos commentaires seront supprimés. Cette action est irréversible.")) {
+    async deleteAccount () {
+      if (confirm('Voulez-vous supprimer votre compte ? Toutes vos publications et tous vos commentaires seront supprimés. Cette action est irréversible.')) {
         try {
-          const id = this.$route.params.id;
+          const id = this.$route.params.id
           await fetch(`http://localhost:3000/api/users/${id}`, {
-            method: "DELETE",
+            method: 'DELETE',
             headers: { Authorization: `Bearer ${this.token}` }
-          });
-          store.commit("RESET_STATE");
-          this.$router.push('/signup');
+          })
+          store.commit('RESET_STATE')
+          this.$router.push('/signup')
         } catch (error) {
-          console.log(error);
+          console.log(error)
         }
       }
     }
   }
-});
+})
 </script>
 
 <style scoped lang="scss">

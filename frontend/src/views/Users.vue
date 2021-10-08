@@ -20,33 +20,33 @@
 </template>
 
 <script lang="js">
-import store from "../store";
+import store from '../store'
 
 export default ({
   name: 'Users',
-  data() {
+  data () {
     return {
       users: [],
       token: store.state.token
     }
   },
-  created() {
-    this.getUsers();
+  created () {
+    this.getUsers()
   },
   methods: {
-    async getUsers() {
+    async getUsers () {
       try {
-        const getData = await fetch(`http://localhost:3000/api/users`, {
+        const getData = await fetch('http://localhost:3000/api/users', {
           headers: { Authorization: `Bearer ${this.token}` }
-        });
-        const users = await getData.json();
-        this.users = users;
+        })
+        const users = await getData.json()
+        this.users = users
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
   }
-});
+})
 </script>
 
 <style scoped lang="scss">

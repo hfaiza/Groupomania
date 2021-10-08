@@ -20,51 +20,51 @@
 </template>
 
 <script lang="js">
-import Button from "@/components/Button.vue";
-import store from "../store";
+import Button from '@/components/Button.vue'
+import store from '../store'
 
 export default ({
   name: 'WritePost',
   components: {
     Button
   },
-  data() {
+  data () {
     return {
-      file: "",
-      postContent: "",
-      invalidInput: "",
+      file: '',
+      postContent: '',
+      invalidInput: '',
       token: store.state.token
     }
   },
   methods: {
-    uploadFile() {
-      document.getElementById("picture").click()
+    uploadFile () {
+      document.getElementById('picture').click()
     },
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
+    handleFileUpload () {
+      this.file = this.$refs.file.files[0]
     },
-    async sendPost() {
+    async sendPost () {
       try {
-        const formData = new FormData();
-        formData.append("image", this.file);
-        formData.append("postContent", this.postContent);
-        const data = await fetch("http://localhost:3000/api/posts", {
-          method: "POST",
+        const formData = new FormData()
+        formData.append('image', this.file)
+        formData.append('postContent', this.postContent)
+        const data = await fetch('http://localhost:3000/api/posts', {
+          method: 'POST',
           headers: { Authorization: `Bearer ${this.token}` },
           body: formData
-        });
-        if (data.status == (400 || 500)) {
-          const response = await data.json();
-          this.invalidInput = `${response.error}`;
+        })
+        if (data.status === (400 || 500)) {
+          const response = await data.json()
+          this.invalidInput = `${response.error}`
         } else {
-          this.$router.push('/posts');
+          this.$router.push('/posts')
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
   }
-});
+})
 </script>
 
 <style scoped lang="scss">

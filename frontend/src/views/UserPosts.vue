@@ -63,12 +63,12 @@
 </template>
 
 <script lang="js">
-import moment from 'moment';
-import store from "../store";
+import moment from 'moment'
+import store from '../store'
 
 export default ({
   name: 'UserPosts',
-  data() {
+  data () {
     return {
       userData: {},
       userPosts: [],
@@ -80,99 +80,99 @@ export default ({
       admin: store.state.admin
     }
   },
-  created() {
-    this.getUserData();
-    this.getUserPosts();
+  created () {
+    this.getUserData()
+    this.getUserPosts()
   },
   methods: {
-   async getUserData() {
-     try {
-       const getData = await fetch(`http://localhost:3000/api/users/${this.id}`, {
-         headers: { Authorization: `Bearer ${this.token}` }
-       });
-       const userData = await getData.json();
-       this.userData = userData;
-     } catch (error) {
-       console.log(error);
-     }
-   },
-   async getUserPosts() {
-     try {
-       const getUserPosts = await fetch(`http://localhost:3000/api/users/${this.id}/posts`, {
-         headers: { Authorization: `Bearer ${this.token}` }
-       });
-       const userPosts = await getUserPosts.json();
-       this.userPosts = userPosts;
-     } catch (error) {
-       console.log(error);
-     }
-    },
-    formatDate(date) {
-      if (date) {
-        moment.locale('fr');
-        return moment(date).fromNow();
-      }
-    },
-    canDelete(userId) {
-      if ((this.userId == userId) || (this.admin == true)) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    async sendComment(postId) {
+    async getUserData () {
       try {
-        const data = await fetch("http://localhost:3000/api/comments", {
-          method: "POST",
+        const getData = await fetch(`http://localhost:3000/api/users/${this.id}`, {
+          headers: { Authorization: `Bearer ${this.token}` }
+        })
+        const userData = await getData.json()
+        this.userData = userData
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getUserPosts () {
+      try {
+        const getUserPosts = await fetch(`http://localhost:3000/api/users/${this.id}/posts`, {
+          headers: { Authorization: `Bearer ${this.token}` }
+        })
+        const userPosts = await getUserPosts.json()
+        this.userPosts = userPosts
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    formatDate (date) {
+      if (date) {
+        moment.locale('fr')
+        return moment(date).fromNow()
+      }
+    },
+    canDelete (userId) {
+      if ((this.userId === userId) || (this.admin === true)) {
+        return true
+      } else {
+        return false
+      }
+    },
+    async sendComment (postId) {
+      try {
+        const data = await fetch('http://localhost:3000/api/comments', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${this.token}`
           },
           body: JSON.stringify({
             postId: postId,
             commentContent: this.comment[postId]
           })
-        });
-        if (data.status == (400 || 500)) {
-          const response = await data.json();
-          this.invalidInput[postId] = `${response.error}`;
+        })
+        if (data.status === (400 || 500)) {
+          const response = await data.json()
+          this.invalidInput[postId] = `${response.error}`
         } else {
-          this.getPosts();
-          this.comment = [];
-          this.invalidInput = [];
+          this.getPosts()
+          this.comment = []
+          this.invalidInput = []
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
-    async deletePost(postId) {
-      if (confirm("Voulez-vous supprimer cette publication ?")) {
+    async deletePost (postId) {
+      if (confirm('Voulez-vous supprimer cette publication ?')) {
         try {
           await fetch(`http://localhost:3000/api/posts/${postId}`, {
-            method: "DELETE",
+            method: 'DELETE',
             headers: { Authorization: `Bearer ${this.token}` }
-          });
-          this.getPosts();
+          })
+          this.getPosts()
         } catch (error) {
-          console.log(error);
+          console.log(error)
         }
       }
     },
-    async deleteComment(commentId) {
-      if (confirm("Voulez-vous supprimer ce commentaire ?")) {
+    async deleteComment (commentId) {
+      if (confirm('Voulez-vous supprimer ce commentaire ?')) {
         try {
           await fetch(`http://localhost:3000/api/comments/${commentId}`, {
-            method: "DELETE",
+            method: 'DELETE',
             headers: { Authorization: `Bearer ${this.token}` }
-          });
-          this.getPosts();
+          })
+          this.getPosts()
         } catch (error) {
-          console.log(error);
+          console.log(error)
         }
       }
     }
   }
-});
+})
 </script>
 
 <style scoped lang="scss">

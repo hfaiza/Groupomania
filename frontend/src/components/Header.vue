@@ -20,25 +20,25 @@
 </template>
 
 <script lang="js">
-import store from "../store";
+import store from '../store'
 
 export default ({
   name: 'Header',
   computed: {
-    loggedIn() {
-      return store.state.loggedIn;
+    loggedIn () {
+      return store.state.loggedIn
     },
-    userId() {
-      return store.state.userId;
+    userId () {
+      return store.state.userId
     }
   },
   methods: {
-    logout() {
-      store.commit("RESET_STATE");
-      this.$router.push("/login");
+    logout () {
+      store.commit('RESET_STATE')
+      this.$router.push('/login')
     }
   }
-});
+})
 </script>
 
 <style scoped lang="scss">

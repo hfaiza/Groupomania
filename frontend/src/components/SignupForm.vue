@@ -41,32 +41,32 @@
 <script lang="js">
 export default ({
   name: 'SignupForm',
-  data() {
+  data () {
     return {
-      lastName: "",
-      firstName: "",
-      email: "",
-      password: "",
-      file: "",
+      lastName: '',
+      firstName: '',
+      email: '',
+      password: '',
+      file: ''
     }
   },
   computed: {
-    signup() {
-      return this.$route.name === "Signup"
+    signup () {
+      return this.$route.name === 'Signup'
     },
-    updateProfile() {
-      return this.$route.name === "UpdateProfile"
+    updateProfile () {
+      return this.$route.name === 'UpdateProfile'
     }
   },
   methods: {
-    uploadFile() {
-      document.getElementById("picture").click()
+    uploadFile () {
+      document.getElementById('picture').click()
     },
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
+    handleFileUpload () {
+      this.file = this.$refs.file.files[0]
     }
   }
-});
+})
 </script>
 
 <style scoped lang="scss">

@@ -21,13 +21,13 @@
 <script lang="js">
 export default ({
   name: 'LoginForm',
-  data() {
+  data () {
     return {
-      email: "",
-      password: ""
+      email: '',
+      password: ''
     }
   }
-});
+})
 </script>
 
 <style scoped lang="scss">

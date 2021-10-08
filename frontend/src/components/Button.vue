@@ -7,8 +7,8 @@
 <script lang="js">
 export default ({
   name: 'Button',
-  props: ["text"]
-});
+  props: ['text']
+})
 </script>
 
 <style scoped lang="scss">

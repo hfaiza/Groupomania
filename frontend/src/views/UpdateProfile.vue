@@ -8,9 +8,9 @@
 </template>
 
 <script lang="js">
-import Form from "@/components/SignupForm.vue";
-import Button from "@/components/Button.vue";
-import store from "../store";
+import Form from '@/components/SignupForm.vue'
+import Button from '@/components/Button.vue'
+import store from '../store'
 
 export default {
   name: 'UpdateProfile',
@@ -18,60 +18,60 @@ export default {
     Form,
     Button
   },
-  data() {
+  data () {
     return {
       userData: {},
-      invalidInput: "",
+      invalidInput: '',
       token: store.state.token,
       userId: store.state.userId
     }
   },
-  created() {
-    this.getUserData();
+  created () {
+    this.getUserData()
   },
   methods: {
-    async getUserData() {
+    async getUserData () {
       try {
         const getData = await fetch(`http://localhost:3000/api/users/${this.userId}`, {
           headers: { Authorization: `Bearer ${this.token}` }
-        });
-        const userData = await getData.json();
-        this.userData = userData;
-        this.$refs.form.lastName = this.userData.last_name;
-        this.$refs.form.firstName = this.userData.first_name;
-        this.$refs.form.email = this.userData.email;
+        })
+        const userData = await getData.json()
+        this.userData = userData
+        this.$refs.form.lastName = this.userData.last_name
+        this.$refs.form.firstName = this.userData.first_name
+        this.$refs.form.email = this.userData.email
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
-    async sendForm() {
+    async sendForm () {
       try {
-        let userPassword = this.$refs.form.password;
-        if (userPassword.length == 0) {
-          userPassword = "0";
+        let userPassword = this.$refs.form.password
+        if (userPassword.length === 0) {
+          userPassword = '0'
         }
-        const formData = new FormData();
-        formData.append("image", this.$refs.form.file);
-        formData.append("password", userPassword);
-        formData.append("lastName", this.$refs.form.lastName);
-        formData.append("firstName", this.$refs.form.firstName);
+        const formData = new FormData()
+        formData.append('image', this.$refs.form.file)
+        formData.append('password', userPassword)
+        formData.append('lastName', this.$refs.form.lastName)
+        formData.append('firstName', this.$refs.form.firstName)
         const data = await fetch(`http://localhost:3000/api/users/${this.userId}`, {
-          method: "PUT",
+          method: 'PUT',
           headers: { Authorization: `Bearer ${this.token}` },
           body: formData
-        });
-        if (data.status == (400 || 500)) {
-          const response = await data.json();
-          this.invalidInput = `${response.error}`;
+        })
+        if (data.status === (400 || 500)) {
+          const response = await data.json()
+          this.invalidInput = `${response.error}`
         } else {
-          this.$router.push({ name: 'UserProfile', params: { id: this.userId } });
+          this.$router.push({ name: 'UserProfile', params: { id: this.userId } })
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

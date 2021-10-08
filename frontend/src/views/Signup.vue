@@ -9,10 +9,10 @@
 </template>
 
 <script lang="js">
-import Form from "@/components/SignupForm.vue";
-import Button from "@/components/Button.vue";
-import VueJwtDecode from "vue-jwt-decode";
-import store from "../store";
+import Form from '@/components/SignupForm.vue'
+import Button from '@/components/Button.vue'
+import VueJwtDecode from 'vue-jwt-decode'
+import store from '../store'
 
 export default ({
   name: 'Signup',
@@ -20,41 +20,41 @@ export default ({
     Form,
     Button
   },
-  data() {
+  data () {
     return {
-      invalidInput: ""
+      invalidInput: ''
     }
   },
   methods: {
-    async sendForm() {
+    async sendForm () {
       try {
-        const formData = new FormData();
-        formData.append("image", this.$refs.form.file);
-        formData.append("lastName", this.$refs.form.lastName);
-        formData.append("firstName", this.$refs.form.firstName);
-        formData.append("email", this.$refs.form.email);
-        formData.append("password", this.$refs.form.password);
-        const data = await fetch("http://localhost:3000/api/auth/signup", {
-          method: "POST",
+        const formData = new FormData()
+        formData.append('image', this.$refs.form.file)
+        formData.append('lastName', this.$refs.form.lastName)
+        formData.append('firstName', this.$refs.form.firstName)
+        formData.append('email', this.$refs.form.email)
+        formData.append('password', this.$refs.form.password)
+        const data = await fetch('http://localhost:3000/api/auth/signup', {
+          method: 'POST',
           body: formData
-        });
+        })
         const userData = await data.json()
 
-        if (data.status == (400 || 500)) {
-          this.invalidInput = `${userData.error}`;
+        if (data.status === (400 || 500)) {
+          this.invalidInput = `${userData.error}`
         } else {
-          const decodedToken = VueJwtDecode.decode(userData.token);
-          store.dispatch("addToken", userData.token);
-          store.dispatch("addUserId", decodedToken.userId);
-          store.dispatch("addAdmin", decodedToken.admin);
+          const decodedToken = VueJwtDecode.decode(userData.token)
+          store.dispatch('addToken', userData.token)
+          store.dispatch('addUserId', decodedToken.userId)
+          store.dispatch('addAdmin', decodedToken.admin)
           this.$router.push('/posts')
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
   }
-});
+})
 </script>
 
 <style scoped lang="scss">
