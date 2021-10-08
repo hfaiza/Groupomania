@@ -35,6 +35,7 @@
         accept="image/jpg, image/jpeg, image/png"
       />
     </div>
+    <p v-if="invalidInput">{{ invalidInput }}</p>
   </form>
 </template>
 
@@ -47,7 +48,8 @@ export default ({
       firstName: '',
       email: '',
       password: '',
-      file: ''
+      file: '',
+      invalidInput: ''
     }
   },
   computed: {
@@ -63,7 +65,11 @@ export default ({
       document.getElementById('picture').click()
     },
     handleFileUpload () {
-      this.file = this.$refs.file.files[0]
+      if (this.$refs.file.files[0] !== ('image/jpg' || 'image/jpeg' || 'image/png')) {
+        this.invalidInput = 'Seuls les formats JPG, JPEG et PNG sont acceptés.'
+      } else {
+        this.file = this.$refs.file.files[0]
+      }
     }
   }
 })
@@ -144,5 +150,13 @@ input[type="file"] {
 :disabled {
   color: rgb(73, 73, 73);
   background-color: #dddbdb;
+}
+
+p {
+  color: #f00;
+  border: solid 0.1rem #f00;
+  background-color: #fae8e8;
+  margin: 2rem 6rem 0rem 6rem;
+  padding: 1rem;
 }
 </style>

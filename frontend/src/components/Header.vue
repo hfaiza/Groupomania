@@ -77,10 +77,6 @@ a {
   position: relative;
   cursor: pointer;
 
-  &:hover {
-    color: #bed5fa;
-  }
-
   i {
     margin-right: 0.2rem;
 
@@ -105,8 +101,7 @@ a {
   background-color: #fd2d01;
 
   @media (max-width: 769px) {
-    content: none;
-    color: #bed5fa;
+    width: 85%;
   }
 }
 

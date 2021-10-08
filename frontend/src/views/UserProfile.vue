@@ -37,7 +37,7 @@ export default ({
   },
   computed: {
     ownProfile () {
-      if (this.userId === this.$route.params.id) {
+      if (this.userId == this.$route.params.id) {
         return true
       } else {
         return false

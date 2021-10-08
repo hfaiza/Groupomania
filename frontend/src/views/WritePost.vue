@@ -41,7 +41,11 @@ export default ({
       document.getElementById('picture').click()
     },
     handleFileUpload () {
-      this.file = this.$refs.file.files[0]
+      if (this.$refs.file.files[0] !== 'image/gif') {
+        this.invalidInput = 'Seul le format GIF est accepté.'
+      } else {
+        this.file = this.$refs.file.files[0]
+      }
     },
     async sendPost () {
       try {
