@@ -9,24 +9,36 @@ export default createStore({
     admin: false,
   },
   mutations: {
-    ADD_TOKEN(state, payload) {
-      state.token = payload;
-    },
-    ADD_USER_ID(state, payload) {
-      state.userId = payload;
-    },
-    ADD_ADMIN(state, payload) {
-      state.admin = payload;
-    },
-    CHECK_USER_STATUS(state) {
+    ADD_TOKEN(state, token) {
+      state.token = token;
       if (state.token) {
         state.loggedIn = true;
       } else {
         state.loggedIn = false;
       }
     },
+    ADD_USER_ID(state, userId) {
+      state.userId = userId;
+    },
+    ADD_ADMIN(state, admin) {
+      state.admin = admin;
+    },
     RESET_STATE(state) {
-      (state.loggedIn = false), (state.token = ""), (state.userId = ""), (state.admin = false);
+      state.loggedIn = false;
+      state.token = "";
+      state.userId = "";
+      state.admin = false;
+    },
+  },
+  actions: {
+    addToken({ commit }, token) {
+      commit("ADD_TOKEN", token);
+    },
+    addUserId({ commit }, userId) {
+      commit("ADD_USER_ID", userId);
+    },
+    addAdmin({ commit }, admin) {
+      commit("ADD_ADMIN", admin);
     },
   },
   plugins: [createPersistedState()],

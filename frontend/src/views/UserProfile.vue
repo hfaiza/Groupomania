@@ -69,7 +69,7 @@ export default ({
             headers: { Authorization: `Bearer ${this.token}` }
           });
           store.commit("RESET_STATE");
-          this.$router.push('/login');
+          this.$router.push('/signup');
         } catch (error) {
           console.log(error);
         }

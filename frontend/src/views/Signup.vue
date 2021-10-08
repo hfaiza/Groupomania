@@ -44,10 +44,9 @@ export default ({
           this.invalidInput = `${userData.error}`;
         } else {
           const decodedToken = VueJwtDecode.decode(userData.token);
-          store.commit("ADD_TOKEN", userData.token);
-          store.commit("ADD_USER_ID", decodedToken.userId);
-          store.commit("ADD_ADMIN", decodedToken.admin);
-          store.commit("CHECK_USER_STATUS");
+          store.dispatch("addToken", userData.token);
+          store.dispatch("addUserId", decodedToken.userId);
+          store.dispatch("addAdmin", decodedToken.admin);
           this.$router.push('/posts')
         }
       } catch (error) {
