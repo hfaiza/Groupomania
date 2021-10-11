@@ -24,7 +24,7 @@
       <label for="password">Mot de passe :</label>
       <input v-model="password" id="password" placeholder="••••••••" type="password" autocomplete="on" required />
     </div>
-    <div id="icon">
+    <div class="icon">
       <label for="picture">Photo de profil :</label>
       <button @click="uploadFile" type="button">Charger une image (optionnel)</button>
       <input
@@ -109,7 +109,7 @@ form {
   }
 }
 
-#icon {
+.icon {
   justify-content: space-between;
   flex-direction: row;
   margin: 0.5rem 0;
@@ -153,10 +153,14 @@ input[type="file"] {
 }
 
 p {
-  color: #f00;
-  border: solid 0.1rem #f00;
-  background-color: #fae8e8;
-  margin: 2rem 6rem 0rem 6rem;
+  color: #c50404;
+  border: solid 0.1rem #c50404;
+  background-color: #fcf3f3;
+  margin: 2rem 6rem 0 6rem;
   padding: 1rem;
+
+  @media (max-width: 895px) {
+    margin: 2rem 0.5rem 0 0.5rem;
+  }
 }
 </style>

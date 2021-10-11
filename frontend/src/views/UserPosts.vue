@@ -6,39 +6,39 @@
     <div v-if="userPosts.length > 0">
       <h1>Publications de {{ userData.first_name }} {{ userData.last_name }}</h1>
       <ul v-for="(post, i) of userPosts" :key="post.id">
-        <li id="post">
-          <p id="user-data">
+        <li class="post">
+          <p class="user-data">
             <img
               :src="userData.user_picture"
               :alt="`Photo de profil de ${userData.first_name} ${userData.last_name}.`"
             />
             {{ userData.first_name }} {{ userData.last_name }} •
-            <span id="date">{{ formatDate(post.post_date) }}</span>
+            <span class="date">{{ formatDate(post.post_date) }}</span>
             <a
               v-if="canDelete(post.user_id)"
-              id="delete-post"
+              class="delete-post"
               @click="deletePost(post.post_id)"
-              aria-label="Supprimer la publication"
+              alt="Supprimer la publication"
             >
               <i class="fas fa-times"></i>
             </a>
           </p>
-          <p id="text">
+          <p class="text">
             {{ post.post_content }}
             <img v-if="post.image_url !== null" :src="post.image_url" />
           </p>
         </li>
-        <div v-if="post.Comments.length > 0">
+        <li v-if="post.Comments.length > 0">
           <ul v-for="comment of post.Comments" :key="comment.id">
-            <li id="comment">
-              <div id="comment-header">
-                <span id="name">{{ comment.User.first_name }} {{ comment.User.last_name }}</span> •
-                <span id="date">{{ formatDate(comment.comment_date) }}</span>
+            <li class="comment">
+              <div class="comment-header">
+                <span class="name">{{ comment.User.first_name }} {{ comment.User.last_name }}</span> •
+                <span class="date">{{ formatDate(comment.comment_date) }}</span>
                 <a
                   v-if="canDelete(comment.User.user_id)"
-                  id="delete-comment"
+                  class="delete-comment"
                   @click="deleteComment(comment.comment_id)"
-                  aria-label="Supprimer le commentaire"
+                  alt="Supprimer le commentaire"
                 >
                   <i class="fas fa-times"></i>
                 </a>
@@ -46,8 +46,8 @@
               {{ comment.comment_content }}
             </li>
           </ul>
-        </div>
-        <div id="writeComment">
+        </li>
+        <li class="writeComment">
           <label :for="`commentContent` + i">Laisser un commentaire</label>
           <input
             v-model="comment[post.post_id]"
@@ -55,8 +55,8 @@
             :id="`commentContent` + i"
             v-on:keyup.enter="sendComment(post.post_id)"
           />
-          <p id="invalid-input" v-if="invalidInput[post.post_id]">{{ invalidInput[post.post_id] }}</p>
-        </div>
+          <p class="invalid-input" v-if="invalidInput[post.post_id]">{{ invalidInput[post.post_id] }}</p>
+        </li>
       </ul>
     </div>
   </section>
@@ -137,7 +137,7 @@ export default ({
           const response = await data.json()
           this.invalidInput[postId] = `${response.error}`
         } else {
-          this.getPosts()
+          this.getUserPosts()
           this.comment = []
           this.invalidInput = []
         }
@@ -152,7 +152,7 @@ export default ({
             method: 'DELETE',
             headers: { Authorization: `Bearer ${this.token}` }
           })
-          this.getPosts()
+          this.getUserPosts()
         } catch (error) {
           console.log(error)
         }
@@ -165,7 +165,7 @@ export default ({
             method: 'DELETE',
             headers: { Authorization: `Bearer ${this.token}` }
           })
-          this.getPosts()
+          this.getUserPosts()
         } catch (error) {
           console.log(error)
         }
@@ -184,7 +184,7 @@ ul {
   list-style-type: none;
   padding-left: 0;
 
-  #post {
+  .post {
     text-align: left;
     color: #000;
     background-color: #ebe8e8;
@@ -204,13 +204,13 @@ ul {
     }
   }
 
-  #name {
+  .name {
     font-weight: bold;
     margin-right: 0.3rem;
     color: #091f43;
   }
 
-  #comment {
+  .comment {
     text-align: left;
     background-color: #dfdddd;
     border: solid 0.001rem #e6e3e3;
@@ -227,7 +227,7 @@ ul {
       margin-left: 0.5rem;
     }
 
-    #comment-header {
+    .comment-header {
       display: flex;
       margin-bottom: 0.5rem;
     }
@@ -236,13 +236,13 @@ ul {
       color: #000;
     }
 
-    #date {
+    .date {
       color: #091f43;
     }
   }
 }
 
-#text {
+.text {
   position: relative;
 
   &::before {
@@ -263,7 +263,7 @@ ul {
   }
 }
 
-#user-data {
+.user-data {
   color: #091f43;
   font-weight: bold;
   padding-bottom: 1rem;
@@ -279,13 +279,13 @@ ul {
   }
 }
 
-#date {
+.date {
   padding-left: 0.3rem;
   font-weight: 100;
   font-style: italic;
 }
 
-#delete-post {
+.delete-post {
   font-weight: 100;
   color: #fd2d01;
   text-align: right;
@@ -297,7 +297,7 @@ ul {
   }
 }
 
-#delete-comment {
+.delete-comment {
   font-weight: 100;
   text-align: right;
   margin-left: auto;
@@ -322,7 +322,7 @@ ul {
   }
 }
 
-#writeComment {
+.writeComment {
   display: flex;
   flex-direction: column;
   margin: 1rem 3rem 0 8rem;
@@ -356,10 +356,10 @@ ul {
   }
 }
 
-#invalid-input {
-  color: #f00;
-  border: solid 0.1rem #f00;
-  background-color: #fae8e8;
+.invalid-input {
+  color: #c50404;
+  border: solid 0.1rem #c50404;
+  background-color: #fcf3f3;
   margin: 2rem auto 1rem auto;
   padding: 1rem;
 }

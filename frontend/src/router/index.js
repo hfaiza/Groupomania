@@ -2,7 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import store from '../store'
 
 const redirect = (to, from, next, routeName, boolean) => {
-  if (store.state.loggedIn === boolean) {
+  if (store.state.loggedIn && store.state.exp < Math.floor(Date.now() / 1000)) {
+    store.commit('RESET_STATE')
+    next({ name: 'Login' })
+  } else if (store.state.loggedIn === boolean) {
     next({ name: routeName })
   } else {
     next()
@@ -31,7 +34,7 @@ const routes = [
     name: 'Posts',
     component: () => import('@/views/Posts.vue'),
     beforeEnter: (to, from, next) => {
-      redirect(to, from, next, 'Signup', false)
+      redirect(to, from, next, 'Login', false)
     }
   },
   {
@@ -39,7 +42,7 @@ const routes = [
     name: 'Users',
     component: () => import('@/views/Users.vue'),
     beforeEnter: (to, from, next) => {
-      redirect(to, from, next, 'Signup', false)
+      redirect(to, from, next, 'Login', false)
     }
   },
   {
@@ -47,7 +50,7 @@ const routes = [
     name: 'WritePost',
     component: () => import('@/views/WritePost.vue'),
     beforeEnter: (to, from, next) => {
-      redirect(to, from, next, 'Signup', false)
+      redirect(to, from, next, 'Login', false)
     }
   },
   {
@@ -55,7 +58,7 @@ const routes = [
     name: 'UpdateProfile',
     component: () => import('@/views/UpdateProfile.vue'),
     beforeEnter: (to, from, next) => {
-      redirect(to, from, next, 'Signup', false)
+      redirect(to, from, next, 'Login', false)
     }
   },
   {
@@ -63,7 +66,7 @@ const routes = [
     name: 'UserPosts',
     component: () => import('@/views/UserPosts.vue'),
     beforeEnter: (to, from, next) => {
-      redirect(to, from, next, 'Signup', false)
+      redirect(to, from, next, 'Login', false)
     }
   },
   {
@@ -71,7 +74,7 @@ const routes = [
     name: 'UserProfile',
     component: () => import('@/views/UserProfile.vue'),
     beforeEnter: (to, from, next) => {
-      redirect(to, from, next, 'Signup', false)
+      redirect(to, from, next, 'Login', false)
     }
   }
 ]

@@ -100,10 +100,10 @@ h1 {
 }
 
 p {
-  color: #f00;
-  border: solid 0.1rem #f00;
-  background-color: #fae8e8;
-  margin: 2rem 6rem 0rem 6rem;
+  color: #c50404;
+  border: solid 0.1rem #c50404;
+  background-color: #fcf3f3;
+  margin: 2rem 6rem 0 6rem;
   padding: 1rem 1rem;
 
   @media (max-width: 895px) {

@@ -157,10 +157,10 @@ input[type="file"] {
 }
 
 p {
-  color: #f00;
-  border: solid 0.1rem #f00;
-  background-color: #fae8e8;
-  margin: 2rem auto 1rem auto;
+  color: #c50404;
+  border: solid 0.1rem #c50404;
+  background-color: #fcf3f3;
+  margin: 1rem 0;
   padding: 1rem;
 }
 </style>

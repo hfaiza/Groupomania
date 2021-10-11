@@ -6,7 +6,8 @@ export default createStore({
     loggedIn: false,
     token: '',
     userId: '',
-    admin: false
+    admin: false,
+    exp: ''
   },
   mutations: {
     ADD_TOKEN (state, token) {
@@ -23,22 +24,29 @@ export default createStore({
     ADD_ADMIN (state, admin) {
       state.admin = admin
     },
+    ADD_EXP_DATE (state, date) {
+      state.exp = date
+    },
     RESET_STATE (state) {
       state.loggedIn = false
       state.token = ''
       state.userId = ''
       state.admin = false
+      state.exp = ''
     }
   },
   actions: {
-    addToken ({ commit }, token) {
+    setToken ({ commit }, token) {
       commit('ADD_TOKEN', token)
     },
-    addUserId ({ commit }, userId) {
+    setUserId ({ commit }, userId) {
       commit('ADD_USER_ID', userId)
     },
-    addAdmin ({ commit }, admin) {
+    setAdmin ({ commit }, admin) {
       commit('ADD_ADMIN', admin)
+    },
+    setExpirationDate ({ commit }, date) {
+      commit('ADD_EXP_DATE', date)
     }
   },
   plugins: [createPersistedState()]

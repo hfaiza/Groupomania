@@ -44,9 +44,10 @@ export default ({
         } else {
           const userData = await data.json()
           const decodedToken = VueJwtDecode.decode(userData.token)
-          store.dispatch('addToken', userData.token)
-          store.dispatch('addUserId', decodedToken.userId)
-          store.dispatch('addAdmin', decodedToken.admin)
+          store.dispatch('setToken', userData.token)
+          store.dispatch('setUserId', decodedToken.userId)
+          store.dispatch('setAdmin', decodedToken.admin)
+          store.dispatch('setExpirationDate', decodedToken.exp)
           this.$router.push('/posts')
         }
       } catch (error) {
@@ -59,10 +60,14 @@ export default ({
 
 <style scoped lang="scss">
 p {
-  color: #f00;
-  border: solid 0.1rem #f00;
-  background-color: #fae8e8;
-  margin: 1rem 6rem 0rem 6rem;
-  padding: 1rem 0;
+  color: #c50404;
+  border: solid 0.1rem #c50404;
+  background-color: #fcf3f3;
+  margin: 1rem 6rem 0 6rem;
+  padding: 1rem;
+
+  @media (max-width: 895px) {
+    margin: 1rem;
+  }
 }
 </style>

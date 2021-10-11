@@ -6,14 +6,26 @@
       <nav>
         <router-link to="/" v-if="!loggedIn">Inscription</router-link>
         <router-link to="/login" v-if="!loggedIn">Connexion</router-link>
-        <router-link to="/posts" v-if="loggedIn"><i class="fas fa-home"></i> <span>Accueil</span></router-link>
-        <router-link to="/writepost" v-if="loggedIn"><i class="fas fa-pen"></i> <span>Publier</span></router-link>
-        <router-link to="/users" v-if="loggedIn"><i class="fas fa-user-friends"></i> <span>Membres</span></router-link>
+        <router-link to="/posts" v-if="loggedIn">
+          <i class="fas fa-home" title="Accueil"></i>
+          <span>Accueil</span>
+        </router-link>
+        <router-link to="/writepost" v-if="loggedIn">
+          <i class="fas fa-pen" title="Publier"></i>
+          <span>Publier</span>
+        </router-link>
+        <router-link to="/users" v-if="loggedIn">
+          <i class="fas fa-user-friends" title="Membres"></i>
+          <span>Membres</span>
+        </router-link>
         <router-link :to="{ name: 'UserProfile', params: { id: userId } }" v-if="loggedIn">
-          <i class="fas fa-user"></i>
+          <i class="fas fa-user" title="Mon profil"></i>
           <span>Mon profil</span>
         </router-link>
-        <a @click="logout" v-if="loggedIn"><i class="fas fa-power-off"></i> <span>Déconnexion</span></a>
+        <a @click="logout" v-if="loggedIn">
+          <i class="fas fa-power-off" title="Déconnexion"></i>
+          <span>Déconnexion</span>
+        </a>
       </nav>
     </header>
   </div>
@@ -78,8 +90,6 @@ a {
   cursor: pointer;
 
   i {
-    margin-right: 0.2rem;
-
     @media (min-width: 769px) {
       display: none;
     }
@@ -99,10 +109,6 @@ a {
   width: 100%;
   height: 0.2rem;
   background-color: #fd2d01;
-
-  @media (max-width: 769px) {
-    width: 85%;
-  }
 }
 
 img {

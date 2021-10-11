@@ -6,12 +6,12 @@
         <router-link style="text-decoration: none;" :to="{ name: 'UserProfile', params: { id: user.user_id } }">
           <span>
             <img
-              id="profile-pic"
+              class="profile-pic"
               :src="user.user_picture"
               :alt="`Photo de profil de ${user.first_name} ${user.last_name}.`"
             />
             <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-            <img id="logo" :src="require(`@/assets/pale-logo.png`)" alt="Logo de Groupomania." />
+            <img class="logo" :src="require(`@/assets/pale-logo.png`)" alt="Logo de Groupomania." />
           </span>
         </router-link>
       </li>
@@ -105,7 +105,7 @@ span > img {
   top: 5rem;
 }
 
-#profile-pic {
+.profile-pic {
   border-radius: 50%;
   height: 4rem;
   width: 4rem;
@@ -118,7 +118,7 @@ span > img {
   }
 }
 
-#logo {
+.logo {
   height: 4rem;
   text-align: right;
   margin-left: auto;
