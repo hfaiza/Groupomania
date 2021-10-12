@@ -65,10 +65,11 @@ export default ({
       document.getElementById('picture').click()
     },
     handleFileUpload () {
-      if (this.$refs.file.files[0] !== ('image/jpg' || 'image/jpeg' || 'image/png')) {
-        this.invalidInput = 'Seuls les formats JPG, JPEG et PNG sont acceptés.'
-      } else {
+      const filetype = this.$refs.file.files[0].type
+      if ((filetype === 'image/png') || (filetype === 'image/jpeg')) {
         this.file = this.$refs.file.files[0]
+      } else {
+        this.invalidInput = 'Seuls les formats JPG, JPEG et PNG sont acceptés.'
       }
     }
   }
