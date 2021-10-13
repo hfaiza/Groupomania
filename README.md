@@ -1,5 +1,7 @@
 # Projet 7 : Créer un réseau social d’entreprise
 
+![Page de connexion](login-github.png)
+
 ## Backend
 
 Ouvrez le dossier [backend](backend) et créez un fichier .env en vous basant sur le modèle [.env.sample](backend/.env.sample). Modifiez les informations requises.

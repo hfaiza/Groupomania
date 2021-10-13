@@ -12,7 +12,7 @@ const deleteOrUpdateData = async (req, res, next, model, id) => {
 
     if (
       (req.baseUrl === '/api/users' && contentEditor === contentCreator) ||
-      (req.baseUrl !== '/api/users' && (contentEditor === contentCreator || editor.admin === 1))
+      (req.baseUrl !== '/api/users' && (contentEditor === contentCreator || editor.admin === true))
     ) {
       next()
     } else {
