@@ -39,14 +39,10 @@ export default createStore({
     setToken ({ commit }, token) {
       commit('ADD_TOKEN', token)
     },
-    setUserId ({ commit }, userId) {
-      commit('ADD_USER_ID', userId)
-    },
-    setAdmin ({ commit }, admin) {
-      commit('ADD_ADMIN', admin)
-    },
-    setExpirationDate ({ commit }, date) {
-      commit('ADD_EXP_DATE', date)
+    setUserData ({ commit }, user) {
+      commit('ADD_USER_ID', user.userId)
+      commit('ADD_ADMIN', user.admin)
+      commit('ADD_EXP_DATE', user.exp)
     }
   },
   plugins: [createPersistedState()]

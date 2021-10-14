@@ -34,20 +34,18 @@ export default ({
         formData.append('firstName', this.$refs.form.firstName)
         formData.append('email', this.$refs.form.email)
         formData.append('password', this.$refs.form.password)
-        const data = await fetch('http://localhost:3000/api/auth/signup', {
+        const data = await fetch(`${process.env.VUE_APP_URL_API}/auth/signup`, {
           method: 'POST',
           body: formData
         })
         const userData = await data.json()
 
-        if (data.status === (400 || 500)) {
+        if ([400, 500].includes(data.status)) {
           this.invalidInput = `${userData.error}`
         } else {
-          const decodedToken = VueJwtDecode.decode(userData.token)
           store.dispatch('setToken', userData.token)
-          store.dispatch('setUserId', decodedToken.userId)
-          store.dispatch('setAdmin', decodedToken.admin)
-          store.dispatch('setExpirationDate', decodedToken.exp)
+          const decodedToken = VueJwtDecode.decode(userData.token)
+          store.dispatch('setUserData', decodedToken)
           this.$router.push('/posts')
         }
       } catch (error) {

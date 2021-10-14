@@ -32,7 +32,7 @@ export default {
   methods: {
     async getUserData () {
       try {
-        const getData = await fetch(`http://localhost:3000/api/users/${this.userId}`, {
+        const getData = await fetch(`${process.env.VUE_APP_URL_API}/users/${this.userId}`, {
           headers: { Authorization: `Bearer ${this.token}` }
         })
         const userData = await getData.json()
@@ -55,12 +55,12 @@ export default {
         formData.append('password', userPassword)
         formData.append('lastName', this.$refs.form.lastName)
         formData.append('firstName', this.$refs.form.firstName)
-        const data = await fetch(`http://localhost:3000/api/users/${this.userId}`, {
+        const data = await fetch(`${process.env.VUE_APP_URL_API}/users/${this.userId}`, {
           method: 'PUT',
           headers: { Authorization: `Bearer ${this.token}` },
           body: formData
         })
-        if (data.status === (400 || 500)) {
+        if ([400, 500].includes(data.status)) {
           const response = await data.json()
           this.invalidInput = `${response.error}`
         } else {

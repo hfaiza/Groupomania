@@ -4,28 +4,32 @@
       <img class="big-logo" :src="require(`@/assets/groupomania-icon.png`)" alt="Groupomania" />
       <img class="small-logo" :src="require(`@/assets/groupomania-icon-mobile.png`)" alt="Groupomania" />
       <nav>
-        <router-link to="/" v-if="!loggedIn">Inscription</router-link>
-        <router-link to="/login" v-if="!loggedIn">Connexion</router-link>
-        <router-link to="/posts" v-if="loggedIn">
-          <i class="fas fa-home" title="Accueil"></i>
-          <span>Accueil</span>
-        </router-link>
-        <router-link to="/writepost" v-if="loggedIn">
-          <i class="fas fa-pen" title="Publier"></i>
-          <span>Publier</span>
-        </router-link>
-        <router-link to="/users" v-if="loggedIn">
-          <i class="fas fa-user-friends" title="Membres"></i>
-          <span>Membres</span>
-        </router-link>
-        <router-link :to="{ name: 'UserProfile', params: { id: userId } }" v-if="loggedIn">
-          <i class="fas fa-user" title="Mon profil"></i>
-          <span>Mon profil</span>
-        </router-link>
-        <a @click="logout" v-if="loggedIn">
-          <i class="fas fa-power-off" title="Déconnexion"></i>
-          <span>Déconnexion</span>
-        </a>
+        <template v-if="!loggedIn">
+          <router-link to="/">Inscription</router-link>
+          <router-link to="/login">Connexion</router-link>
+        </template>
+        <template v-if="loggedIn">
+          <router-link to="/posts">
+            <i class="fas fa-home" title="Accueil"></i>
+            <span>Accueil</span>
+          </router-link>
+          <router-link to="/writepost">
+            <i class="fas fa-pen" title="Publier"></i>
+            <span>Publier</span>
+          </router-link>
+          <router-link to="/users">
+            <i class="fas fa-user-friends" title="Membres"></i>
+            <span>Membres</span>
+          </router-link>
+          <router-link :to="{ name: 'UserProfile', params: { id: userId } }">
+            <i class="fas fa-user" title="Mon profil"></i>
+            <span>Mon profil</span>
+          </router-link>
+          <a @click="logout">
+            <i class="fas fa-power-off" title="Déconnexion"></i>
+            <span>Déconnexion</span>
+          </a>
+        </template>
       </nav>
     </header>
   </div>

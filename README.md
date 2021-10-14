@@ -4,9 +4,9 @@
 
 ## Backend
 
-Ouvrez le dossier [backend](backend) et créez un fichier .env en vous basant sur le modèle [.env.sample](backend/.env.sample). Modifiez les informations requises.
+Ouvrez le répertoire [backend](backend) et créez un fichier .env en vous basant sur le modèle [.env.sample](backend/.env.sample). Modifiez les informations requises.
 
-Depuis ce même dossier, exécutez les commandes `npm install` et `npm start`.
+Depuis ce même répertoire, exécutez les commandes `npm install` et `npm start`.
 
 ## Base de données
 
@@ -24,4 +24,6 @@ UPDATE Users SET admin = 1 WHERE user_id = [identifiant de l'utilisateur];
 
 ## Frontend
 
-Ouvrez le dossier [frontend](frontend) puis exécutez les commandes `npm install` et `npm run serve`.
+Ouvrez le répertoire [frontend](frontend) et créez un fichier .env en vous basant sur le modèle [.env.sample](frontend/.env.sample). Modifiez les informations requises.
+
+Depuis ce même répertoire, exécutez les commandes `npm install` et `npm run serve`.

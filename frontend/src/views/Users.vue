@@ -36,7 +36,7 @@ export default ({
   methods: {
     async getUsers () {
       try {
-        const getData = await fetch('http://localhost:3000/api/users', {
+        const getData = await fetch(`${process.env.VUE_APP_URL_API}/users`, {
           headers: { Authorization: `Bearer ${this.token}` }
         })
         const users = await getData.json()

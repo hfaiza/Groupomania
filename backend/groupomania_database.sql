@@ -15,6 +15,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+CREATE USER 'groupomania-admin'@'localhost' IDENTIFIED BY 'qc9g3qXKnarKfrb4';
+GRANT ALL PRIVILEGES ON groupomania.* TO 'groupomania-admin'@'localhost';
+
 --
 -- Table structure for table `Comments`
 --

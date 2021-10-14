@@ -52,12 +52,12 @@ export default ({
         const formData = new FormData()
         formData.append('image', this.file)
         formData.append('postContent', this.postContent)
-        const data = await fetch('http://localhost:3000/api/posts', {
+        const data = await fetch(`${process.env.VUE_APP_URL_API}/posts`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${this.token}` },
           body: formData
         })
-        if (data.status === (400 || 500)) {
+        if ([400, 500].includes(data.status)) {
           const response = await data.json()
           this.invalidInput = `${response.error}`
         } else {

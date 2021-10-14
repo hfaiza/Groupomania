@@ -32,7 +32,7 @@
         v-on:change="handleFileUpload()"
         id="picture"
         type="file"
-        accept="image/jpg, image/jpeg, image/png"
+        accept="image/jpeg, image/png"
       />
     </div>
     <p v-if="invalidInput">{{ invalidInput }}</p>
@@ -66,7 +66,7 @@ export default ({
     },
     handleFileUpload () {
       const filetype = this.$refs.file.files[0].type
-      if ((filetype === 'image/png') || (filetype === 'image/jpeg')) {
+      if (['image/png', 'image/jpeg'].includes(filetype)) {
         this.file = this.$refs.file.files[0]
       } else {
         this.invalidInput = 'Seuls les formats JPG, JPEG et PNG sont acceptés.'

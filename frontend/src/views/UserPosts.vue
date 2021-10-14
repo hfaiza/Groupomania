@@ -87,7 +87,7 @@ export default ({
   methods: {
     async getUserData () {
       try {
-        const getData = await fetch(`http://localhost:3000/api/users/${this.id}`, {
+        const getData = await fetch(`${process.env.VUE_APP_URL_API}/users/${this.id}`, {
           headers: { Authorization: `Bearer ${this.token}` }
         })
         const userData = await getData.json()
@@ -98,7 +98,7 @@ export default ({
     },
     async getUserPosts () {
       try {
-        const getUserPosts = await fetch(`http://localhost:3000/api/users/${this.id}/posts`, {
+        const getUserPosts = await fetch(`${process.env.VUE_APP_URL_API}/users/${this.id}/posts`, {
           headers: { Authorization: `Bearer ${this.token}` }
         })
         const userPosts = await getUserPosts.json()
@@ -114,15 +114,11 @@ export default ({
       }
     },
     canDelete (userId) {
-      if ((this.userId === userId) || (this.admin === true)) {
-        return true
-      } else {
-        return false
-      }
+      return this.userId === userId || this.admin
     },
     async sendComment (postId) {
       try {
-        const data = await fetch('http://localhost:3000/api/comments', {
+        const data = await fetch(`${process.env.VUE_APP_URL_API}/api/comments`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -133,11 +129,11 @@ export default ({
             commentContent: this.comment[postId]
           })
         })
-        if (data.status === (400 || 500)) {
+        if ([400, 500].includes(data.status)) {
           const response = await data.json()
           this.invalidInput[postId] = `${response.error}`
         } else {
-          this.getUserPosts()
+          await this.getUserPosts()
           this.comment = []
           this.invalidInput = []
         }
@@ -148,11 +144,11 @@ export default ({
     async deletePost (postId) {
       if (confirm('Voulez-vous supprimer cette publication ?')) {
         try {
-          await fetch(`http://localhost:3000/api/posts/${postId}`, {
+          await fetch(`${process.env.VUE_APP_URL_API}/posts/${postId}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${this.token}` }
           })
-          this.getUserPosts()
+          await this.getUserPosts()
         } catch (error) {
           console.log(error)
         }
@@ -161,11 +157,11 @@ export default ({
     async deleteComment (commentId) {
       if (confirm('Voulez-vous supprimer ce commentaire ?')) {
         try {
-          await fetch(`http://localhost:3000/api/comments/${commentId}`, {
+          await fetch(`${process.env.VUE_APP_URL_API}/comments/${commentId}`, {
             method: 'DELETE',
             headers: { Authorization: `Bearer ${this.token}` }
           })
-          this.getUserPosts()
+          await this.getUserPosts()
         } catch (error) {
           console.log(error)
         }
