@@ -18,14 +18,10 @@ export default createStore({
         state.loggedIn = false
       }
     },
-    ADD_USER_ID (state, userId) {
-      state.userId = userId
-    },
-    ADD_ADMIN (state, admin) {
-      state.admin = admin
-    },
-    ADD_EXP_DATE (state, date) {
-      state.exp = date
+    ADD_USER_DATA (state, data) {
+      state.userId = data.userId
+      state.admin = data.admin
+      state.exp = data.exp
     },
     RESET_STATE (state) {
       state.loggedIn = false
@@ -40,9 +36,7 @@ export default createStore({
       commit('ADD_TOKEN', token)
     },
     setUserData ({ commit }, user) {
-      commit('ADD_USER_ID', user.userId)
-      commit('ADD_ADMIN', user.admin)
-      commit('ADD_EXP_DATE', user.exp)
+      commit('ADD_USER_DATA', user)
     }
   },
   plugins: [createPersistedState()]

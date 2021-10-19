@@ -8,7 +8,7 @@
           <router-link to="/">Inscription</router-link>
           <router-link to="/login">Connexion</router-link>
         </template>
-        <template v-if="loggedIn">
+        <template v-else>
           <router-link to="/posts">
             <i class="fas fa-home" title="Accueil"></i>
             <span>Accueil</span>
