@@ -11,7 +11,7 @@
         id="picture"
         type="file"
         accept="image/gif"
-        aria-label="Ajouter un gif (optionnel)"
+        title="Ajouter un gif (optionnel)"
       />
       <p v-if="invalidInput">{{ invalidInput }}</p>
     </div>

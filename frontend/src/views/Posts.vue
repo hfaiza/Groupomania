@@ -23,7 +23,7 @@
               v-if="canDelete(post.User.user_id)"
               class="delete-post"
               @click="deletePost(post.post_id)"
-              aria-label="Supprimer la publication"
+              title="Supprimer la publication"
             >
               <i class="fas fa-times"></i>
             </a>
@@ -49,7 +49,7 @@
                   v-if="canDelete(comment.User.user_id)"
                   class="delete-comment"
                   @click="deleteComment(comment.comment_id)"
-                  alt="Supprimer le commentaire"
+                  title="Supprimer le commentaire"
                 >
                   <i class="fas fa-times"></i>
                 </a>

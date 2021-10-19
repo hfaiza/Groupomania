@@ -12,13 +12,18 @@
               :src="userData.user_picture"
               :alt="`Photo de profil de ${userData.first_name} ${userData.last_name}.`"
             />
-            {{ userData.first_name }} {{ userData.last_name }} •
+            <router-link
+              style="text-decoration: none; color: inherit;"
+              :to="{ name: 'UserProfile', params: { id: id } }"
+            >
+              {{ userData.first_name }} {{ userData.last_name }} •
+            </router-link>
             <span class="date">{{ formatDate(post.post_date) }}</span>
             <a
               v-if="canDelete(post.user_id)"
               class="delete-post"
               @click="deletePost(post.post_id)"
-              alt="Supprimer la publication"
+              title="Supprimer la publication"
             >
               <i class="fas fa-times"></i>
             </a>
@@ -32,13 +37,19 @@
           <ul v-for="comment of post.Comments" :key="comment.id">
             <li class="comment">
               <div class="comment-header">
-                <span class="name">{{ comment.User.first_name }} {{ comment.User.last_name }}</span> •
-                <span class="date">{{ formatDate(comment.comment_date) }}</span>
+                <router-link
+                  class="name"
+                  style="text-decoration: none; color: #091f43;"
+                  :to="{ name: 'UserProfile', params: { id: comment.user_id } }"
+                >
+                  <span class="name">{{ comment.User.first_name }} {{ comment.User.last_name }}</span>
+                </router-link>
+                • <span class="date">{{ formatDate(comment.comment_date) }}</span>
                 <a
                   v-if="canDelete(comment.User.user_id)"
                   class="delete-comment"
                   @click="deleteComment(comment.comment_id)"
-                  alt="Supprimer le commentaire"
+                  title="Supprimer le commentaire"
                 >
                   <i class="fas fa-times"></i>
                 </a>
