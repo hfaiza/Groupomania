@@ -129,7 +129,7 @@ export default ({
     },
     async sendComment (postId) {
       try {
-        const data = await fetch(`${process.env.VUE_APP_URL_API}/api/comments`, {
+        const data = await fetch(`${process.env.VUE_APP_URL_API}/comments`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

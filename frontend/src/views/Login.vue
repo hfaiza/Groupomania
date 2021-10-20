@@ -36,7 +36,7 @@ export default ({
             password: this.$refs.form.password
           })
         })
-        if ([400, 500].includes(data.status)) {
+        if ([401, 500].includes(data.status)) {
           const response = await data.json()
           this.invalidInput = `${response.error}`
         } else if (data.status === 429) {

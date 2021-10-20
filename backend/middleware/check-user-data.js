@@ -21,7 +21,7 @@ const regexTest = (req, regex, data) => {
 // Vérifie la validité du prénom et du nom
 const checkNames = (req) => {
   const regex = /^[a-zA-ZÀ-ÖØ-öø-ÿ]{2,80}$/
-  if ((regexTest(req, regex, req.body.firstName) || regexTest(req, regex, req.body.lastName)) === false) {
+  if (regexTest(req, regex, req.body.firstName) === false || regexTest(req, regex, req.body.lastName) === false) {
     return false
   }
 }
